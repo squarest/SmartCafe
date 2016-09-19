@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CleverCafe.iml" filepath="$PROJECT_DIR$/CleverCafe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SmartCafe.iml" filepath="$PROJECT_DIR$/SmartCafe.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
