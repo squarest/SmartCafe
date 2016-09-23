@@ -11,38 +11,38 @@ import java.util.ArrayList;
 /**
  * Created by Chudofom on 21.09.16.
  */
-public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
-    private ArrayList<String> orderList = new ArrayList<>();
+public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
+    private ArrayList<String> productList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView orderNumber;
+        public TextView productName;
 
         public ViewHolder(View v) {
             super(v);
-            orderNumber = (TextView) v.findViewById(R.id.order_number);
+            productName = (TextView) v.findViewById(R.id.card_product_name);
         }
     }
 
-    public OrderListAdapter(ArrayList<String> myDataSet) {
-        orderList = myDataSet;
+    public ProductListAdapter(ArrayList<String> myDataSet) {
+        productList = myDataSet;
     }
 
     @Override
-    public OrderListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                          int viewType) {
+    public ProductListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                            int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.order_list_item, parent, false);
+                .inflate(R.layout.product_list_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.orderNumber.setText(orderList.get(position));
+        holder.productName.setText(productList.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return orderList.size();
+        return productList.size();
     }
 }
