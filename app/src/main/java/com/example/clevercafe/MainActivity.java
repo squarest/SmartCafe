@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 1; i < 10; i++) {
             categoryList.add("Категория №" + i);
         }
+        final ArrayList<String> productList = new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            productList.add("Товар №" + i);
+        }
         RecyclerView orderRecyclerView = (RecyclerView) findViewById(R.id.order_list);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         final OrderListAdapter orderListAdapter = new OrderListAdapter(orderList);
@@ -34,16 +38,21 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(orderRecyclerView);
         TextView addOrderButton = (TextView)findViewById(R.id.add_order_button);
+
+
+        final RecyclerView productRecyclerView = (RecyclerView) findViewById(R.id.product_table);
+        productRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        ProductListAdapter categoryListAdapter = new ProductListAdapter(categoryList);
+        productRecyclerView.setAdapter(categoryListAdapter);
         addOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 orderList.add("Заказ №" + (orderList.size()+1));
                 orderListAdapter.notifyItemInserted(orderList.size());
+
+                ProductListAdapter productListAdapter = new ProductListAdapter(productList);
+                productRecyclerView.setAdapter(productListAdapter);
             }
         });
-        RecyclerView productRecyclerView = (RecyclerView) findViewById(R.id.product_table);
-        productRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        ProductListAdapter productListAdapter = new ProductListAdapter(categoryList);
-        productRecyclerView.setAdapter(productListAdapter);
     }
 }
