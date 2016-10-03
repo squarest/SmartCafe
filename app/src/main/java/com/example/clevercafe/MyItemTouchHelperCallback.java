@@ -3,6 +3,8 @@ package com.example.clevercafe;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.example.clevercafe.adapters.OrderListAdapter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 

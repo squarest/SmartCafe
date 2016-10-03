@@ -1,4 +1,4 @@
-package com.example.clevercafe;
+package com.example.clevercafe.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,25 +6,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.clevercafe.R;
+import com.example.clevercafe.model.Product;
+
 import java.util.ArrayList;
 
 /**
  * Created by Chudofom on 21.09.16.
  */
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
-    private ArrayList<String> productList = new ArrayList<>();
+    private ArrayList<Product> productList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView productName;
+        public TextView nameTextView;
 
         public ViewHolder(View v) {
             super(v);
-            productName = (TextView) v.findViewById(R.id.card_product_name);
+            nameTextView = (TextView) v.findViewById(R.id.card_product_name);
         }
     }
 
-    public ProductListAdapter(ArrayList<String> myDataSet) {
-        productList = myDataSet;
+    public ProductListAdapter(ArrayList<Product> arrayList) {
+        productList = arrayList;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.productName.setText(productList.get(position));
+        holder.nameTextView.setText(productList.get(position).name);
 
     }
 

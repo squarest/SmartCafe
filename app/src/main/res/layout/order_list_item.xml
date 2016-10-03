@@ -36,8 +36,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"
-                android:layout_gravity="right"
-                android:background="#ffd900" />
+                android:background="@color/orderButtonColor" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,7 +66,6 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_gravity="right"
                 android:background="@drawable/dotter_line" />
 
             <LinearLayout
@@ -173,8 +171,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"
-                android:layout_gravity="right"
-                android:background="#ffd900"/>
+                android:background="@color/orderButtonColor"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -183,20 +180,21 @@
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="30dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="#ffd900"
+                    android:layout_weight="1.5"
+                    android:background="@drawable/round_done_button"
                     android:text="Готово"
                     android:textColor="#fff"/>
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:paddingTop="5dp"
-                    android:gravity="right"
+                    android:textSize="16dp"
+                    android:gravity="right|center"
                     android:text="Итог: 256p"
                     android:textColor="#000" />
 
