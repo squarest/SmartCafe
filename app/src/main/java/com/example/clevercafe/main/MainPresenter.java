@@ -1,6 +1,7 @@
 package com.example.clevercafe.main;
 
 import com.example.clevercafe.model.Category;
+import com.example.clevercafe.model.Order;
 import com.example.clevercafe.model.Product;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class MainPresenter implements IMainPresenter {
     private IMainView mainView;
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<Category> categories = new ArrayList<>();
+    private ArrayList<Order> orders = new ArrayList<>();
 
     public MainPresenter(MainView mainView) {
         this.mainView = mainView;
@@ -31,10 +33,17 @@ public class MainPresenter implements IMainPresenter {
             products.clear();
             products.addAll(fillProducts());
             mainView.showProducts(products);
+        } else {
+            orders.get(0).products.add(fillProducts().get(id));
+            mainView.showOrders(orders);
         }
-//        else {
-//            mainView.addProductToOrder();
-//        }
+
+    }
+
+    @Override
+    public void addOrderButtonClicked() {
+        orders.add(0, new Order(orders.size() + 1, new ArrayList<Product>()));
+        mainView.showOrders(orders);
 
     }
 
@@ -43,18 +52,19 @@ public class MainPresenter implements IMainPresenter {
 //        mainView.showCategories();
     }
 
-    public ArrayList<Product> fillProducts() {
+    private ArrayList<Product> fillProducts() {
         ArrayList<Product> arrayList = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
             Product product = new Product();
             product.id = i;
             product.name = "Товар №" + i;
+            product.cost = 100;
             arrayList.add(product);
         }
         return arrayList;
     }
 
-    public ArrayList<Category> fillCategories() {
+    private ArrayList<Category> fillCategories() {
         ArrayList<Category> arrayList = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
             Category category = new Category();

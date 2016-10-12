@@ -11,12 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.clevercafe.MyItemTouchHelperCallback;
+import com.example.clevercafe.R;
+import com.example.clevercafe.RecyclerItemClickListener;
 import com.example.clevercafe.adapters.CategoryListAdapter;
 import com.example.clevercafe.adapters.OrderListAdapter;
 import com.example.clevercafe.adapters.ProductListAdapter;
-import com.example.clevercafe.R;
-import com.example.clevercafe.RecyclerItemClickListener;
 import com.example.clevercafe.model.Category;
+import com.example.clevercafe.model.Order;
 import com.example.clevercafe.model.Product;
 
 import java.util.ArrayList;
@@ -24,8 +25,11 @@ import java.util.ArrayList;
 public class MainView extends AppCompatActivity implements IMainView {
     private ProductListAdapter productAdapter;
     private CategoryListAdapter categoryAdapter;
+    private OrderListAdapter orderListAdapter;
     private boolean categoryOnScreen = true;
     private RecyclerView categoryProductRecyclerView;
+    private RecyclerView orderRecyclerView;
+    private ArrayList<Order> orderList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +37,10 @@ public class MainView extends AppCompatActivity implements IMainView {
         setContentView(R.layout.activity_main);
         final IMainPresenter mainPresenter = new MainPresenter(this);
 
-        final ArrayList<String> orderList = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            orderList.add("Заказ №" + i);
-        }
-        RecyclerView orderRecyclerView = (RecyclerView) findViewById(R.id.order_list);
-        orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final OrderListAdapter orderListAdapter = new OrderListAdapter(orderList);
+        orderRecyclerView = (RecyclerView) findViewById(R.id.order_list);
+        LinearLayoutManager orderLayoutManager = new LinearLayoutManager(this);
+        orderRecyclerView.setLayoutManager(orderLayoutManager);
+        orderListAdapter = new OrderListAdapter(this, orderList);
         orderRecyclerView.setAdapter(orderListAdapter);
         ItemTouchHelper.Callback callback = new MyItemTouchHelperCallback(orderListAdapter, orderList);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
@@ -61,8 +62,7 @@ public class MainView extends AppCompatActivity implements IMainView {
         addOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                orderList.add("Заказ №" + (orderList.size() + 1));
-                orderListAdapter.notifyItemInserted(orderList.size());
+                mainPresenter.addOrderButtonClicked();
             }
         });
     }
@@ -80,11 +80,14 @@ public class MainView extends AppCompatActivity implements IMainView {
     public void showCategories(ArrayList<Category> categories) {
         categoryAdapter = new CategoryListAdapter(categories);
         categoryProductRecyclerView.setAdapter(categoryAdapter);
-        categoryOnScreen=true;
+        categoryOnScreen = true;
     }
 
     @Override
-    public void addProductToOrder(Product product) {
+    public void showOrders(ArrayList<Order> orders) {
+        orderList.clear();
+        orderList.addAll(orders);
+        orderListAdapter.notifyDataSetChanged();
 
     }
 }

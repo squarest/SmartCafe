@@ -5,6 +5,10 @@ package com.example.clevercafe.main;
  */
 public interface IMainPresenter {
     void viewInit();
+
     void itemClicked(boolean categoryOnscreen, int id);
+
+    void addOrderButtonClicked();
+
     void backToCategoryButtonClicked();
 }

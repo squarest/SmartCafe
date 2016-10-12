@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.example.clevercafe.adapters.OrderListAdapter;
+import com.example.clevercafe.model.Order;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,9 +16,9 @@ import java.util.Collections;
 public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final OrderListAdapter orderAdapter;
-    private ArrayList<String> orderList;
+    private ArrayList<Order> orderList;
 
-    public MyItemTouchHelperCallback(OrderListAdapter adapter, ArrayList<String> orderList) {
+    public MyItemTouchHelperCallback(OrderListAdapter adapter, ArrayList<Order> orderList) {
         orderAdapter = adapter;
         this.orderList = orderList;
     }
