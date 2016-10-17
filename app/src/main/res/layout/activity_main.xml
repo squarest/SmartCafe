@@ -4,58 +4,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     android:orientation="horizontal"
     tools:context=".main.MainView">
 
-    <LinearLayout
+    <android.support.v4.widget.SlidingPaneLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/drawer_background">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="35dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:text="SmartCafe"
+                android:textColor="#fff"
+                android:textSize="30dp"
+                android:textStyle="bold" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/product_table"
+            <ListView
+                android:id="@+id/drawer_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            app:layoutManager="GridLayoutManager"
-            app:spanCount="3"
-            tools:listitem="@layout/product_list_item" />
-    </LinearLayout>
+            android:background="@drawable/background"
+            android:orientation="horizontal">
 
-    <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="#fff" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2.5"
-        android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp" />
 
-        <TextView
-            android:id="@+id/add_order_button"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:text="Добавить"
-            android:textColor="#fff"
-            android:textSize="24dp" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/product_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    app:layoutManager="GridLayoutManager"
+                    app:spanCount="3"
+                    tools:listitem="@layout/product_list_item" />
+            </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/order_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/order_list_item" />
-    </LinearLayout>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="#fff" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/add_order_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="Добавить"
+                    android:textColor="#fff"
+                    android:textSize="24dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/order_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/order_list_item" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.SlidingPaneLayout>
 </LinearLayout>

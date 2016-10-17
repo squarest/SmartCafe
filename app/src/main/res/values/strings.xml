@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CleverCafe</string>
+    <string-array name="drawer_array">
+        <item>ГЛАВНАЯ</item>
+        <item>МЕНЮ</item>
+        <item>СКЛАД</item>
+        <item>РУКОВОДИТЕЛЮ</item>
+        <item>НАСТРОЙКИ</item>
+    </string-array>
 </resources>
