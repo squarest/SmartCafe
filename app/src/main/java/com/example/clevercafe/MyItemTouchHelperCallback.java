@@ -4,10 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.example.clevercafe.adapters.OrderListAdapter;
+import com.example.clevercafe.main.IMainPresenter;
 import com.example.clevercafe.model.Order;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by Chudofom on 22.09.16.
@@ -15,12 +15,10 @@ import java.util.Collections;
 
 public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-    private final OrderListAdapter orderAdapter;
-    private ArrayList<Order> orderList;
+    private IMainPresenter mainPresenter;
 
-    public MyItemTouchHelperCallback(OrderListAdapter adapter, ArrayList<Order> orderList) {
-        orderAdapter = adapter;
-        this.orderList = orderList;
+    public MyItemTouchHelperCallback(OrderListAdapter adapter, ArrayList<Order> orderList,IMainPresenter mainPresenter) {
+        this.mainPresenter=mainPresenter;
     }
 
     @Override
@@ -32,8 +30,7 @@ public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        Collections.swap(orderList, viewHolder.getAdapterPosition(), target.getAdapterPosition());
-        orderAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        mainPresenter.itemMoved(viewHolder.getAdapterPosition(),target.getAdapterPosition());
         return true;
     }
 
@@ -44,7 +41,7 @@ public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean isItemViewSwipeEnabled() {
-        if (orderList.size() > 1) {
+        if (mainPresenter.getOrderSize() > 1) {
             return true;
         } else return false;
     }
@@ -52,8 +49,7 @@ public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 
-        orderList.remove(viewHolder.getAdapterPosition());
-        orderAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+        mainPresenter.itemRemoved(viewHolder.getAdapterPosition());
 
     }
 

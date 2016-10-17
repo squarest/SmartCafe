@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:backgroundTint="#fff"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -66,19 +67,18 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/dotter_line" />
 
             <TextView
                 android:id="@+id/choose_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:gravity="center"
-                android:textColor="#000"
-                tools:text="Выберите товар" />
+                android:text="Выберите товар"
+                android:textColor="#000" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="5dp"
                 android:id="@+id/order_elements"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,22 +96,25 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/order_submit_button"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1.5"
+                    android:shadowColor="@android:color/transparent"
                     android:background="@drawable/round_done_button"
                     android:text="Готово"
                     android:textColor="#fff" />
 
                 <TextView
+                    android:id="@+id/order_sum"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="right|center"
                     android:paddingTop="5dp"
-                    android:text="Итог: 256p"
+                    android:text="Итого"
                     android:textColor="#000"
                     android:textSize="16dp" />
 

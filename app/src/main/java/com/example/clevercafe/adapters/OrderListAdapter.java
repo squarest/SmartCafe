@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
+import com.example.clevercafe.main.IMainPresenter;
 import com.example.clevercafe.model.Order;
 
 import java.util.ArrayList;
@@ -19,22 +21,28 @@ import java.util.ArrayList;
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
     private ArrayList<Order> orderList = new ArrayList<>();
     private Context context;
+    private IMainPresenter mainPresenter;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView orderNumber;
         public RecyclerView recyclerView;
         public TextView chooseProductTextView;
+        public TextView orderSumTextView;
+        public Button submitOrderButton;
 
         public ViewHolder(View v) {
             super(v);
             orderNumber = (TextView) v.findViewById(R.id.order_number);
             recyclerView = (RecyclerView) v.findViewById(R.id.order_elements);
             chooseProductTextView = (TextView) v.findViewById(R.id.choose_product);
+            orderSumTextView = (TextView) v.findViewById(R.id.order_sum);
+            submitOrderButton = (Button) v.findViewById(R.id.order_submit_button);
         }
     }
 
-    public OrderListAdapter(Context context, ArrayList<Order> myDataSet) {
+    public OrderListAdapter(Context context, ArrayList<Order> myDataSet, IMainPresenter mainPresenter) {
         this.context = context;
+        this.mainPresenter = mainPresenter;
         orderList = myDataSet;
     }
 
@@ -49,10 +57,18 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.orderNumber.setText("Заказ №" + orderList.get(position).id);
-        if (orderList.size() == 0) holder.chooseProductTextView.setText("Выберите товар");
-        else holder.chooseProductTextView.setText("");
+        if (orderList.get(position).products.size() > 0) {
+            holder.chooseProductTextView.setVisibility(View.GONE);
+            holder.orderSumTextView.setText("Итого: " + orderList.get(position).sum);
+        } else {
+            holder.chooseProductTextView.setVisibility(View.VISIBLE);
+        }
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
         holder.recyclerView.setAdapter(new OrderElementsAdapter(orderList.get(position).products));
+        holder.submitOrderButton.setOnClickListener(v ->
+        {
+            mainPresenter.orderSubmitButtonClicked();
+        });
 
     }
 

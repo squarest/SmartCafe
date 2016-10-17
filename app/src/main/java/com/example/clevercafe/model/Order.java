@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Order {
     public int id;
     public ArrayList<Product> products;
+    public double sum;
 
     public Order(int id) {
         this.id = id;
