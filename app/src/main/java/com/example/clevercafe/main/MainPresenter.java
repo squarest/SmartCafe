@@ -56,7 +56,7 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void addOrderButtonClicked() {
         ORDER_IS_ACTIVE = true;
-        orders.add(0, new Order(orders.size() + 1, new ArrayList<>()));
+        orders.add(0, new Order(orders.size() + 1, new ArrayList<>(),0));
         mainView.showOrders(orders);
 
     }

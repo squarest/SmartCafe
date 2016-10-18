@@ -24,4 +24,10 @@ public class Order {
         this.products = products;
     }
 
+    public Order(int id, ArrayList<Product> products, double sum) {
+        this.id = id;
+        this.products = products;
+        this.sum = sum;
+    }
+
 }

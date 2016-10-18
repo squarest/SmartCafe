@@ -62,6 +62,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             holder.orderSumTextView.setText("Итого: " + orderList.get(position).sum);
         } else {
             holder.chooseProductTextView.setVisibility(View.VISIBLE);
+            holder.orderSumTextView.setText("Итого: ");
         }
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
         holder.recyclerView.setAdapter(new OrderElementsAdapter(orderList.get(position).products));
