@@ -41,7 +41,7 @@ public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean isItemViewSwipeEnabled() {
-        if (mainPresenter.getOrderSize() > 1) {
+        if (mainPresenter.getOrderSize() > 0) {
             return true;
         } else return false;
     }

@@ -7,5 +7,6 @@ public class Product {
     public int id;
     public int categoryId;
     public String name;
-    public int cost;
+    public double cost;
+    public double quantity;
 }

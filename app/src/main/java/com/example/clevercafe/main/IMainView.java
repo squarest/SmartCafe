@@ -17,4 +17,8 @@ public interface IMainView {
     void showOrders(ArrayList<Order> orders);
 
     void showMessage(String message);
+
+    void moveOrder(int start, int finish);
+
+    void removeOrder(int position);
 }

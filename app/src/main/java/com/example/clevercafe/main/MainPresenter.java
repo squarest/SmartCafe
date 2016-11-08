@@ -17,6 +17,7 @@ public class MainPresenter implements IMainPresenter {
     private ArrayList<Category> categories = new ArrayList<>();
     private ArrayList<Order> orders = new ArrayList<>();
     private boolean ORDER_IS_ACTIVE = false;
+    private static int LAST_ORDER_ID = 0;
 
     public MainPresenter(MainView mainView) {
         this.mainView = mainView;
@@ -56,7 +57,8 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void addOrderButtonClicked() {
         ORDER_IS_ACTIVE = true;
-        orders.add(0, new Order(orders.size() + 1, new ArrayList<>(),0));
+        LAST_ORDER_ID++;
+        orders.add(0, new Order(LAST_ORDER_ID, new ArrayList<>(), 0));
         mainView.showOrders(orders);
 
     }
@@ -64,13 +66,14 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void itemMoved(int oldPosition, int newPosition) {
         Collections.swap(orders, oldPosition, newPosition);
-        mainView.showOrders(orders);
+        mainView.moveOrder(oldPosition, newPosition);
     }
 
     @Override
     public void itemRemoved(int position) {
         orders.remove(position);
-        mainView.showOrders(orders);
+        if (orders.size() == 0) ORDER_IS_ACTIVE = false;
+        mainView.removeOrder(position);
     }
 
     @Override
@@ -85,7 +88,7 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void backToCategoryButtonClicked() {
-//        mainView.showCategories();
+        mainView.showCategories(fillCategories());
     }
 
     private ArrayList<Product> fillProducts() {
@@ -94,7 +97,8 @@ public class MainPresenter implements IMainPresenter {
             Product product = new Product();
             product.id = i;
             product.name = "Товар №" + i;
-            product.cost = 100;
+            product.cost = 100.00;
+            product.quantity = 1.0;
             arrayList.add(product);
         }
         return arrayList;

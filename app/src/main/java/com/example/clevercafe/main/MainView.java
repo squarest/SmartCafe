@@ -1,11 +1,14 @@
 package com.example.clevercafe.main;
 
 import android.os.Bundle;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.example.clevercafe.model.Order;
 import com.example.clevercafe.model.Product;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainView extends AppCompatActivity implements IMainView {
     private ProductListAdapter productAdapter;
@@ -32,6 +36,8 @@ public class MainView extends AppCompatActivity implements IMainView {
     private RecyclerView orderRecyclerView;
     private ArrayList<Order> orderList = new ArrayList<>();
     private IMainPresenter mainPresenter = new MainPresenter(this);
+    private Toolbar toolbar;
+    private SlidingPaneLayout slidingPaneLayout;
     private Integer[] itemIcons = {
             R.drawable.home_ic,
             R.drawable.menu_ic,
@@ -44,8 +50,26 @@ public class MainView extends AppCompatActivity implements IMainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        slidingPaneLayout = (SlidingPaneLayout) findViewById(R.id.activity_main_sliding_pane);
+        slidingPaneLayout.setPanelSlideListener(new SlidingPaneLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
 
+            }
+
+            @Override
+            public void onPanelOpened(View panel) {
+                toolbar.setNavigationIcon(R.drawable.back_ic);
+
+            }
+
+            @Override
+            public void onPanelClosed(View panel) {
+                toolbar.setNavigationIcon(R.drawable.burger_menu_ic);
+            }
+        });
         createRecyclerViews();
+        createToolbar();
         mainPresenter.viewInit();
         categoryProductRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
                 (view, position) -> {
@@ -58,11 +82,26 @@ public class MainView extends AppCompatActivity implements IMainView {
         listView.setAdapter(new DrawerListAdapter(this, getResources().getStringArray(R.array.drawer_array), itemIcons));
     }
 
+    public void createToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
+        toolbar.setNavigationIcon(R.drawable.burger_menu_ic);
+        toolbar.setNavigationOnClickListener(v ->
+        {
+            if (slidingPaneLayout.isOpen()) {
+                slidingPaneLayout.closePane();
+            } else {
+                slidingPaneLayout.openPane();
+            }
+        });
+    }
+
     @Override
     public void showProducts(ArrayList<Product> products) {
         productAdapter = new ProductListAdapter(products);
         categoryProductRecyclerView.setAdapter(productAdapter);
         categoryOnScreen = false;
+        toolbar.setNavigationIcon(R.drawable.back_ic);
+        toolbar.setNavigationOnClickListener(v -> mainPresenter.backToCategoryButtonClicked());
 
     }
 
@@ -72,6 +111,7 @@ public class MainView extends AppCompatActivity implements IMainView {
         categoryAdapter = new CategoryListAdapter(categories);
         categoryProductRecyclerView.setAdapter(categoryAdapter);
         categoryOnScreen = true;
+        createToolbar();
     }
 
     @Override
@@ -85,6 +125,19 @@ public class MainView extends AppCompatActivity implements IMainView {
     @Override
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void moveOrder(int start, int finish) {
+        Collections.swap(orderList, start, finish);
+        orderListAdapter.notifyItemMoved(start, finish);
+
+    }
+
+    @Override
+    public void removeOrder(int position) {
+        orderList.remove(position);
+        orderListAdapter.notifyItemRemoved(position);
     }
 
     private void createRecyclerViews() {

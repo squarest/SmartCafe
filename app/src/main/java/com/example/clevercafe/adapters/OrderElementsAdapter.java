@@ -25,11 +25,13 @@ public class OrderElementsAdapter extends RecyclerView.Adapter<OrderElementsAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
         public TextView cost;
+        public TextView count;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.order_product_name);
             cost = (TextView) itemView.findViewById(R.id.order_product_cost);
+            count = (TextView) itemView.findViewById(R.id.order_product_quantity);
         }
     }
 
@@ -45,6 +47,7 @@ public class OrderElementsAdapter extends RecyclerView.Adapter<OrderElementsAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.name.setText(products.get(position).name);
         holder.cost.setText(String.valueOf(products.get(position).cost));
+        holder.count.setText(String.valueOf(products.get(position).quantity));
     }
 
     @Override

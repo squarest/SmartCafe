@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:layout_width="250dp">
+    tools:layout_width="350dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -12,8 +12,8 @@
         android:layout_gravity="center"
         android:backgroundTint="#fff"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/main_activity_right_left_margin"
+        android:layout_marginRight="@dimen/main_activity_right_left_margin"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp">
@@ -52,12 +52,20 @@
                     android:paddingTop="5dp"
                     android:text="Блюдо"
                     android:textColor="#000" />
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="right"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="Кол-во"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
                     android:text="Цена"
