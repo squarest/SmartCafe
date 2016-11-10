@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.example.clevercafe.adapters.OrderListAdapter;
-import com.example.clevercafe.main.IMainPresenter;
+import com.example.clevercafe.activities.main.IMainPresenter;
 import com.example.clevercafe.model.Order;
 
 import java.util.ArrayList;

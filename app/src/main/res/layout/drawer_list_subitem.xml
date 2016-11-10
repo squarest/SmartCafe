@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:background="#93000000"
+    android:background="#93000000"
     android:paddingLeft="10dp"
     android:paddingBottom="5dp"
     android:paddingTop="5dp">
@@ -17,7 +17,7 @@
         tools:src="@drawable/home_ic" />
 
     <TextView
-        android:id="@+id/drawer_item_text_view"
+        android:id="@+id/drawer_subitem_text_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

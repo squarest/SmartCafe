@@ -1,4 +1,4 @@
-package com.example.clevercafe.main;
+package com.example.clevercafe.activities.main;
 
 import com.example.clevercafe.model.Category;
 import com.example.clevercafe.model.Order;

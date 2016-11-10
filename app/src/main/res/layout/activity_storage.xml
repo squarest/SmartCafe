@@ -12,15 +12,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <ExpandableListView
-            android:id="@+id/drawer_list_view"
-            android:layout_width="350dp"
+        <LinearLayout
+            android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@drawable/drawer_background"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:text="SmartCafe"
+                android:textColor="#fff"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <ListView
+                android:id="@+id/drawer_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,9 +51,9 @@
                     android:id="@+id/activity_main_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:layout_marginLeft="5dp"
                     android:background="@android:color/transparent"
-                    android:orientation="horizontal" />
+                    android:layout_marginLeft="5dp"
+                    android:orientation="horizontal"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/product_table"
@@ -72,9 +85,9 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center"
                     android:text="ДОБАВИТЬ"
+                    android:textStyle="bold"
                     android:textColor="#fff"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:textSize="20dp" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/order_list"

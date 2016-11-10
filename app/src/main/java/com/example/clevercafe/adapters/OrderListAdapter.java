@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.main.IMainPresenter;
+import com.example.clevercafe.activities.main.IMainPresenter;
 import com.example.clevercafe.model.Order;
 
 import java.util.ArrayList;

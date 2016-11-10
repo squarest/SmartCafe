@@ -1,4 +1,4 @@
-package com.example.clevercafe.main;
+package com.example.clevercafe.activities.main;
 
 /**
  * Created by Chudofom on 03.10.16.

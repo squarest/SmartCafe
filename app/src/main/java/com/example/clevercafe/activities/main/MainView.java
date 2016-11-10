@@ -1,4 +1,4 @@
-package com.example.clevercafe.main;
+package com.example.clevercafe.activities.main;
 
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,8 +78,10 @@ public class MainView extends AppCompatActivity implements IMainView {
 
         TextView addOrderButton = (TextView) findViewById(R.id.add_order_button);
         addOrderButton.setOnClickListener(view -> mainPresenter.addOrderButtonClicked());
-        ListView listView = (ListView) findViewById(R.id.drawer_list_view);
-        listView.setAdapter(new DrawerListAdapter(this, getResources().getStringArray(R.array.drawer_array), itemIcons));
+        ExpandableListView listView = (ExpandableListView) findViewById(R.id.drawer_list_view);
+        View view = getLayoutInflater().inflate(R.layout.drawer_header, null);
+        listView.addHeaderView(view);
+        listView.setAdapter(new DrawerListAdapter(this, getResources().getStringArray(R.array.drawer_array), fillTitleArray(), itemIcons));
     }
 
     public void createToolbar() {
@@ -93,6 +95,20 @@ public class MainView extends AppCompatActivity implements IMainView {
                 slidingPaneLayout.openPane();
             }
         });
+    }
+
+    private ArrayList<String[]> fillTitleArray() {
+        ArrayList<String[]> titleArray = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            if (i == 2) {
+                String[] storageSubtitles = {"На складе", "Приходные накладные", "Списание"};
+                titleArray.add(storageSubtitles);
+            } else
+            {
+                titleArray.add(null);
+            }
+        }
+        return titleArray;
     }
 
     @Override
