@@ -1,6 +1,7 @@
 package com.example.clevercafe.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
+import com.example.clevercafe.activities.StorageActivity;
 
 import java.util.ArrayList;
 
@@ -82,6 +84,13 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.drawer_list_subitem, parent, false);
+        view.setOnClickListener(v->
+        {
+            if(groupPosition==2) {
+                Intent intent = new Intent(context, StorageActivity.class);
+                context.startActivity(intent);
+            }
+        });
         TextView textView = (TextView) view.findViewById(R.id.drawer_subitem_text_view);
         textView.setText(childs.get(groupPosition)[childPosition]);
         return view;

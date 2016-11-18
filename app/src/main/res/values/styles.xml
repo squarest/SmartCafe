@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="add_product_edit_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/orderButtonColor</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textColor">#000</item>
+    </style>
+
 </resources>

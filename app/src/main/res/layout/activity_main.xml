@@ -15,7 +15,7 @@
 
         <ExpandableListView
             android:id="@+id/drawer_list_view"
-            android:layout_width="350dp"
+            android:layout_width="@dimen/drawer_width"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/drawer_background"
