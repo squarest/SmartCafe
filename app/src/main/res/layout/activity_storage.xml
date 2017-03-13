@@ -47,20 +47,40 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.Toolbar
+                <LinearLayout
                     android:id="@+id/activity_main_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="@dimen/main_activity_right_left_margin"
+                    android:layout_marginRight="@dimen/main_activity_right_left_margin"
                     android:background="@android:color/transparent"
-                    android:orientation="horizontal" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center_vertical"
+                        android:src="@drawable/burger_menu_ic" />
+
+                    <TextView
+                        android:id="@+id/add_category_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="right|center_vertical"
+                        android:text="ДОБАВИТЬ КАТЕГОРИЮ"
+                        android:textColor="#fff"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <ExpandableListView
                     android:id="@+id/storage_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="@dimen/main_activity_right_left_margin"
+                    android:layout_marginRight="@dimen/main_activity_right_left_margin"
                     android:layout_marginTop="5dp"
                     android:childDivider="@drawable/divider_line"
                     android:divider="@color/orderButtonColor"

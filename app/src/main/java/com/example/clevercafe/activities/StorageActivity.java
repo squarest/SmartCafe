@@ -7,36 +7,40 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.Units;
 import com.example.clevercafe.adapters.StorageListAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StorageActivity extends AppCompatActivity {
+
+    private ArrayList<String> categories;
+    private HashMap<String, ArrayList<String>> products;
+    private StorageListAdapter storageListAdapter;
+    private ArrayAdapter categorySpinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storage);
-        String[] categories = fillCategories();
-        HashMap<String, String[]> products = fillProducts(categories);
+
+        categories = fillCategories();
+        products = fillProducts(categories);
         ExpandableListView storageList = (ExpandableListView) findViewById(R.id.storage_list);
-        StorageListAdapter storageListAdapter = new StorageListAdapter(this, categories, products);
+        storageListAdapter = new StorageListAdapter(this, categories, products);
         storageList.setAdapter(storageListAdapter);
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.drawer_header);
-        dialog.show();
-        Spinner categorySpinner = (Spinner) findViewById(R.id.category_spinner);
-        ArrayAdapter categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, fillCategories());
-        categorySpinner.setAdapter(categoryAdapter);
-        Spinner unitsSpinner = (Spinner) findViewById(R.id.units_spinner);
-        ArrayAdapter unitsAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Units.array);
-        unitsSpinner.setAdapter(unitsAdapter);
+
+        TextView addCategoryButton = (TextView) findViewById(R.id.add_category_button);
+        addCategoryButton.setOnClickListener(v -> createCategoryDialog());
+        createSpinner();
         TextView addProductButton = (TextView) findViewById(R.id.add_product_button);
         CardView addProductForm = (CardView) findViewById(R.id.add_product_form);
         addProductButton.setOnClickListener(v ->
@@ -55,20 +59,54 @@ public class StorageActivity extends AppCompatActivity {
 
     }
 
-    private String[] fillCategories() {
-        String[] categories = new String[5];
+    private void createSpinner() {
+        Spinner categorySpinner = (Spinner) findViewById(R.id.category_spinner);
+        categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categories);
+        categorySpinner.setAdapter(categorySpinnerAdapter);
+        Spinner unitsSpinner = (Spinner) findViewById(R.id.units_spinner);
+        ArrayAdapter unitsSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Units.array);
+        unitsSpinner.setAdapter(unitsSpinnerAdapter);
+    }
+
+    private void createCategoryDialog() {
+        Dialog categoryDialog = new Dialog(this);
+        categoryDialog.setContentView(R.layout.add_category_dialog);
+        Button cancelCategoryButton = (Button) categoryDialog.findViewById(R.id.category_cancel_button);
+        cancelCategoryButton.setOnClickListener(v ->
+        {
+            categoryDialog.dismiss();
+        });
+        Button submitCategoryButton = (Button) categoryDialog.findViewById(R.id.category_submit_button);
+        submitCategoryButton.setOnClickListener(v ->
+        {
+            EditText categoryNameEditText = (EditText) categoryDialog.findViewById(R.id.add_category_edit_text);
+            String categoryName = categoryNameEditText.getText().toString();
+            if (!categoryName.isEmpty()) {
+                categories.add(categoryName);
+                products.put(categoryName, new ArrayList<>());
+                storageListAdapter.notifyDataSetChanged();
+                categorySpinnerAdapter.notifyDataSetChanged();
+                categoryDialog.dismiss();
+            } else Toast.makeText(this, " Введите название категории", Toast.LENGTH_SHORT).show();
+        });
+        categoryDialog.setTitle("Добавление новой категории");
+        categoryDialog.show();
+    }
+
+    private ArrayList<String> fillCategories() {
+        ArrayList<String> categories = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            categories[i] = "Категория " + i;
+            categories.add("Категория " + i);
         }
         return categories;
     }
 
-    private HashMap<String, String[]> fillProducts(String[] categories) {
-        HashMap<String, String[]> products = new HashMap<String, String[]>();
+    private HashMap<String, ArrayList<String>> fillProducts(ArrayList<String> categories) {
+        HashMap<String, ArrayList<String>> products = new HashMap<>();
         for (String category : categories) {
-            String[] productArray = new String[5];
+            ArrayList<String> productArray = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
-                productArray[i] = "Продукт " + i;
+                productArray.add("Продукт " + i);
             }
             products.put(category, productArray);
         }

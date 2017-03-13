@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.clevercafe.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -18,12 +19,12 @@ import java.util.HashMap;
 public class StorageListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private String[] listDataHeader; // header titles
+    private ArrayList<String> listDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, String[]> listDataChild;
+    private HashMap<String, ArrayList<String>> listDataChild;
 
-    public StorageListAdapter(Context context, String[] listDataHeader,
-                              HashMap<String, String[]> listChildData) {
+    public StorageListAdapter(Context context, ArrayList<String> listDataHeader,
+                              HashMap<String, ArrayList<String>> listChildData) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listDataChild = listChildData;
@@ -31,7 +32,7 @@ public class StorageListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return listDataChild.get(listDataHeader[groupPosition])[childPosititon];
+        return listDataChild.get(listDataHeader.get(groupPosition)).get(childPosititon);
     }
 
     @Override
@@ -58,17 +59,17 @@ public class StorageListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.listDataChild.get(this.listDataHeader[groupPosition]).length;
+        return this.listDataChild.get(this.listDataHeader.get(groupPosition)).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.listDataHeader[groupPosition];
+        return this.listDataHeader.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this.listDataHeader.length;
+        return this.listDataHeader.size();
     }
 
     @Override

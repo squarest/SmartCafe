@@ -6,6 +6,7 @@
     android:orientation="horizontal"
     android:paddingBottom="10dp"
     android:paddingLeft="30dp"
+    android:paddingRight="30dp"
     android:paddingTop="10dp"
     tools:background="#93000000">
 
@@ -13,8 +14,19 @@
         android:id="@+id/storage_item_text_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:gravity="center_vertical"
-        android:orientation="vertical"
+        android:textColor="#fff"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        tools:text="ITEM" />
+
+    <TextView
+        android:id="@+id/storage_product_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical|right"
         android:textColor="#fff"
         android:textSize="22dp"
         android:textStyle="bold"
