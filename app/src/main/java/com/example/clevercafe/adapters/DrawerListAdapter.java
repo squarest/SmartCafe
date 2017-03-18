@@ -24,10 +24,10 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
     ArrayList<String[]> childs;
     Integer[] icons;
 
-    public DrawerListAdapter(Context context,  String[] groups, ArrayList<String[]> childs, Integer[] icons) {
+    public DrawerListAdapter(Context context, String[] groups, ArrayList<String[]> childs, Integer[] icons) {
         this.context = context;
-        this.childs=childs;
-        this.groups=groups;
+        this.childs = childs;
+        this.groups = groups;
         this.icons = icons;
     }
 
@@ -38,10 +38,9 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        if(childs.get(groupPosition)!=null) {
+        if (childs.get(groupPosition) != null) {
             return childs.get(groupPosition).length;
-        }
-        else return 0;
+        } else return 0;
     }
 
     @Override
@@ -79,14 +78,13 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
         imageView.setImageResource(icons[groupPosition]);
         return view;
     }
-
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.drawer_list_subitem, parent, false);
-        view.setOnClickListener(v->
+        view.setOnClickListener(v ->
         {
-            if(groupPosition==2) {
+            if (groupPosition == 2 && childPosition == 0) {
                 Intent intent = new Intent(context, StorageActivity.class);
                 context.startActivity(intent);
             }

@@ -2,7 +2,6 @@ package com.example.clevercafe.activities;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -23,7 +22,7 @@ import com.example.clevercafe.model.IngredientCategory;
 
 import java.util.ArrayList;
 
-public class StorageActivity extends AppCompatActivity {
+public class StorageActivity extends BaseActivity {
 
     private ArrayList<IngredientCategory> categories;
     private StorageListAdapter storageListAdapter;
@@ -33,13 +32,11 @@ public class StorageActivity extends AppCompatActivity {
     private EditText ingredientNameEditText;
     private EditText ingredientQuantityEditText;
     private CardView addProductForm;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_storage);
-
+        createToolbar();
+        createDrawer();
         categories = fillCategories();
         ExpandableListView storageList = (ExpandableListView) findViewById(R.id.storage_list);
         storageListAdapter = new StorageListAdapter(this, categories);
@@ -60,6 +57,10 @@ public class StorageActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_storage;
+    }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
