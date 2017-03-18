@@ -20,7 +20,7 @@ import com.example.clevercafe.adapters.CategoryListAdapter;
 import com.example.clevercafe.adapters.DrawerListAdapter;
 import com.example.clevercafe.adapters.OrderListAdapter;
 import com.example.clevercafe.adapters.ProductListAdapter;
-import com.example.clevercafe.model.Category;
+import com.example.clevercafe.model.ProductCategory;
 import com.example.clevercafe.model.Order;
 import com.example.clevercafe.model.Product;
 
@@ -123,7 +123,7 @@ public class MainView extends AppCompatActivity implements IMainView {
 
 
     @Override
-    public void showCategories(ArrayList<Category> categories) {
+    public void showCategories(ArrayList<ProductCategory> categories) {
         categoryAdapter = new CategoryListAdapter(categories);
         categoryProductRecyclerView.setAdapter(categoryAdapter);
         categoryOnScreen = true;

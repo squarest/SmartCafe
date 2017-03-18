@@ -1,6 +1,6 @@
 package com.example.clevercafe.activities.main;
 
-import com.example.clevercafe.model.Category;
+import com.example.clevercafe.model.ProductCategory;
 import com.example.clevercafe.model.Order;
 import com.example.clevercafe.model.Product;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public interface IMainView {
     void showProducts(ArrayList<Product> products);
 
-    void showCategories(ArrayList<Category> categories);
+    void showCategories(ArrayList<ProductCategory> categories);
 
     void showOrders(ArrayList<Order> orders);
 

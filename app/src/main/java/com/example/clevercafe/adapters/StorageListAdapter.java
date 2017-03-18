@@ -8,9 +8,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
+import com.example.clevercafe.model.Ingredient;
+import com.example.clevercafe.model.IngredientCategory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Chudofom on 10.11.16.
@@ -19,20 +20,16 @@ import java.util.HashMap;
 public class StorageListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<String> listDataHeader; // header titles
-    // child data in format of header title, child title
-    private HashMap<String, ArrayList<String>> listDataChild;
+    private ArrayList<IngredientCategory> categories;
 
-    public StorageListAdapter(Context context, ArrayList<String> listDataHeader,
-                              HashMap<String, ArrayList<String>> listChildData) {
+    public StorageListAdapter(Context context, ArrayList<IngredientCategory> categories) {
         this.context = context;
-        this.listDataHeader = listDataHeader;
-        this.listDataChild = listChildData;
+        this.categories = categories;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return listDataChild.get(listDataHeader.get(groupPosition)).get(childPosititon);
+        return categories.get(groupPosition).ingredients.get(childPosititon);
     }
 
     @Override
@@ -44,32 +41,35 @@ public class StorageListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final Ingredient child = (Ingredient) getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.storage_list_subitem, null);
         }
 
-        TextView txtListChild = (TextView) convertView
+        TextView ingredientName = (TextView) convertView
                 .findViewById(R.id.storage_item_text_view);
-        txtListChild.setText(childText);
+        ingredientName.setText(child.name);
+
+        TextView ingredientQuantity = (TextView) convertView.findViewById(R.id.storage_product_quantity);
+        ingredientQuantity.setText(String.valueOf(child.quantity)+" "+child.units);
         return convertView;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.listDataChild.get(this.listDataHeader.get(groupPosition)).size();
+        return this.categories.get(groupPosition).ingredients.size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.listDataHeader.get(groupPosition);
+        return this.categories.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this.listDataHeader.size();
+        return this.categories.size();
     }
 
     @Override
@@ -87,9 +87,9 @@ public class StorageListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.storage_list_item, null);
         }
 
-        String headerTitle = (String) getGroup(groupPosition);
+        IngredientCategory categoryName = (IngredientCategory) getGroup(groupPosition);
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.storage_item_text_view);
-        lblListHeader.setText(headerTitle);
+        lblListHeader.setText(categoryName.name);
         return convertView;
     }
 

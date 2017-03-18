@@ -1,6 +1,6 @@
 package com.example.clevercafe.activities.main;
 
-import com.example.clevercafe.model.Category;
+import com.example.clevercafe.model.ProductCategory;
 import com.example.clevercafe.model.Order;
 import com.example.clevercafe.model.Product;
 
@@ -14,7 +14,7 @@ public class MainPresenter implements IMainPresenter {
 
     private IMainView mainView;
     private ArrayList<Product> products = new ArrayList<>();
-    private ArrayList<Category> categories = new ArrayList<>();
+    private ArrayList<ProductCategory> categories = new ArrayList<>();
     private ArrayList<Order> orders = new ArrayList<>();
     private boolean ORDER_IS_ACTIVE = false;
     private static int LAST_ORDER_ID = 0;
@@ -104,10 +104,10 @@ public class MainPresenter implements IMainPresenter {
         return arrayList;
     }
 
-    private ArrayList<Category> fillCategories() {
-        ArrayList<Category> arrayList = new ArrayList<>();
+    private ArrayList<ProductCategory> fillCategories() {
+        ArrayList<ProductCategory> arrayList = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
-            Category category = new Category();
+            ProductCategory category = new ProductCategory();
             category.id = i;
             category.name = "Категория №" + i;
             arrayList.add(category);

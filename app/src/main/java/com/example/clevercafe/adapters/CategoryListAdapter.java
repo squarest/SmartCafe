@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.model.Category;
+import com.example.clevercafe.model.ProductCategory;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by Chudofom on 21.09.16.
  */
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
-    private ArrayList<Category> categoryList = new ArrayList<>();
+    private ArrayList<ProductCategory> categoryList = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTextView;
@@ -26,7 +26,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         }
     }
 
-    public CategoryListAdapter(ArrayList<Category> arrayList)
+    public CategoryListAdapter(ArrayList<ProductCategory> arrayList)
     {
         categoryList =arrayList;
     }
