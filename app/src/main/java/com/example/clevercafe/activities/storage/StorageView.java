@@ -1,4 +1,4 @@
-package com.example.clevercafe.activities;
+package com.example.clevercafe.activities.storage;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -16,44 +16,46 @@ import android.widget.Toast;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.Units;
+import com.example.clevercafe.activities.BaseActivity;
 import com.example.clevercafe.adapters.StorageListAdapter;
 import com.example.clevercafe.model.Ingredient;
 import com.example.clevercafe.model.IngredientCategory;
 
 import java.util.ArrayList;
 
-public class StorageActivity extends BaseActivity {
+public class StorageView extends BaseActivity implements IStorageView {
 
-    private ArrayList<IngredientCategory> categories;
-    private StorageListAdapter storageListAdapter;
-    private ArrayAdapter categorySpinnerAdapter;
     private Spinner categorySpinner;
     private Spinner unitsSpinner;
     private EditText ingredientNameEditText;
     private EditText ingredientQuantityEditText;
+    ArrayAdapter categorySpinnerAdapter;
+    ArrayAdapter unitsSpinnerAdapter;
+    StorageListAdapter storageListAdapter;
     private CardView addProductForm;
+    private IStoragePresenter presenter;
+    ArrayList<String> categoryNames = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createToolbar();
         createDrawer();
-        categories = fillCategories();
-        ExpandableListView storageList = (ExpandableListView) findViewById(R.id.storage_list);
-        storageListAdapter = new StorageListAdapter(this, categories);
-        storageList.setAdapter(storageListAdapter);
-        registerForContextMenu(storageList);
+        presenter = new StoragePresenter(this);
+        presenter.viewInit();
         TextView addProductButton = (TextView) findViewById(R.id.add_product_button);
         addProductForm = (CardView) findViewById(R.id.add_product_form);
         ingredientNameEditText = (EditText) findViewById(R.id.ingredient_name_edit_text);
         ingredientQuantityEditText = (EditText) findViewById(R.id.ingredient_quantity_edit_text);
 
+        createSpinners();
+
         TextView addCategoryButton = (TextView) findViewById(R.id.add_category_button);
-        addCategoryButton.setOnClickListener(v -> createCategoryDialog(null, -1));
-        createSpinner();
+        addCategoryButton.setOnClickListener(v -> presenter.addCategoryButClicked());
 
         addProductButton.setOnClickListener(v ->
         {
-            createAddProductForm();
+            presenter.addProductButClicked();
         });
     }
 
@@ -61,6 +63,7 @@ public class StorageActivity extends BaseActivity {
     protected int getLayoutResourceId() {
         return R.layout.activity_storage;
     }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -89,20 +92,19 @@ public class StorageActivity extends BaseActivity {
         switch (item.getItemId()) {
             case 1: {//edit
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    createCategoryDialog(categories.get(groupId).name, groupId);
+                    presenter.editCategoryButClicked(groupId);
                 } else {
-                    createEditProductForm(groupId, childId);
+                    presenter.editProductButClicked(groupId, childId);
                 }
                 break;
             }
             case 2: {//remove
                 //TODO: добавить окно с разрешением на удаление
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    categories.remove(groupId);
+                    presenter.deleteCategoryButClicked(groupId);
                 } else {
-                    categories.get(groupId).ingredients.remove(childId);
+                    presenter.deleteProductButClicked(groupId, childId);
                 }
-                storageListAdapter.notifyDataSetChanged();
                 break;
             }
 //            case 3: {
@@ -112,8 +114,20 @@ public class StorageActivity extends BaseActivity {
         return super.onContextItemSelected(item);
     }
 
-    private void createAddProductForm() {
-        clearAddProductForm();
+    @Override
+    public void createAddProductForm(int categoryId, int productId, Ingredient ingredient, boolean editForm) {
+        if (editForm) //если форма вызвана для редактирования продукта то заполняем ее данными
+        {
+            ingredientNameEditText.setText(ingredient.name);
+            categorySpinner.setSelection(categoryId);
+            categorySpinner.setClickable(false);
+            categorySpinner.setEnabled(false);
+            ingredientQuantityEditText.setText(String.valueOf(ingredient.quantity));
+            unitsSpinner.setSelection(Units.idOfUnit(ingredient.units));
+        } else { //иначе очищаем ее
+            clearAddProductForm();
+        }
+
         addProductForm.setVisibility(View.VISIBLE);
         addProductForm.setClickable(true);
 
@@ -127,91 +141,61 @@ public class StorageActivity extends BaseActivity {
         Button submitButton = (Button) findViewById(R.id.product_submit_button);
         submitButton.setOnClickListener(v ->
         {
-            if (!ingredientNameEditText.getText().toString().isEmpty() & !ingredientQuantityEditText.getText().toString().isEmpty()) {
+            if (!ingredientNameEditText.getText().toString().isEmpty() &
+                    !ingredientQuantityEditText.getText().toString().isEmpty()) {
                 addProductForm.setVisibility(View.INVISIBLE);
                 addProductForm.setClickable(false);
-                addProduct();
+                Ingredient newIngredient = new Ingredient();
+                newIngredient.name = ingredientNameEditText.getText().toString();
+                newIngredient.quantity = Double.valueOf(ingredientQuantityEditText.getText().toString());
+                newIngredient.units = unitsSpinner.getSelectedItem().toString();
+                presenter.submitProductFormButClicked(categorySpinner.getSelectedItemPosition(),
+                        productId, newIngredient, editForm);
             } else {
                 Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void createEditProductForm(int categoryId, int productId) {
-        Ingredient ingredient = categories.get(categoryId).ingredients.get(productId);
-        ingredientNameEditText.setText(ingredient.name);
-        categorySpinner.setSelection(categoryId);
-        categorySpinner.setClickable(false);
-        ingredientQuantityEditText.setText(String.valueOf(ingredient.quantity));
-        unitsSpinner.setSelection(Units.idOfUnit(ingredient.units));
-
-        addProductForm.setVisibility(View.VISIBLE);
-        addProductForm.setClickable(true);
-        Button cancelButton = (Button) findViewById(R.id.product_cancel_button);
-        cancelButton.setOnClickListener(v ->
-        {
-            clearAddProductForm();
-            addProductForm.setVisibility(View.INVISIBLE);
-            addProductForm.setClickable(false);
-        });
-        Button submitButton = (Button) findViewById(R.id.product_submit_button);
-        submitButton.setOnClickListener(v ->
-        {
-            if (!ingredientNameEditText.getText().toString().isEmpty() & !ingredientQuantityEditText.getText().toString().isEmpty()) {
-                addProductForm.setVisibility(View.INVISIBLE);
-                addProductForm.setClickable(false);
-                editProduct(categoryId, productId);
-            } else {
-                Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
-            }
-        });
+    @Override
+    public void showCategories(ArrayList<IngredientCategory> categories) {
+        ExpandableListView storageList = (ExpandableListView) findViewById(R.id.storage_list);
+        storageListAdapter  = new StorageListAdapter(this, categories);
+        storageList.setAdapter(storageListAdapter);
+        registerForContextMenu(storageList);
+        for (IngredientCategory category : categories) {
+            categoryNames.add(category.name);
+        }
     }
 
-    private void clearAddProductForm() {
+    @Override
+    public void updateCategories(ArrayList<IngredientCategory> categories) {
+        storageListAdapter.notifyDataSetChanged();
+        categoryNames.clear();
+        for (IngredientCategory category : categories) {
+            categoryNames.add(category.name);
+        }
+        categorySpinnerAdapter.notifyDataSetChanged();
+        unitsSpinnerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void clearAddProductForm() {
         ingredientNameEditText.setText(null);
         ingredientQuantityEditText.setText(null);
         categorySpinner.setSelection(0);
         unitsSpinner.setSelection(0);
+        categorySpinner.setClickable(true);
+        categorySpinner.setEnabled(true);
     }
 
-    private void addProduct() {
-
-        String ingredientName = ingredientNameEditText.getText().toString();
-        double ingredientQuantity = Double.valueOf(ingredientQuantityEditText.getText().toString());
-        Ingredient ingredient = new Ingredient(ingredientName, ingredientQuantity, unitsSpinner.getSelectedItem().toString());
-        categories.get(categorySpinner.getSelectedItemPosition()).ingredients.add(ingredient);
-        storageListAdapter.notifyDataSetChanged();
-    }
-
-    private void editProduct(int categoryId, int productId) {
-
-        String ingredientName = ingredientNameEditText.getText().toString();
-        double ingredientQuantity = Double.valueOf(ingredientQuantityEditText.getText().toString());
-        Ingredient ingredient = new Ingredient(ingredientName, ingredientQuantity, unitsSpinner.getSelectedItem().toString());
-        categories.get(categoryId).ingredients.set(productId, ingredient);
-        storageListAdapter.notifyDataSetChanged();
-    }
-
-
-    private void createSpinner() {
-        categorySpinner = (Spinner) findViewById(R.id.category_spinner);
-        ArrayList<String> categoryNames = new ArrayList<>();
-        for (IngredientCategory category : categories) {
-            categoryNames.add(category.name);
-        }
-        categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
-        categorySpinner.setAdapter(categorySpinnerAdapter);
-        unitsSpinner = (Spinner) findViewById(R.id.units_spinner);
-        ArrayAdapter unitsSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Units.array);
-        unitsSpinner.setAdapter(unitsSpinnerAdapter);
-    }
-
-    private void createCategoryDialog(String name, int categoryId) {
+    @Override
+    public void createCategoryDialog(int categoryId, String name, boolean editForm) {
         Dialog categoryDialog = new Dialog(this);
         categoryDialog.setContentView(R.layout.add_category_dialog);
         EditText categoryNameEditText = (EditText) categoryDialog.findViewById(R.id.add_category_edit_text);
 
-        if (name != null) {
+        if (editForm) {
             categoryNameEditText.setText(name);
             categoryDialog.setTitle("Изменение категории");
         } else categoryDialog.setTitle("Добавление новой категории");
@@ -228,36 +212,23 @@ public class StorageActivity extends BaseActivity {
 
             String categoryName = categoryNameEditText.getText().toString();
             if (!categoryName.isEmpty()) {
-                if (name == null & categoryId == -1) {
-                    categories.add(new IngredientCategory(categoryName, new ArrayList<Ingredient>()));
-                } else {
-                    categories.get(categoryId).name = categoryName;
-                }
-                storageListAdapter.notifyDataSetChanged();
-                createSpinner();
+                presenter.submitCategoryFormButClicked(categoryId, categoryName, editForm);
                 categoryDialog.dismiss();
             } else
                 Toast.makeText(this, "Введите название категории", Toast.LENGTH_SHORT).show();
         });
 
         categoryDialog.show();
+
     }
 
-    private ArrayList<IngredientCategory> fillCategories() {
-        ArrayList<IngredientCategory> categories = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            IngredientCategory category = new IngredientCategory("Категория " + i, fillIngredients());
-            categories.add(category);
-        }
-        return categories;
+    private void createSpinners() {
+        categorySpinner = (Spinner) findViewById(R.id.category_spinner);
+        categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
+        categorySpinner.setAdapter(categorySpinnerAdapter);
+        unitsSpinner = (Spinner) findViewById(R.id.units_spinner);
+        unitsSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Units.array);
+        unitsSpinner.setAdapter(unitsSpinnerAdapter);
     }
 
-    private ArrayList<Ingredient> fillIngredients() {
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Ingredient ingredient = new Ingredient("Продукт " + i, 1, Units.count);
-            ingredients.add(ingredient);
-        }
-        return ingredients;
-    }
 }
