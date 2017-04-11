@@ -13,9 +13,9 @@ import java.util.Collections;
 public class MainPresenter implements IMainPresenter {
 
     private IMainView mainView;
-    private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<ProductCategory> categories = new ArrayList<>();
     private ArrayList<Order> orders = new ArrayList<>();
+    private ArrayList<Product> currentProducts = new ArrayList<>();
     private boolean ORDER_IS_ACTIVE = false;
     private static int LAST_ORDER_ID = 0;
 
@@ -25,19 +25,17 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void viewInit() {
-        categories.clear();
-        categories.addAll(fillCategories());
+        categories=fillCategories();
         mainView.showCategories(categories);
     }
 
     @Override
-    public void itemClicked(boolean categoryOnscreen, int id) {
+    public void itemClicked(boolean categoryOnscreen, int categoryId) {
         if (categoryOnscreen) {
-            products.clear();
-            products.addAll(fillProducts());
-            mainView.showProducts(products);
+            currentProducts = categories.get(categoryId).products;
+            mainView.showProducts(currentProducts);
         } else if (ORDER_IS_ACTIVE) {
-            orders.get(0).products.add(fillProducts().get(id));
+            orders.get(0).products.add(currentProducts.get(categoryId));
             orders.get(0).sum = checkSum(orders.get(0).products);
             mainView.showOrders(orders);
         } else {
@@ -95,7 +93,6 @@ public class MainPresenter implements IMainPresenter {
         ArrayList<Product> arrayList = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
             Product product = new Product();
-            product.id = i;
             product.name = "Товар №" + i;
             product.cost = 100.00;
             product.quantity = 1.0;
@@ -108,8 +105,8 @@ public class MainPresenter implements IMainPresenter {
         ArrayList<ProductCategory> arrayList = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
             ProductCategory category = new ProductCategory();
-            category.id = i;
             category.name = "Категория №" + i;
+            category.products = fillProducts();
             arrayList.add(category);
         }
         return arrayList;

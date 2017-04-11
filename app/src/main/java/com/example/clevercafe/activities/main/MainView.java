@@ -46,7 +46,7 @@ public class MainView extends BaseActivity implements IMainView {
 
         TextView addOrderButton = (TextView) findViewById(R.id.add_order_button);
         addOrderButton.setOnClickListener(view -> mainPresenter.addOrderButtonClicked());
-        }
+    }
 
     @Override
     protected int getLayoutResourceId() {
@@ -55,7 +55,7 @@ public class MainView extends BaseActivity implements IMainView {
 
     @Override
     public void showProducts(ArrayList<Product> products) {
-        productAdapter = new ProductListAdapter(products);
+        productAdapter = new ProductListAdapter(products, false);
         categoryProductRecyclerView.setAdapter(productAdapter);
         categoryOnScreen = false;
         toolbar.setNavigationIcon(R.drawable.back_ic);
@@ -66,7 +66,7 @@ public class MainView extends BaseActivity implements IMainView {
 
     @Override
     public void showCategories(ArrayList<ProductCategory> categories) {
-        categoryAdapter = new CategoryListAdapter(categories);
+        categoryAdapter = new CategoryListAdapter(categories, false);
         categoryProductRecyclerView.setAdapter(categoryAdapter);
         categoryOnScreen = true;
         createToolbar();

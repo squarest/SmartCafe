@@ -21,7 +21,12 @@
             android:name=".activities.storage.StorageView"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activities.BaseActivity"></activity>
+        <activity
+            android:name=".activities.menu.MenuView"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.BaseActivity" />
+        <activity android:name=".activities.IngredientActivity"></activity>
     </application>
 
 </manifest>

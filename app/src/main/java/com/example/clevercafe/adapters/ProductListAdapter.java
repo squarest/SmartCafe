@@ -1,6 +1,7 @@
 package com.example.clevercafe.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +17,43 @@ import java.util.ArrayList;
  */
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
     private ArrayList<Product> productList = new ArrayList<>();
+    private static boolean editMode;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+
         public TextView nameTextView;
+
 
         public ViewHolder(View v) {
             super(v);
             nameTextView = (TextView) v.findViewById(R.id.card_product_name);
+            if (editMode)
+                v.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(1, 1, 1, "Редактировать");
+            menu.add(2, 2, 2, "Удалить");
+            menu.setHeaderTitle("Изменение категории");
         }
     }
 
-    public ProductListAdapter(ArrayList<Product> arrayList) {
-        productList = arrayList;
+    private int position;
+
+    public int getPosition() {
+        return position;
     }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public ProductListAdapter(ArrayList<Product> arrayList, boolean editMode) {
+        productList = arrayList;
+        this.editMode = editMode;
+    }
+
 
     @Override
     public ProductListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
@@ -41,7 +66,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameTextView.setText(productList.get(position).name);
+        holder.itemView.setOnLongClickListener(v -> {
+            setPosition(holder.getAdapterPosition());
+            return false;
+        });
 
+    }
+
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        holder.itemView.setOnLongClickListener(null);
+        super.onViewRecycled(holder);
     }
 
     @Override

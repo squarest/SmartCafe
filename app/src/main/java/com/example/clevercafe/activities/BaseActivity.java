@@ -10,6 +10,7 @@ import android.widget.ExpandableListView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.activities.main.MainView;
+import com.example.clevercafe.activities.menu.MenuView;
 import com.example.clevercafe.adapters.DrawerListAdapter;
 
 import java.util.ArrayList;
@@ -61,6 +62,11 @@ public abstract class BaseActivity extends AppCompatActivity {
             switch (groupPosition) {
                 case 0: {
                     Intent intent = new Intent(this, MainView.class);
+                    this.startActivity(intent);
+                    break;
+                }
+                case 1: {
+                    Intent intent = new Intent(this, MenuView.class);
                     this.startActivity(intent);
                     break;
                 }
