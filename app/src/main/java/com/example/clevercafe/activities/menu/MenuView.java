@@ -1,6 +1,7 @@
 package com.example.clevercafe.activities.menu;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.clevercafe.R;
 import com.example.clevercafe.RecyclerItemClickListener;
 import com.example.clevercafe.activities.BaseActivity;
+import com.example.clevercafe.activities.IngredientActivity;
 import com.example.clevercafe.adapters.CategoryListAdapter;
 import com.example.clevercafe.adapters.ProductListAdapter;
 import com.example.clevercafe.model.Product;
@@ -72,6 +74,10 @@ public class MenuView extends BaseActivity implements IMenuView {
             presenter.addProductButClicked();
         });
 
+        Button addIngredientButton = (Button)findViewById(R.id.add_ingredients_button);
+        addIngredientButton.setOnClickListener(v->{
+            presenter.addIngredientsButClicked();
+        });
         categorySpinner = (Spinner) findViewById(R.id.category_spinner);
         categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
         categorySpinner.setAdapter(categorySpinnerAdapter);
@@ -158,7 +164,14 @@ public class MenuView extends BaseActivity implements IMenuView {
 
     @Override
     public void showStorage() {
+        Intent intent = new Intent(MenuView.this, IngredientActivity.class);
+        startActivityForResult(intent, 1);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

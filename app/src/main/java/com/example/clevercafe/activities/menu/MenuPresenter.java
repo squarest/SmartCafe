@@ -45,6 +45,7 @@ public class MenuPresenter implements IMenuPresenter {
 
     @Override
     public void addIngredientsButClicked() {
+        menuView.showStorage();
 
     }
 
