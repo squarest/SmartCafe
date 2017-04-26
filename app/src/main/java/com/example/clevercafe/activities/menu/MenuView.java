@@ -21,6 +21,7 @@ import com.example.clevercafe.activities.BaseActivity;
 import com.example.clevercafe.activities.IngredientActivity;
 import com.example.clevercafe.adapters.CategoryListAdapter;
 import com.example.clevercafe.adapters.ProductListAdapter;
+import com.example.clevercafe.model.Ingredient;
 import com.example.clevercafe.model.Product;
 import com.example.clevercafe.model.ProductCategory;
 
@@ -43,6 +44,7 @@ public class MenuView extends BaseActivity implements IMenuView {
     ArrayAdapter categorySpinnerAdapter;
     private int curCategoryPosition;
     private Spinner categorySpinner;
+    private ArrayList<Ingredient> ingredients;
     ArrayList<String> categoryNames = new ArrayList<>();
 
     @Override
@@ -74,10 +76,7 @@ public class MenuView extends BaseActivity implements IMenuView {
             presenter.addProductButClicked();
         });
 
-        Button addIngredientButton = (Button)findViewById(R.id.add_ingredients_button);
-        addIngredientButton.setOnClickListener(v->{
-            presenter.addIngredientsButClicked();
-        });
+
         categorySpinner = (Spinner) findViewById(R.id.category_spinner);
         categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
         categorySpinner.setAdapter(categorySpinnerAdapter);
@@ -148,30 +147,57 @@ public class MenuView extends BaseActivity implements IMenuView {
         return super.onContextItemSelected(item);
     }
 
+    private void updateSpinners(ArrayList<ProductCategory> categories) {
+        categoryNames.clear();
+        for (ProductCategory category : categories) {
+            categoryNames.add(category.name);
+        }
+        categorySpinnerAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void updateMenu(ArrayList<ProductCategory> categories) {
         if (categoryOnScreen) {
             categoryAdapter.notifyDataSetChanged();
-            categoryNames.clear();
-            for (ProductCategory category : categories) {
-                categoryNames.add(category.name);
-            }
-            categorySpinnerAdapter.notifyDataSetChanged();
+            updateSpinners(categories);
         } else {
             productAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
+    public void removeCategory(ArrayList<ProductCategory> categories, int position) {
+        categoryAdapter.notifyItemRemoved(position);
+        updateSpinners(categories);
+
+    }
+
+    @Override
+    public void removeProduct(int position) {
+        productAdapter.notifyItemRemoved(position);
+    }
+
     public void showStorage() {
         Intent intent = new Intent(MenuView.this, IngredientActivity.class);
         startActivityForResult(intent, 1);
+    }
 
+    public void showStorage(ArrayList<Ingredient> ingredients) {
+        Intent intent = new Intent(MenuView.this, IngredientActivity.class);
+        intent.putExtra("ingredients", ingredients);
+        startActivityForResult(intent, 1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            ingredients.clear();
+            return;
+        }
+        //TODO:придумать как очищать ингридиенты если для продукта их не выбрано
+        ingredients = (ArrayList<Ingredient>) data.getSerializableExtra("ingredients");
+
     }
 
     @Override
@@ -183,13 +209,28 @@ public class MenuView extends BaseActivity implements IMenuView {
             categorySpinner.setClickable(false);
             categorySpinner.setEnabled(false);
             productCostEditText.setText(String.valueOf(product.cost));
+
         } else { //иначе очищаем ее
             clearAddProductForm();
         }
 
         addProductForm.setVisibility(View.VISIBLE);
         addProductForm.setClickable(true);
-
+        Button addIngredientButton = (Button) findViewById(R.id.add_ingredients_button);
+        if (editForm) {
+            addIngredientButton.setText("Редактировать ингредиенты");
+        } else {
+            addIngredientButton.setText("Добавить ингредиенты");
+        }
+        addIngredientButton.setOnClickListener(v -> {
+            if (editForm) {
+                if (product.ingredients != null && product.ingredients.size() > 0) {
+                    showStorage(product.ingredients);
+                }
+            } else {
+                showStorage();
+            }
+        });
         Button cancelButton = (Button) findViewById(R.id.product_cancel_button);
         cancelButton.setOnClickListener(v ->
         {
@@ -207,6 +248,7 @@ public class MenuView extends BaseActivity implements IMenuView {
                 Product newProduct = new Product();
                 newProduct.name = productNameEditText.getText().toString();
                 newProduct.quantity = Double.valueOf(productCostEditText.getText().toString());
+                newProduct.ingredients = ingredients;
                 presenter.submitProductFormButClicked(categorySpinner.getSelectedItemPosition(),
                         productId, newProduct, editForm);
             } else {

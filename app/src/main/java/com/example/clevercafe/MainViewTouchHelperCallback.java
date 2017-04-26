@@ -13,11 +13,11 @@ import java.util.ArrayList;
  * Created by Chudofom on 22.09.16.
  */
 
-public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
+public class MainViewTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private IMainPresenter mainPresenter;
 
-    public MyItemTouchHelperCallback(OrderListAdapter adapter, ArrayList<Order> orderList,IMainPresenter mainPresenter) {
+    public MainViewTouchHelperCallback(OrderListAdapter adapter, ArrayList<Order> orderList, IMainPresenter mainPresenter) {
         this.mainPresenter=mainPresenter;
     }
 

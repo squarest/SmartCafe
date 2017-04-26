@@ -38,16 +38,59 @@
             android:layout_height="match_parent"
             android:background="#fff" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ingredient_list"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="25dp"
-            android:layout_gravity="center"
             android:layout_weight="2"
-            android:childDivider="@drawable/divider_line"
-            android:divider="@color/orderButtonColor"
-            android:dividerHeight="2dp"
-            tools:listitem="@layout/ingredient_element" />
+            android:layout_margin="25dp"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ingredient_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:childDivider="@drawable/divider_line"
+                android:divider="@color/orderButtonColor"
+                android:dividerHeight="2dp"
+                tools:listitem="@layout/ingredient_element" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/cancel_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_cancel_button"
+                    android:shadowColor="@android:color/transparent"
+                    android:text="Отмена"
+                    android:visibility="invisible"
+                    android:textColor="@color/orderButtonColor" />
+
+                <Button
+                    android:id="@+id/submit_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="invisible"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_done_button"
+                    android:shadowColor="@android:color/transparent"
+                    android:text="Готово"
+                    android:textColor="#fff" />
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

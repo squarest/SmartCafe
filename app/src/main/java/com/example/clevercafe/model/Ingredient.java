@@ -1,10 +1,12 @@
 package com.example.clevercafe.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Chudofom on 15.03.17.
  */
 
-public class Ingredient {
+public class Ingredient implements Serializable {
     public String name;
     public double quantity;
     public String units;

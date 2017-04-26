@@ -1,6 +1,9 @@
 package com.example.clevercafe.activities.menu;
 
+import com.example.clevercafe.model.Ingredient;
 import com.example.clevercafe.model.Product;
+
+import java.util.ArrayList;
 
 /**
  * Created by Chudofom on 20.03.17.
@@ -11,7 +14,7 @@ public interface IMenuPresenter {
     void addProductButClicked();
     void editProductButClicked(int categoryId, int productId);
     void deleteProductButClicked(int categoryId, int productId);
-    void addIngredientsButClicked();
+    void addIngredientsButClicked(ArrayList<Ingredient> ingredients);
     void addPictureButClicked();
 
     void addCategoryButClicked();

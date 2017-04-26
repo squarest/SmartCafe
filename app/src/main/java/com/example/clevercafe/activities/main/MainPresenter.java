@@ -1,5 +1,7 @@
 package com.example.clevercafe.activities.main;
 
+import com.example.clevercafe.Units;
+import com.example.clevercafe.model.Ingredient;
 import com.example.clevercafe.model.ProductCategory;
 import com.example.clevercafe.model.Order;
 import com.example.clevercafe.model.Product;
@@ -25,7 +27,7 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void viewInit() {
-        categories=fillCategories();
+        categories = fillCategories();
         mainView.showCategories(categories);
     }
 
@@ -96,6 +98,7 @@ public class MainPresenter implements IMainPresenter {
             product.name = "Товар №" + i;
             product.cost = 100.00;
             product.quantity = 1.0;
+            product.ingredients = fillIngredients();
             arrayList.add(product);
         }
         return arrayList;
@@ -110,5 +113,14 @@ public class MainPresenter implements IMainPresenter {
             arrayList.add(category);
         }
         return arrayList;
+    }
+
+    private ArrayList<Ingredient> fillIngredients() {
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Ingredient ingredient = new Ingredient("Продукт " + i, 1, Units.count);
+            ingredients.add(ingredient);
+        }
+        return ingredients;
     }
 }

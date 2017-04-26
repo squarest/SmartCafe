@@ -1,5 +1,7 @@
 package com.example.clevercafe.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Chudofom on 03.10.16.
  */
@@ -7,6 +9,7 @@ public class Product {
     public String name;
     public double cost;
     public double quantity;
+    public ArrayList<Ingredient> ingredients;
 
     public Product() {
     }

@@ -1,5 +1,7 @@
 package com.example.clevercafe.activities.menu;
 
+import com.example.clevercafe.Units;
+import com.example.clevercafe.model.Ingredient;
 import com.example.clevercafe.model.Product;
 import com.example.clevercafe.model.ProductCategory;
 
@@ -39,13 +41,11 @@ public class MenuPresenter implements IMenuPresenter {
     @Override
     public void deleteProductButClicked(int categoryId, int productId) {
         categories.get(categoryId).products.remove(productId);
-        menuView.updateMenu(categories);
-
+        menuView.removeProduct(productId);
     }
 
     @Override
-    public void addIngredientsButClicked() {
-        menuView.showStorage();
+    public void addIngredientsButClicked(ArrayList<Ingredient> ingredients) {
 
     }
 
@@ -67,7 +67,7 @@ public class MenuPresenter implements IMenuPresenter {
     @Override
     public void deleteCategoryButClicked(int categoryId) {
         categories.remove(categoryId);
-        menuView.updateMenu(categories);
+        menuView.removeCategory(categories, categoryId);
     }
 
     @Override
@@ -108,6 +108,7 @@ public class MenuPresenter implements IMenuPresenter {
             product.name = "Товар №" + i;
             product.cost = 100.00;
             product.quantity = 1.0;
+            product.ingredients = fillIngredients();
             arrayList.add(product);
         }
         return arrayList;
@@ -122,5 +123,14 @@ public class MenuPresenter implements IMenuPresenter {
             arrayList.add(category);
         }
         return arrayList;
+    }
+
+    private ArrayList<Ingredient> fillIngredients() {
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Ingredient ingredient = new Ingredient("Продукт " + i, 1, Units.count);
+            ingredients.add(ingredient);
+        }
+        return ingredients;
     }
 }

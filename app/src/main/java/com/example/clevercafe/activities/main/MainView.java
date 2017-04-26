@@ -8,7 +8,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.clevercafe.MyItemTouchHelperCallback;
+import com.example.clevercafe.MainViewTouchHelperCallback;
 import com.example.clevercafe.R;
 import com.example.clevercafe.RecyclerItemClickListener;
 import com.example.clevercafe.activities.BaseActivity;
@@ -105,7 +105,7 @@ public class MainView extends BaseActivity implements IMainView {
         orderListAdapter = new OrderListAdapter(this, orderList, mainPresenter);
         orderRecyclerView.setAdapter(orderListAdapter);
         ItemTouchHelper.Callback callback =
-                new MyItemTouchHelperCallback(orderListAdapter, orderList, mainPresenter);
+                new MainViewTouchHelperCallback(orderListAdapter, orderList, mainPresenter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(orderRecyclerView);
         categoryProductRecyclerView = (RecyclerView) findViewById(R.id.product_table);

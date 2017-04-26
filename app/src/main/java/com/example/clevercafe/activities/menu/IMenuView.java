@@ -13,6 +13,8 @@ public interface IMenuView {
     void showCategories(ArrayList<ProductCategory> categories);
     void showProducts(ArrayList<Product> products);
     void updateMenu(ArrayList<ProductCategory> categories);
+    void removeCategory(ArrayList<ProductCategory> categories, int position);
+    void removeProduct(int position);
     void showStorage();
     void createAddProductForm(int categoryId, int productId, Product product, boolean editForm);
 
