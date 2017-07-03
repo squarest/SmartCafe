@@ -62,8 +62,6 @@ public class MenuView extends BaseActivity implements IMenuView {
                     }
                     presenter.itemClicked(categoryOnScreen, position);
                 }));
-
-
         presenter.viewInit();
         TextView addProductButton = (TextView) findViewById(R.id.add_product_button);
         addProductForm = (CardView) findViewById(R.id.add_product_form);
@@ -140,8 +138,6 @@ public class MenuView extends BaseActivity implements IMenuView {
                 }
                 break;
             }
-//            case 3: {
-//            }
 
         }
         return super.onContextItemSelected(item);
@@ -191,13 +187,15 @@ public class MenuView extends BaseActivity implements IMenuView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {
-            ingredients.clear();
-            return;
+        if(resultCode==RESULT_OK) {
+            if (null == data) {
+                ingredients.clear();
+                return;
+            }
+            //TODO:придумать как очищать ингридиенты если для продукта их не выбрано
+            ingredients = (ArrayList<Ingredient>) data.getSerializableExtra("ingredients");
         }
-        //TODO:придумать как очищать ингридиенты если для продукта их не выбрано
-        ingredients = (ArrayList<Ingredient>) data.getSerializableExtra("ingredients");
-
+        else Toast.makeText(this, "Добавление ингедиентов отменено", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -247,7 +245,7 @@ public class MenuView extends BaseActivity implements IMenuView {
                 addProductForm.setClickable(false);
                 Product newProduct = new Product();
                 newProduct.name = productNameEditText.getText().toString();
-                newProduct.quantity = Double.valueOf(productCostEditText.getText().toString());
+                newProduct.cost = Double.valueOf(productCostEditText.getText().toString());
                 newProduct.ingredients = ingredients;
                 presenter.submitProductFormButClicked(categorySpinner.getSelectedItemPosition(),
                         productId, newProduct, editForm);

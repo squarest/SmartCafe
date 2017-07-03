@@ -9,6 +9,7 @@ public class Product {
     public String name;
     public double cost;
     public double quantity;
+    public String units;
     public ArrayList<Ingredient> ingredients;
 
     public Product() {

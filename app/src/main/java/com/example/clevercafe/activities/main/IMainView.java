@@ -14,7 +14,13 @@ public interface IMainView {
 
     void showCategories(ArrayList<ProductCategory> categories);
 
-    void showOrders(ArrayList<Order> orders);
+    void setOrders(ArrayList<Order> orders);
+
+    void updateOrders(ArrayList<Order> orders);
+
+    void updateOrder(Order order);
+
+    void setOrder(Order order);
 
     void showMessage(String message);
 

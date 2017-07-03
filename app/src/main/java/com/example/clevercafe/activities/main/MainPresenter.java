@@ -2,9 +2,9 @@ package com.example.clevercafe.activities.main;
 
 import com.example.clevercafe.Units;
 import com.example.clevercafe.model.Ingredient;
-import com.example.clevercafe.model.ProductCategory;
 import com.example.clevercafe.model.Order;
 import com.example.clevercafe.model.Product;
+import com.example.clevercafe.model.ProductCategory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +18,7 @@ public class MainPresenter implements IMainPresenter {
     private ArrayList<ProductCategory> categories = new ArrayList<>();
     private ArrayList<Order> orders = new ArrayList<>();
     private ArrayList<Product> currentProducts = new ArrayList<>();
+    private Order curOrder;
     private boolean ORDER_IS_ACTIVE = false;
     private static int LAST_ORDER_ID = 0;
 
@@ -37,12 +38,20 @@ public class MainPresenter implements IMainPresenter {
             currentProducts = categories.get(categoryId).products;
             mainView.showProducts(currentProducts);
         } else if (ORDER_IS_ACTIVE) {
-            orders.get(0).products.add(currentProducts.get(categoryId));
-            orders.get(0).sum = checkSum(orders.get(0).products);
-            mainView.showOrders(orders);
+            curOrder.products.add(currentProducts.get(categoryId));
+            curOrder.sum = checkSum(curOrder.products);
+            mainView.updateOrder(curOrder);
         } else {
             mainView.showMessage("Добавьте новый заказ");
         }
+
+    }
+
+    @Override
+    public void addOrderButtonClicked() {
+        curOrder = new Order(LAST_ORDER_ID + 1, new ArrayList<Product>());
+        ORDER_IS_ACTIVE = true;
+        mainView.setOrder(curOrder);
 
     }
 
@@ -55,12 +64,18 @@ public class MainPresenter implements IMainPresenter {
     }
 
     @Override
-    public void addOrderButtonClicked() {
-        ORDER_IS_ACTIVE = true;
+    public void submitButtonClicked() {
+        ORDER_IS_ACTIVE = false;
         LAST_ORDER_ID++;
-        orders.add(0, new Order(LAST_ORDER_ID, new ArrayList<>(), 0));
-        mainView.showOrders(orders);
+        orders.add(0, curOrder);
+        mainView.setOrders(orders);
 
+    }
+
+    @Override
+    public void cancelButtonClicked() {
+        ORDER_IS_ACTIVE = false;
+        mainView.setOrders(orders);
     }
 
     @Override
@@ -72,7 +87,6 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void itemRemoved(int position) {
         orders.remove(position);
-        if (orders.size() == 0) ORDER_IS_ACTIVE = false;
         mainView.removeOrder(position);
     }
 
@@ -98,6 +112,7 @@ public class MainPresenter implements IMainPresenter {
             product.name = "Товар №" + i;
             product.cost = 100.00;
             product.quantity = 1.0;
+            product.units = Units.count;
             product.ingredients = fillIngredients();
             arrayList.add(product);
         }

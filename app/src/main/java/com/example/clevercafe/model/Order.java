@@ -11,6 +11,8 @@ public class Order {
     public ArrayList<Product> products;
     public double sum;
 
+    public Order() {}
+
     public Order(int id) {
         this.id = id;
     }

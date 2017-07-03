@@ -12,8 +12,6 @@
         android:layout_gravity="center"
         android:backgroundTint="#fff"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/main_activity_right_left_margin"
-        android:layout_marginRight="@dimen/main_activity_right_left_margin"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp">

@@ -10,9 +10,16 @@ public interface IMainPresenter {
 
     void addOrderButtonClicked();
 
+    void submitButtonClicked();
+
+    void cancelButtonClicked();
+
     void itemMoved(int oldPosition, int newPosition);
+
     void itemRemoved(int position);
+
     int getOrderSize();
+
     void orderSubmitButtonClicked();
 
     void backToCategoryButtonClicked();

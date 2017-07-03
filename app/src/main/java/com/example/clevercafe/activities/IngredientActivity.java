@@ -42,7 +42,7 @@ public class IngredientActivity extends AppCompatActivity {
         }
         else
         {
-            ingredients = new ArrayList<Ingredient>();
+            ingredients = new ArrayList<>();
         }
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.ingredient_list);
         IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(ingredients, this);
@@ -67,7 +67,9 @@ public class IngredientActivity extends AppCompatActivity {
         });
         cancelButton.setOnClickListener(v ->
         {
-
+            Intent intent = new Intent();
+            setResult(RESULT_CANCELED, intent);
+            finish();
         });
     }
 
