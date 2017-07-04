@@ -7,8 +7,12 @@ import java.util.ArrayList;
  */
 
 public class IngredientCategory {
+    public int id;
     public String name;
     public ArrayList<Ingredient> ingredients;
+
+    public IngredientCategory() {
+    }
 
     public IngredientCategory(String name, ArrayList<Ingredient> ingredients) {
         this.name = name;

@@ -1,5 +1,8 @@
 package com.example.clevercafe.activities.storage;
 
+import android.content.Context;
+
+import com.example.clevercafe.DB.IngredientRepository;
 import com.example.clevercafe.Units;
 import com.example.clevercafe.model.Ingredient;
 import com.example.clevercafe.model.IngredientCategory;
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 public class StoragePresenter implements IStoragePresenter {
     private ArrayList<IngredientCategory> categories;
     private IStorageView view;
+    IngredientRepository repository;
 
     public StoragePresenter(StorageView view) {
         this.view = view;
@@ -20,7 +24,9 @@ public class StoragePresenter implements IStoragePresenter {
 
     @Override
     public void viewInit() {
-        categories = fillCategories();
+
+        repository = new IngredientRepository((Context) view);
+        categories = repository.getCategories();
         view.showCategories(categories);
 
     }
@@ -38,8 +44,8 @@ public class StoragePresenter implements IStoragePresenter {
 
     @Override
     public void deleteProductButClicked(int categoryId, int productId) {
-        categories.get(categoryId).ingredients.remove(productId);
-        view.updateCategories(categories);
+        repository.deleteIngredient(categories.get(categoryId).ingredients.remove(productId).id);
+        updateCategories();
     }
 
     @Override
@@ -55,32 +61,44 @@ public class StoragePresenter implements IStoragePresenter {
 
     @Override
     public void deleteCategoryButClicked(int categoryId) {
-        categories.remove(categoryId);
-        view.updateCategories(categories);
+        repository.deleteCategory(categories.get(categoryId).id);
+        updateCategories();
     }
 
     @Override
     public void submitProductFormButClicked(int categoryId, int productId, Ingredient ingredient, boolean editForm) {
         if (editForm) {
-            categories.get(categoryId).ingredients.set(productId, ingredient);
-        } else categories.get(categoryId).ingredients.add(ingredient);
-        view.updateCategories(categories);
+            repository.editIngredient(ingredient);
+        } else {
+            ingredient.categoryId = categories.get(categoryId).id;
+            repository.addIngredient(ingredient);
+        }
+        updateCategories();
     }
 
     @Override
     public void submitCategoryFormButClicked(int categoryId, String name, boolean editForm) {
         if (editForm) {
-            categories.get(categoryId).name = name;
+            IngredientCategory category = categories.get(categoryId);
+            category.name = name;
+            repository.editCategory(category);
         } else {
             IngredientCategory category = new IngredientCategory(name, new ArrayList<>());
-            categories.add(category);
+            repository.addCategory(category);
         }
+
+        updateCategories();
+    }
+
+    private void updateCategories() {
+        categories.clear();
+        categories.addAll(repository.getCategories());
         view.updateCategories(categories);
     }
 
     private ArrayList<IngredientCategory> fillCategories() {
         ArrayList<IngredientCategory> categories = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             IngredientCategory category = new IngredientCategory("Категория " + i, fillIngredients());
             categories.add(category);
         }

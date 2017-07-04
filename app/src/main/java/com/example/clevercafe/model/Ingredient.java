@@ -7,6 +7,8 @@ import java.io.Serializable;
  */
 
 public class Ingredient implements Serializable {
+    public int id;
+    public int categoryId;
     public String name;
     public double quantity;
     public String units;

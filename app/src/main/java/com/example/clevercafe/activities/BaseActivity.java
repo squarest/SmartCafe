@@ -79,13 +79,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void createToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.burger_menu_ic);
-        toolbar.setNavigationOnClickListener(v->
-        {
-            if (slidingPaneLayout.isOpen()) {
-                slidingPaneLayout.closePane();
-            } else {
-                slidingPaneLayout.openPane();
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (slidingPaneLayout.isOpen()) {
+                    slidingPaneLayout.closePane();
+                } else {
+                    slidingPaneLayout.openPane();
+                }
             }
+
         });
     }
 

@@ -146,6 +146,10 @@ public class StorageView extends BaseActivity implements IStorageView {
                 addProductForm.setVisibility(View.INVISIBLE);
                 addProductForm.setClickable(false);
                 Ingredient newIngredient = new Ingredient();
+                if (editForm) {
+                    newIngredient.id = ingredient.id;
+                    newIngredient.categoryId = ingredient.categoryId;
+                }
                 newIngredient.name = ingredientNameEditText.getText().toString();
                 newIngredient.quantity = Double.valueOf(ingredientQuantityEditText.getText().toString());
                 newIngredient.units = unitsSpinner.getSelectedItem().toString();
@@ -160,7 +164,7 @@ public class StorageView extends BaseActivity implements IStorageView {
     @Override
     public void showCategories(ArrayList<IngredientCategory> categories) {
         ExpandableListView storageList = (ExpandableListView) findViewById(R.id.storage_list);
-        storageListAdapter  = new StorageListAdapter(this, categories);
+        storageListAdapter = new StorageListAdapter(this, categories);
         storageList.setAdapter(storageListAdapter);
         registerForContextMenu(storageList);
         for (IngredientCategory category : categories) {

@@ -66,9 +66,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameTextView.setText(productList.get(position).name);
-        holder.itemView.setOnLongClickListener(v -> {
-            setPosition(holder.getAdapterPosition());
-            return false;
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                setPosition(holder.getAdapterPosition());
+                return false;
+            }
         });
 
     }

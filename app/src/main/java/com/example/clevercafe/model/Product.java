@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by Chudofom on 03.10.16.
  */
 public class Product {
+    public int categoryId;
     public String name;
     public double cost;
     public double quantity;
