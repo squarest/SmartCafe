@@ -8,8 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
+import com.example.clevercafe.DB.IngredientRepository;
 import com.example.clevercafe.R;
-import com.example.clevercafe.Units;
 import com.example.clevercafe.adapters.IngredientListAdapter;
 import com.example.clevercafe.adapters.StorageListAdapter;
 import com.example.clevercafe.model.Ingredient;
@@ -27,7 +27,8 @@ public class IngredientActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient);
-        categories = fillCategories();
+        IngredientRepository repository = new IngredientRepository(this);
+        categories = repository.getCategories();
 
 
         cancelButton = (Button) findViewById(R.id.cancel_button);
@@ -39,10 +40,6 @@ public class IngredientActivity extends AppCompatActivity {
         if (getIntent().getSerializableExtra("ingredients") != null) {
             ingredients = (ArrayList<Ingredient>) getIntent().getSerializableExtra("ingredients");
             showButtons();
-        }
-        else
-        {
-            ingredients = new ArrayList<>();
         }
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.ingredient_list);
         IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(ingredients, this);
@@ -81,23 +78,5 @@ public class IngredientActivity extends AppCompatActivity {
     public void hideButtons() {
         cancelButton.setVisibility(Button.INVISIBLE);
         submitButton.setVisibility(Button.INVISIBLE);
-    }
-
-    private ArrayList<IngredientCategory> fillCategories() {
-        ArrayList<IngredientCategory> categories = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            IngredientCategory category = new IngredientCategory("Категория " + i, fillIngredients());
-            categories.add(category);
-        }
-        return categories;
-    }
-
-    private ArrayList<Ingredient> fillIngredients() {
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Ingredient ingredient = new Ingredient("Продукт " + i, 1, Units.count);
-            ingredients.add(ingredient);
-        }
-        return ingredients;
     }
 }

@@ -80,6 +80,7 @@ public class MenuView extends BaseActivity implements IMenuView {
         categorySpinner.setAdapter(categorySpinnerAdapter);
         TextView addCategoryButton = (TextView) findViewById(R.id.add_category_button);
         addCategoryButton.setOnClickListener(v -> presenter.addCategoryButClicked());
+        ingredients = new ArrayList<>();
     }
 
     @Override
@@ -148,7 +149,8 @@ public class MenuView extends BaseActivity implements IMenuView {
         for (ProductCategory category : categories) {
             categoryNames.add(category.name);
         }
-        categorySpinnerAdapter.notifyDataSetChanged();
+        categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
+        categorySpinner.setAdapter(categorySpinnerAdapter);
     }
 
     @Override
@@ -157,7 +159,7 @@ public class MenuView extends BaseActivity implements IMenuView {
             categoryAdapter.notifyDataSetChanged();
             updateSpinners(categories);
         } else {
-            productAdapter.notifyDataSetChanged();
+            updateProducts(categories.get(curCategoryPosition).products);
         }
     }
 
@@ -169,14 +171,11 @@ public class MenuView extends BaseActivity implements IMenuView {
     }
 
     @Override
-    public void removeProduct(int position) {
-        productAdapter.notifyItemRemoved(position);
+    public void updateProducts(ArrayList<Product> products) {
+        productAdapter = new ProductListAdapter(products, true);
+        categoryProductRecyclerView.setAdapter(productAdapter);
     }
 
-    public void showStorage() {
-        Intent intent = new Intent(MenuView.this, IngredientActivity.class);
-        startActivityForResult(intent, 1);
-    }
 
     public void showStorage(ArrayList<Ingredient> ingredients) {
         Intent intent = new Intent(MenuView.this, IngredientActivity.class);
@@ -187,15 +186,14 @@ public class MenuView extends BaseActivity implements IMenuView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             if (null == data) {
                 ingredients.clear();
                 return;
             }
-            //TODO:придумать как очищать ингридиенты если для продукта их не выбрано
+//            TODO:придумать как очищать ингридиенты если для продукта их не выбрано
             ingredients = (ArrayList<Ingredient>) data.getSerializableExtra("ingredients");
-        }
-        else Toast.makeText(this, "Добавление ингедиентов отменено", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "Добавление ингедиентов отменено", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -207,6 +205,10 @@ public class MenuView extends BaseActivity implements IMenuView {
             categorySpinner.setClickable(false);
             categorySpinner.setEnabled(false);
             productCostEditText.setText(String.valueOf(product.cost));
+            if (product.ingredients!=null && product.ingredients.size()>0)
+            {
+                ingredients=product.ingredients;
+            }
 
         } else { //иначе очищаем ее
             clearAddProductForm();
@@ -221,12 +223,10 @@ public class MenuView extends BaseActivity implements IMenuView {
             addIngredientButton.setText("Добавить ингредиенты");
         }
         addIngredientButton.setOnClickListener(v -> {
-            if (editForm) {
-                if (product.ingredients != null && product.ingredients.size() > 0) {
-                    showStorage(product.ingredients);
-                }
+            if (ingredients != null) {
+                showStorage(ingredients);
             } else {
-                showStorage();
+                showStorage(new ArrayList<>());
             }
         });
         Button cancelButton = (Button) findViewById(R.id.product_cancel_button);
@@ -244,6 +244,10 @@ public class MenuView extends BaseActivity implements IMenuView {
                 addProductForm.setVisibility(View.INVISIBLE);
                 addProductForm.setClickable(false);
                 Product newProduct = new Product();
+                if (editForm) {
+                    newProduct.id = product.id;
+                    newProduct.categoryId = product.categoryId;
+                }
                 newProduct.name = productNameEditText.getText().toString();
                 newProduct.cost = Double.valueOf(productCostEditText.getText().toString());
                 newProduct.ingredients = ingredients;
@@ -262,6 +266,7 @@ public class MenuView extends BaseActivity implements IMenuView {
         categorySpinner.setSelection(0);
         categorySpinner.setClickable(true);
         categorySpinner.setEnabled(true);
+        ingredients=new ArrayList<>();
     }
 
     @Override

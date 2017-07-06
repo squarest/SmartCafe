@@ -1,6 +1,8 @@
 package com.example.clevercafe.activities.menu;
 
-import com.example.clevercafe.Units;
+import android.content.Context;
+
+import com.example.clevercafe.DB.ProductRepository;
 import com.example.clevercafe.model.Ingredient;
 import com.example.clevercafe.model.Product;
 import com.example.clevercafe.model.ProductCategory;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 public class MenuPresenter implements IMenuPresenter {
     IMenuView menuView;
     ArrayList<ProductCategory> categories = new ArrayList<>();
+    ProductRepository repository;
 
     public MenuPresenter(IMenuView menuView) {
 
@@ -22,8 +25,14 @@ public class MenuPresenter implements IMenuPresenter {
 
     @Override
     public void viewInit() {
-        categories = fillCategories();
+        repository = new ProductRepository((Context) menuView);
+        updateCategories();
         menuView.showCategories(categories);
+    }
+
+    private void updateCategories() {
+        categories.clear();
+        categories.addAll(repository.getCategories());
     }
 
     @Override
@@ -40,8 +49,9 @@ public class MenuPresenter implements IMenuPresenter {
 
     @Override
     public void deleteProductButClicked(int categoryId, int productId) {
-        categories.get(categoryId).products.remove(productId);
-        menuView.removeProduct(productId);
+        repository.deleteProduct(categories.get(categoryId).products.get(productId));
+        updateCategories();
+        menuView.updateMenu(categories);
     }
 
     @Override
@@ -66,26 +76,35 @@ public class MenuPresenter implements IMenuPresenter {
 
     @Override
     public void deleteCategoryButClicked(int categoryId) {
-        categories.remove(categoryId);
+        repository.deleteCategory(categories.get(categoryId));
+        updateCategories();
         menuView.removeCategory(categories, categoryId);
     }
 
     @Override
     public void submitProductFormButClicked(int categoryId, int productId, Product product, boolean editForm) {
+        product.categoryId = categories.get(categoryId).id;
         if (editForm) {
-            categories.get(categoryId).products.set(productId, product);
-        } else categories.get(categoryId).products.add(product);
+            repository.editProduct(product);
+        } else {
+            repository.addProduct(product);
+        }
+        updateCategories();
         menuView.updateMenu(categories);
     }
 
     @Override
     public void submitCategoryFormButClicked(int categoryId, String name, boolean editForm) {
+        ProductCategory category;
         if (editForm) {
-            categories.get(categoryId).name = name;
+            category = categories.get(categoryId);
+            category.name = name;
+            repository.editCategory(category);
         } else {
-            ProductCategory category = new ProductCategory(name, new ArrayList<>());
-            categories.add(category);
+            category = new ProductCategory(name, new ArrayList<>());
+            repository.addCategory(category);
         }
+        updateCategories();
         menuView.updateMenu(categories);
     }
 
@@ -98,39 +117,7 @@ public class MenuPresenter implements IMenuPresenter {
     public void itemClicked(boolean categoryOnscreen, int categoryId) {
         if (categoryOnscreen) {
             menuView.showProducts(categories.get(categoryId).products);
-        }
+        } //иначе тост(добавьте продукты)
     }
 
-    private ArrayList<Product> fillProducts() {
-        ArrayList<Product> arrayList = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            Product product = new Product();
-            product.name = "Товар №" + i;
-            product.cost = 100.00;
-            product.quantity = 1.0;
-            product.ingredients = fillIngredients();
-            arrayList.add(product);
-        }
-        return arrayList;
-    }
-
-    private ArrayList<ProductCategory> fillCategories() {
-        ArrayList<ProductCategory> arrayList = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            ProductCategory category = new ProductCategory();
-            category.name = "Категория №" + i;
-            category.products = fillProducts();
-            arrayList.add(category);
-        }
-        return arrayList;
-    }
-
-    private ArrayList<Ingredient> fillIngredients() {
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Ingredient ingredient = new Ingredient("Продукт " + i, 1, Units.count);
-            ingredients.add(ingredient);
-        }
-        return ingredients;
-    }
 }
