@@ -1,5 +1,7 @@
 package com.example.clevercafe.activities.main;
 
+import com.example.clevercafe.model.Order;
+
 /**
  * Created by Chudofom on 03.10.16.
  */
@@ -20,7 +22,7 @@ public interface IMainPresenter {
 
     int getOrderSize();
 
-    void orderSubmitButtonClicked();
+    void orderSubmitButtonClicked(Order order);
 
     void backToCategoryButtonClicked();
 }

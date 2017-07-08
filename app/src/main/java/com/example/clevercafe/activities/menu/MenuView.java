@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.RecyclerItemClickListener;
+import com.example.clevercafe.utils.RecyclerItemClickListener;
 import com.example.clevercafe.activities.BaseActivity;
 import com.example.clevercafe.activities.IngredientActivity;
 import com.example.clevercafe.adapters.CategoryListAdapter;

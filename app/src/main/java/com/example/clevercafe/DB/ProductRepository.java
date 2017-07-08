@@ -103,7 +103,7 @@ public class ProductRepository {
                     Product product = new Product();
                     product.id = Integer.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.ID)));
                     product.categoryId = Integer.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.CATEGORY_ID)));
-                    product.name = cursor.getString(cursor.getColumnIndex(DBHelper.INGREDIENT_NAME));
+                    product.name = cursor.getString(cursor.getColumnIndex(DBHelper.PRODUCT_NAME));
                     product.cost = Double.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.PRODUCT_COST)));
                     product.units = cursor.getString(cursor.getColumnIndex(DBHelper.UNITS));
                     product.ingredients = getIngredients(product.id);
@@ -117,7 +117,7 @@ public class ProductRepository {
         return products;
     }
 
-    private ArrayList<Ingredient> getIngredients(int productId) {
+    public ArrayList<Ingredient> getIngredients(int productId) {
         Cursor cursor = sqLiteDatabase.query(DBHelper.PRODUCT_CNS_TABLE, null,
                 DBHelper.PRODUCT_ID + " = ?", new String[]{String.valueOf(productId)}, null, null, null);
         IngredientRepository ingredientRepository = new IngredientRepository(context);
@@ -139,6 +139,25 @@ public class ProductRepository {
         return ingredients;
     }
 
+    public Product getProduct(int productId) {
+        Cursor cursor = sqLiteDatabase.query(DBHelper.PRODUCT_TABLE, null,
+                DBHelper.ID + " = ?", new String[]{String.valueOf(productId)}, null, null, null);
+        Product product = new Product();
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                product.id = Integer.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.ID)));
+                product.categoryId = Integer.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.CATEGORY_ID)));
+                product.name = cursor.getString(cursor.getColumnIndex(DBHelper.PRODUCT_NAME));
+                product.cost = Double.valueOf(cursor.getString(cursor.getColumnIndex(DBHelper.PRODUCT_COST)));
+                product.units = cursor.getString(cursor.getColumnIndex(DBHelper.UNITS));
+                product.ingredients =getIngredients(product.id);
+            }
+            cursor.close();
+        } else {
+            return null;
+        }
+        return product;
+    }
     public void editCategory(ProductCategory category) {
         ContentValues values = new ContentValues();
         values.put(dbHelper.CATEGORY_NAME, category.name);

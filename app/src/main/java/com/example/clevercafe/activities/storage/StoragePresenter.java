@@ -3,7 +3,7 @@ package com.example.clevercafe.activities.storage;
 import android.content.Context;
 
 import com.example.clevercafe.DB.IngredientRepository;
-import com.example.clevercafe.Units;
+import com.example.clevercafe.utils.Units;
 import com.example.clevercafe.model.Ingredient;
 import com.example.clevercafe.model.IngredientCategory;
 
@@ -27,7 +27,7 @@ public class StoragePresenter implements IStoragePresenter {
 
         repository = new IngredientRepository((Context) view);
         categories = repository.getCategories();
-        view.showCategories(categories);
+        if (categories != null) view.showCategories(categories);
 
     }
 

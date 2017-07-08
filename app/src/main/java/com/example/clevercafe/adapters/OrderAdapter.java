@@ -53,7 +53,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.productName.setText(products.get(position).name);
-        holder.productQuantity.setText(String.valueOf(products.get(position).quantity));
+        holder.productQuantity.setText("1.0");
             holder.productQuantity.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {

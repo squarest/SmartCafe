@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.Units;
+import com.example.clevercafe.utils.Units;
 import com.example.clevercafe.activities.BaseActivity;
 import com.example.clevercafe.adapters.StorageListAdapter;
 import com.example.clevercafe.model.Ingredient;

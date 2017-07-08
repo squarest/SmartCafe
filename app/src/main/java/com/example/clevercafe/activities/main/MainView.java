@@ -11,9 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.clevercafe.MainViewTouchHelperCallback;
+import com.example.clevercafe.utils.MainViewTouchHelperCallback;
 import com.example.clevercafe.R;
-import com.example.clevercafe.RecyclerItemClickListener;
+import com.example.clevercafe.utils.RecyclerItemClickListener;
 import com.example.clevercafe.activities.BaseActivity;
 import com.example.clevercafe.adapters.CategoryListAdapter;
 import com.example.clevercafe.adapters.OrderAdapter;
@@ -45,7 +45,6 @@ public class MainView extends BaseActivity implements IMainView {
         createRecyclerViews();
         createToolbar();
         createDrawer();
-        mainPresenter.viewInit();
         categoryProductRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
                 (view, position) -> {
                     mainPresenter.itemClicked(categoryOnScreen, position);
@@ -58,6 +57,7 @@ public class MainView extends BaseActivity implements IMainView {
         submitButton.setOnClickListener(v -> mainPresenter.submitButtonClicked());
         Button cancelButton = (Button) findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(v -> mainPresenter.cancelButtonClicked());
+        mainPresenter.viewInit();
 
     }
 

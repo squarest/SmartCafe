@@ -72,15 +72,17 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
             }
         });
         holder.ingredientUnits.setText(ingredients.get(position).units);
-        holder.deleteButton.setOnClickListener(v ->
-        {
-            ingredients.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, ingredients.size());
-            if (ingredients.size() == 0) {
-                activity.hideButtons();
-            }
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ingredients.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, ingredients.size());
+                if (ingredients.size() == 0) {
+                    activity.hideButtons();
 
+                }
+            }
         });
     }
 

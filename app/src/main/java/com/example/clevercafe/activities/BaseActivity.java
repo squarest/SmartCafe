@@ -98,6 +98,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             if (i == 2) {
                 String[] storageSubtitles = {"На складе", "Приходные накладные", "Списание"};
                 titleArray.add(storageSubtitles);
+            } else if (i == 3) {
+                String[] storageSubtitles = {"Состояние предприятия", "Отчеты"};
+                titleArray.add(storageSubtitles);
             } else {
                 titleArray.add(null);
             }

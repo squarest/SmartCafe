@@ -27,7 +27,7 @@ public class MenuPresenter implements IMenuPresenter {
     public void viewInit() {
         repository = new ProductRepository((Context) menuView);
         updateCategories();
-        menuView.showCategories(categories);
+        if (categories != null) menuView.showCategories(categories);
     }
 
     private void updateCategories() {

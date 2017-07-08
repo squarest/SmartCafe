@@ -1,7 +1,10 @@
 package com.example.clevercafe.activities.main;
 
-import com.example.clevercafe.Units;
-import com.example.clevercafe.model.Ingredient;
+import android.content.Context;
+
+import com.example.clevercafe.DB.OrderQueueRepo;
+import com.example.clevercafe.DB.OrdersRepository;
+import com.example.clevercafe.DB.ProductRepository;
 import com.example.clevercafe.model.Order;
 import com.example.clevercafe.model.Product;
 import com.example.clevercafe.model.ProductCategory;
@@ -22,14 +25,27 @@ public class MainPresenter implements IMainPresenter {
     private boolean ORDER_IS_ACTIVE = false;
     private static int LAST_ORDER_ID = 0;
 
+    private OrderQueueRepo orderQueueRepo;
+    private OrdersRepository ordersRepository;
+
     public MainPresenter(MainView mainView) {
         this.mainView = mainView;
     }
 
     @Override
     public void viewInit() {
-        categories = fillCategories();
-        mainView.showCategories(categories);
+        ProductRepository repository = new ProductRepository((Context) mainView);
+        orderQueueRepo = new OrderQueueRepo((Context) mainView);
+        ordersRepository = new OrdersRepository((Context) mainView);
+        categories = repository.getCategories();
+        if (categories != null) mainView.showCategories(categories);
+        updateOrders();
+
+    }
+
+    private void updateOrders() {
+        orders = orderQueueRepo.getOrders();
+        if (orders != null) mainView.setOrders(orders);
     }
 
     @Override
@@ -49,7 +65,7 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void addOrderButtonClicked() {
-        curOrder = new Order(LAST_ORDER_ID + 1, new ArrayList<Product>());
+        curOrder = new Order((int) orderQueueRepo.LAST_ORDER_ID + 1, new ArrayList<>());
         ORDER_IS_ACTIVE = true;
         mainView.setOrder(curOrder);
 
@@ -66,10 +82,8 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void submitButtonClicked() {
         ORDER_IS_ACTIVE = false;
-        LAST_ORDER_ID++;
-        orders.add(0, curOrder);
-        mainView.setOrders(orders);
-
+        orderQueueRepo.addOrder(curOrder);
+        updateOrders();
     }
 
     @Override
@@ -86,8 +100,8 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void itemRemoved(int position) {
-        orders.remove(position);
-        mainView.removeOrder(position);
+        orderQueueRepo.deleteOrder(orders.get(position));
+        updateOrders();
     }
 
     @Override
@@ -96,46 +110,15 @@ public class MainPresenter implements IMainPresenter {
     }
 
     @Override
-    public void orderSubmitButtonClicked() {
-        ORDER_IS_ACTIVE = false;
+    public void orderSubmitButtonClicked(Order order) {
+        //// TODO: захуярить прогрес бар
+        ordersRepository.addOrder(order);
+        orderQueueRepo.deleteOrder(order);
+        updateOrders();
     }
 
     @Override
     public void backToCategoryButtonClicked() {
-        mainView.showCategories(fillCategories());
-    }
-
-    private ArrayList<Product> fillProducts() {
-        ArrayList<Product> arrayList = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            Product product = new Product();
-            product.name = "Товар №" + i;
-            product.cost = 100.00;
-            product.quantity = 1.0;
-            product.units = Units.count;
-            product.ingredients = fillIngredients();
-            arrayList.add(product);
-        }
-        return arrayList;
-    }
-
-    private ArrayList<ProductCategory> fillCategories() {
-        ArrayList<ProductCategory> arrayList = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            ProductCategory category = new ProductCategory();
-            category.name = "Категория №" + i;
-            category.products = fillProducts();
-            arrayList.add(category);
-        }
-        return arrayList;
-    }
-
-    private ArrayList<Ingredient> fillIngredients() {
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Ingredient ingredient = new Ingredient("Продукт " + i, 1, Units.count);
-            ingredients.add(ingredient);
-        }
-        return ingredients;
+        mainView.showCategories(categories);
     }
 }

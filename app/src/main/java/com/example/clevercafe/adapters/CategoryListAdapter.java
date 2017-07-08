@@ -28,7 +28,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             super(v);
             nameTextView = (TextView) v.findViewById(R.id.card_product_name);
             if (editMode)
-            v.setOnCreateContextMenuListener(this);
+                v.setOnCreateContextMenuListener(this);
         }
 
         @Override
@@ -51,7 +51,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     public CategoryListAdapter(ArrayList<ProductCategory> arrayList, boolean editMode) {
         categoryList = arrayList;
-        this.editMode=editMode;
+        this.editMode = editMode;
     }
 
 
@@ -66,9 +66,12 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameTextView.setText(categoryList.get(position).name);
-        holder.itemView.setOnLongClickListener(v -> {
-            setPosition(holder.getAdapterPosition());
-            return false;
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                setPosition(holder.getAdapterPosition());
+                return false;
+            }
         });
 
     }

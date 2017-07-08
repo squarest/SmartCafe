@@ -1,4 +1,4 @@
-package com.example.clevercafe;
+package com.example.clevercafe.utils;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

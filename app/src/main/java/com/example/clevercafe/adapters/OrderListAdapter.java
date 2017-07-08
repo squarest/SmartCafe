@@ -68,7 +68,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.recyclerView.setAdapter(new OrderElementsAdapter(orderList.get(position).products));
         holder.submitOrderButton.setOnClickListener(v ->
         {
-            mainPresenter.orderSubmitButtonClicked();
+            mainPresenter.orderSubmitButtonClicked(orderList.get(position));
         });
 
     }

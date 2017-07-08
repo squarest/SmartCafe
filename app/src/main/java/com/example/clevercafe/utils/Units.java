@@ -1,4 +1,4 @@
-package com.example.clevercafe;
+package com.example.clevercafe.utils;
 
 /**
  * Created by Chudofom on 15.11.16.
