@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.model.Product;
+import com.example.clevercafe.entities.Product;
 
 import java.util.ArrayList;
 

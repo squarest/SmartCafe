@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.main.MainView"
+            android:name=".main.presentation.MainView"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,15 +18,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.storage.StorageView"
+            android:name=".storage.presentation.StorageView"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.menu.MenuView"
+            android:name=".menu.presentation.MenuView"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activities.BaseActivity" />
-        <activity android:name=".activities.IngredientActivity"></activity>
+        <activity android:name=".base.BaseActivity" />
+        <activity android:name=".storage.presentation.IngredientActivity"></activity>
     </application>
 
 </manifest>
