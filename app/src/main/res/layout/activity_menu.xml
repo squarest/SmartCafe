@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".menu.presentation.MenuView">
+    tools:context=".menu.presentation.MenuActivity">
 
     <android.support.v4.widget.SlidingPaneLayout
         android:id="@+id/activity_main_sliding_pane"

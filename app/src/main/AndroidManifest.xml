@@ -3,13 +3,14 @@
     package="com.example.clevercafe">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".main.presentation.MainView"
+            android:name=".main.presentation.MainActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,11 +19,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".storage.presentation.StorageView"
+            android:name=".storage.presentation.StorageActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".menu.presentation.MenuView"
+            android:name=".menu.presentation.MenuActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".base.BaseActivity" />

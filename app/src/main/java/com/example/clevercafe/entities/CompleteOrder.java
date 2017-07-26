@@ -9,21 +9,22 @@ import java.util.ArrayList;
 /**
  * Created by Chudofom on 24.07.17.
  */
-@Entity(tableName = "orders")
-public class Order {
+
+@Entity(tableName = "completeOrders")
+public class CompleteOrder {
     @PrimaryKey(autoGenerate = true)
     public long id;
+
     public Double sum;
-
-    public Order() {
-    }
-
-    @Ignore
-    public Order(long id, ArrayList<Product> products) {
-        this.id = id;
-        this.products = products;
-    }
-
     @Ignore
     public ArrayList<Product> products;
+
+    public CompleteOrder() {
+    }
+
+    @Ignore
+    public CompleteOrder(Double sum, ArrayList<Product> products) {
+        this.sum = sum;
+        this.products = products;
+    }
 }

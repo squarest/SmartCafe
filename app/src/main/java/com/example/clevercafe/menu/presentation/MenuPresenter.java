@@ -1,38 +1,59 @@
 package com.example.clevercafe.menu.presentation;
 
-import android.content.Context;
-
-import com.example.clevercafe.db.ProductRepository;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
+import com.example.clevercafe.menu.domain.IMenuInteractor;
+import com.example.clevercafe.menu.domain.MenuInteractor;
 
 import java.util.ArrayList;
+
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Chudofom on 20.03.17.
  */
 
 public class MenuPresenter implements IMenuPresenter {
-    IMenuView menuView;
-    ArrayList<ProductCategory> categories = new ArrayList<>();
-    ProductRepository repository;
+    private MenuView menuView;
+    private ArrayList<ProductCategory> categories = new ArrayList<>();
+    public IMenuInteractor interactor = new MenuInteractor();
 
-    public MenuPresenter(IMenuView menuView) {
+    public MenuPresenter(MenuView menuView) {
 
         this.menuView = menuView;
     }
 
     @Override
     public void viewInit() {
-        repository = new ProductRepository((Context) menuView);
-        updateCategories();
-        if (categories != null) menuView.showCategories(categories);
+        setCategories();
+    }
+
+    private void setCategories() {
+        interactor.loadCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(productCategories ->
+                {
+                    categories.clear();
+                    categories.addAll(productCategories);
+                    menuView.showCategories(categories);
+                }, Throwable::fillInStackTrace);
     }
 
     private void updateCategories() {
-        categories.clear();
-        categories.addAll(repository.getCategories());
+        interactor.loadCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(productCategories ->
+                {
+                    categories.clear();
+                    categories.addAll(productCategories);
+                    menuView.updateMenu(categories);
+
+                }, Throwable::fillInStackTrace);
     }
 
     @Override
@@ -49,9 +70,10 @@ public class MenuPresenter implements IMenuPresenter {
 
     @Override
     public void deleteProductButClicked(int categoryId, int productId) {
-        repository.deleteProduct(categories.get(categoryId).products.get(productId));
-        updateCategories();
-        menuView.updateMenu(categories);
+        interactor.deleteProduct(categories.get(categoryId).products.get(productId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
 
     @Override
@@ -76,36 +98,44 @@ public class MenuPresenter implements IMenuPresenter {
 
     @Override
     public void deleteCategoryButClicked(int categoryId) {
-        repository.deleteCategory(categories.get(categoryId));
-        updateCategories();
-        menuView.removeCategory(categories, categoryId);
+        interactor.deleteCategory(categories.get(categoryId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+
     }
 
     @Override
     public void submitProductFormButClicked(int categoryId, int productId, Product product, boolean editForm) {
         product.categoryId = categories.get(categoryId).id;
+        Completable completable;
         if (editForm) {
-            repository.editProduct(product);
+            completable = interactor.editProduct(product);
         } else {
-            repository.addProduct(product);
+            completable = interactor.addProduct(product);
         }
-        updateCategories();
-        menuView.updateMenu(categories);
+        completable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+
     }
 
     @Override
     public void submitCategoryFormButClicked(int categoryId, String name, boolean editForm) {
         ProductCategory category;
+        Completable completable;
         if (editForm) {
             category = categories.get(categoryId);
             category.name = name;
-            repository.editCategory(category);
+            completable = interactor.editCategory(category);
         } else {
             category = new ProductCategory(name, new ArrayList<>());
-            repository.addCategory(category);
+            completable = interactor.addCategory(category);
+
         }
-        updateCategories();
-        menuView.updateMenu(categories);
+        completable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
 
     @Override

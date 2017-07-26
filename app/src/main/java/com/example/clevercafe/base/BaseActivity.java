@@ -10,8 +10,8 @@ import android.widget.ExpandableListView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.base.adapters.DrawerListAdapter;
-import com.example.clevercafe.main.presentation.MainView;
-import com.example.clevercafe.menu.presentation.MenuView;
+import com.example.clevercafe.main.presentation.MainActivity;
+import com.example.clevercafe.menu.presentation.MenuActivity;
 
 import java.util.ArrayList;
 
@@ -61,12 +61,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         listView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
             switch (groupPosition) {
                 case 0: {
-                    Intent intent = new Intent(this, MainView.class);
+                    Intent intent = new Intent(this, MainActivity.class);
                     this.startActivity(intent);
                     break;
                 }
                 case 1: {
-                    Intent intent = new Intent(this, MenuView.class);
+                    Intent intent = new Intent(this, MenuActivity.class);
                     this.startActivity(intent);
                     break;
                 }

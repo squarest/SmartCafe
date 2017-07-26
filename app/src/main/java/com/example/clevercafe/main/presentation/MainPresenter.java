@@ -1,51 +1,63 @@
 package com.example.clevercafe.main.presentation;
 
-import android.content.Context;
-
-import com.example.clevercafe.db.OrderQueueRepo;
-import com.example.clevercafe.db.OrdersRepository;
-import com.example.clevercafe.db.ProductRepository;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
+import com.example.clevercafe.main.domain.IMainInteractor;
+import com.example.clevercafe.main.domain.MainInteractor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Chudofom on 03.10.16.
  */
 public class MainPresenter implements IMainPresenter {
 
-    private IMainView mainView;
+    private MainView mainView;
     private ArrayList<ProductCategory> categories = new ArrayList<>();
     private ArrayList<Order> orders = new ArrayList<>();
     private ArrayList<Product> currentProducts = new ArrayList<>();
     private Order curOrder;
     private boolean ORDER_IS_ACTIVE = false;
-    private static int LAST_ORDER_ID = 0;
 
-    private OrderQueueRepo orderQueueRepo;
-    private OrdersRepository ordersRepository;
+    public IMainInteractor mainInteractor = new MainInteractor();
 
-    public MainPresenter(MainView mainView) {
+    //todo: добавлять подписки в список и в basePresenter отписываться
+    public MainPresenter(MainActivity mainView) {
         this.mainView = mainView;
     }
 
     @Override
     public void viewInit() {
-        ProductRepository repository = new ProductRepository((Context) mainView);
-        orderQueueRepo = new OrderQueueRepo((Context) mainView);
-        ordersRepository = new OrdersRepository((Context) mainView);
-        categories = repository.getCategories();
-        if (categories != null) mainView.showCategories(categories);
-        updateOrders();
-
+        mainInteractor.loadCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(productCategories ->
+                {
+                    if (productCategories != null && productCategories.size() > 0) {
+                        categories = productCategories;
+                        mainView.showCategories(categories);
+                        updateOrders();
+                    }
+                }, Throwable::printStackTrace);
     }
 
     private void updateOrders() {
-        orders = orderQueueRepo.getOrders();
-        if (orders != null) mainView.setOrders(orders);
+        mainInteractor.loadOrders()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(returnedOrders ->
+                {
+                    if (returnedOrders != null) {
+                        orders.clear();
+                        orders.addAll(returnedOrders);
+                        mainView.setOrders(orders);
+                    }
+                });
     }
 
     @Override
@@ -55,7 +67,6 @@ public class MainPresenter implements IMainPresenter {
             mainView.showProducts(currentProducts);
         } else if (ORDER_IS_ACTIVE) {
             curOrder.products.add(currentProducts.get(categoryId));
-            curOrder.sum = checkSum(curOrder.products);
             mainView.updateOrder(curOrder);
         } else {
             mainView.showMessage("Добавьте новый заказ");
@@ -65,7 +76,14 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void addOrderButtonClicked() {
-        curOrder = new Order((int) orderQueueRepo.LAST_ORDER_ID + 1, new ArrayList<>());
+        //при удалении всех заказов номер заказа сбрасывается
+        //необходимо где то хранить
+        //возможно в репозитории
+        // TODO: 26.07.17 fix orderId
+        long orderId = 1;
+        if (orders.size() > 0)
+            orderId = orders.get(orders.size() - 1).id + 1;
+        curOrder = new Order(orderId, new ArrayList<>());
         ORDER_IS_ACTIVE = true;
         mainView.setOrder(curOrder);
 
@@ -74,7 +92,7 @@ public class MainPresenter implements IMainPresenter {
     private double checkSum(ArrayList<Product> products) {
         double sum = 0;
         for (Product product : products) {
-            sum += product.cost;
+            sum += product.cost * product.quantity;
         }
         return sum;
     }
@@ -82,8 +100,13 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void submitButtonClicked() {
         ORDER_IS_ACTIVE = false;
-        orderQueueRepo.addOrder(curOrder);
-        updateOrders();
+        if (curOrder != null) {
+            curOrder.sum = checkSum(curOrder.products);
+            mainInteractor.setOrder(curOrder)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::updateOrders);
+        } else mainView.showMessage("Заказ пуст");
     }
 
     @Override
@@ -100,8 +123,10 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void itemRemoved(int position) {
-        orderQueueRepo.deleteOrder(orders.get(position));
-        updateOrders();
+        mainInteractor.removeOrder(orders.get(position))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateOrders);
     }
 
     @Override
@@ -111,9 +136,11 @@ public class MainPresenter implements IMainPresenter {
 
     @Override
     public void orderSubmitButtonClicked(Order order) {
-        //// TODO: захуярить прогрес бар
-        ordersRepository.addOrder(order);
-        orderQueueRepo.deleteOrder(order);
+        // TODO: захуярить прогрес бар
+        mainInteractor.setCompleteOrder(order)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
         updateOrders();
     }
 

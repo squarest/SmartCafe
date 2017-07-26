@@ -27,8 +27,8 @@ public class IngredientActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient);
-        IngredientRepository repository = new IngredientRepository(this);
-        categories = repository.getCategories();
+        IngredientRepository repository = new IngredientRepository();
+//        categories = repository.getCategories();
 
 
         cancelButton = (Button) findViewById(R.id.cancel_button);

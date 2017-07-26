@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.main.presentation.MainView;
+import com.example.clevercafe.main.presentation.MainActivity;
 import com.example.clevercafe.entities.Product;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
     private ArrayList<Product> products;
-    private MainView  view;
+    private MainActivity view;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView productName;
@@ -30,14 +30,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
         public ViewHolder(View v) {
             super(v);
-            productName = (TextView) v.findViewById(R.id.ingredient_name);
-            productQuantity = (EditText) v.findViewById(R.id.ingredient_quantity);
-            productUnits = (TextView) v.findViewById(R.id.ingredient_units);
-            deleteButton = (TextView) v.findViewById(R.id.delete_button);
+            productName = v.findViewById(R.id.ingredient_name);
+            productQuantity = v.findViewById(R.id.ingredient_quantity);
+            productUnits = v.findViewById(R.id.ingredient_units);
+            deleteButton = v.findViewById(R.id.delete_button);
         }
     }
 
-    public OrderAdapter(ArrayList<Product> products, MainView view) {
+    public OrderAdapter(ArrayList<Product> products, MainActivity view) {
         this.products = products;
         this.view = view;
     }

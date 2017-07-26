@@ -1,12 +1,14 @@
 package com.example.clevercafe.storage.presentation;
 
-import android.content.Context;
-
-import com.example.clevercafe.db.IngredientRepository;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.IngredientCategory;
+import com.example.clevercafe.storage.domain.StorageInteractor;
 
 import java.util.ArrayList;
+
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Chudofom on 20.03.17.
@@ -14,37 +16,43 @@ import java.util.ArrayList;
 
 public class StoragePresenter implements IStoragePresenter {
     private ArrayList<IngredientCategory> categories;
-    private IStorageView view;
-    IngredientRepository repository;
+    private StorageView view;
+    public StorageInteractor interactor = new StorageInteractor();
 
-    public StoragePresenter(StorageView view) {
+    public StoragePresenter(StorageActivity view) {
         this.view = view;
     }
 
     @Override
     public void viewInit() {
+        interactor.loadCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ingredientCategories ->
+                {
+                    categories = ingredientCategories;
+                    if (categories != null) view.showCategories(categories);
 
-        repository = new IngredientRepository((Context) view);
-        categories = repository.getCategories();
-        if (categories != null) view.showCategories(categories);
-
+                }, Throwable::fillInStackTrace);
     }
 
     @Override
-    public void addProductButClicked() {
-        view.createAddProductForm(-1, -1, null, false);
+    public void addIngredientButClicked() {
+        view.createAddIngredientForm(-1, -1, null, false);
     }
 
     @Override
-    public void editProductButClicked(int categoryId, int productId) {
-        Ingredient ingredient = categories.get(categoryId).ingredients.get(productId);
-        view.createAddProductForm(categoryId, productId, ingredient, true);
+    public void editIngredientButClicked(int categoryId, int ingredientId) {
+        Ingredient ingredient = categories.get(categoryId).ingredients.get(ingredientId);
+        view.createAddIngredientForm(categoryId, ingredientId, ingredient, true);
     }
 
     @Override
-    public void deleteProductButClicked(int categoryId, int productId) {
-        repository.deleteIngredient(categories.get(categoryId).ingredients.remove(productId).id);
-        updateCategories();
+    public void deleteIngredientButClicked(int categoryId, int ingredientId) {
+        interactor.deleteIngredient(categories.get(categoryId).ingredients.get(ingredientId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
 
     @Override
@@ -60,39 +68,56 @@ public class StoragePresenter implements IStoragePresenter {
 
     @Override
     public void deleteCategoryButClicked(int categoryId) {
-        repository.deleteCategory(categories.get(categoryId).id);
-        updateCategories();
+        interactor.deleteCategory(categories.get(categoryId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
 
     @Override
-    public void submitProductFormButClicked(int categoryId, int productId, Ingredient ingredient, boolean editForm) {
+    public void submitIngredientFormButClicked(int categoryId, int ingredientId, Ingredient ingredient, boolean editForm) {
+        Completable completable;
         if (editForm) {
-            repository.editIngredient(ingredient);
+            completable = interactor.editIngredient(ingredient);
         } else {
             ingredient.categoryId = categories.get(categoryId).id;
-            repository.addIngredient(ingredient);
+            completable = interactor.addIngredient(ingredient);
         }
-        updateCategories();
+        completable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
-//to interactor saveCategory
+
     @Override
     public void submitCategoryFormButClicked(int categoryId, String name, boolean editForm) {
+        Completable completable;
         if (editForm) {
             IngredientCategory category = categories.get(categoryId);
             category.name = name;
-            repository.editCategory(category);
+            completable = interactor.editCategory(category);
         } else {
             IngredientCategory category = new IngredientCategory(name, new ArrayList<>());
-            repository.addCategory(category);
+            completable = interactor.addCategory(category);
         }
 
-        updateCategories();
+        completable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
 
     private void updateCategories() {
-        categories.clear();
-        categories.addAll(repository.getCategories());
-        view.updateCategories(categories);
-    }
+        interactor.loadCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(productCategories ->
+                {
+                    categories.clear();
+                    categories.addAll(productCategories);
+                    view.updateCategories(categories);
 
+                }, Throwable::fillInStackTrace);
+
+    }
 }
+
+

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.storage.presentation.StorageView;
+import com.example.clevercafe.storage.presentation.StorageActivity;
 
 import java.util.ArrayList;
 
@@ -85,7 +85,7 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
         view.setOnClickListener(v ->
         {
             if (groupPosition == 2 && childPosition == 0) {
-                Intent intent = new Intent(context, StorageView.class);
+                Intent intent = new Intent(context, StorageActivity.class);
                 context.startActivity(intent);
             }
         });

@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.main.presentation.IMainPresenter;
 import com.example.clevercafe.entities.Order;
+import com.example.clevercafe.main.presentation.IMainPresenter;
 
 import java.util.ArrayList;
 

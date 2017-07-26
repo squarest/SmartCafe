@@ -8,13 +8,20 @@ import com.example.clevercafe.entities.Ingredient;
 
 public interface IStoragePresenter {
     void viewInit();
-    void addProductButClicked();
-    void editProductButClicked(int categoryId, int productId);
-    void deleteProductButClicked(int categoryId, int productId);
+
+    void addIngredientButClicked();
+
+    void editIngredientButClicked(int categoryId, int ingredientId);
+
+    void deleteIngredientButClicked(int categoryId, int ingredientId);
 
     void addCategoryButClicked();
+
     void editCategoryButClicked(int categoryId);
+
     void deleteCategoryButClicked(int categoryId);
-    void submitProductFormButClicked(int categoryId, int productId, Ingredient ingredient, boolean editForm);
+
+    void submitIngredientFormButClicked(int categoryId, int ingredientId, Ingredient ingredient, boolean editForm);
+
     void submitCategoryFormButClicked(int categoryId, String name, boolean editForm);
 }
