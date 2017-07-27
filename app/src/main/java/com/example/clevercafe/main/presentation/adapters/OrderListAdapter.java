@@ -32,11 +32,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
         public ViewHolder(View v) {
             super(v);
-            orderNumber = (TextView) v.findViewById(R.id.order_number);
-            recyclerView = (RecyclerView) v.findViewById(R.id.order_elements);
-            chooseProductTextView = (TextView) v.findViewById(R.id.choose_product);
-            orderSumTextView = (TextView) v.findViewById(R.id.order_sum);
-            submitOrderButton = (Button) v.findViewById(R.id.order_submit_button);
+            orderNumber = v.findViewById(R.id.order_number);
+            recyclerView = v.findViewById(R.id.order_elements);
+            chooseProductTextView = v.findViewById(R.id.choose_product);
+            orderSumTextView = v.findViewById(R.id.order_sum);
+            submitOrderButton = v.findViewById(R.id.order_submit_button);
         }
     }
 
@@ -65,7 +65,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             holder.orderSumTextView.setText("Итого: ");
         }
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        holder.recyclerView.setAdapter(new OrderElementsAdapter(orderList.get(position).products));
+        holder.recyclerView.setAdapter(new OrderElementsAdapter(orderList.get(position)));
         holder.submitOrderButton.setOnClickListener(v ->
         {
             mainPresenter.orderSubmitButtonClicked(orderList.get(position));

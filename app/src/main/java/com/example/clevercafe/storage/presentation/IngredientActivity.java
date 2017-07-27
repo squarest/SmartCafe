@@ -8,75 +8,93 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
-import com.example.clevercafe.db.IngredientRepository;
 import com.example.clevercafe.R;
+import com.example.clevercafe.entities.IngredientCategory;
+import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.storage.presentation.adapters.IngredientListAdapter;
 import com.example.clevercafe.storage.presentation.adapters.StorageListAdapter;
-import com.example.clevercafe.entities.Ingredient;
-import com.example.clevercafe.entities.IngredientCategory;
 
 import java.util.ArrayList;
 
-public class IngredientActivity extends AppCompatActivity {
-    private ArrayList<IngredientCategory> categories = new ArrayList<>();
-    private ArrayList<Ingredient> ingredients;
+public class IngredientActivity extends AppCompatActivity implements IngredientView {
     private Button cancelButton;
     private Button submitButton;
+    private ExpandableListView storageList;
+    private RecyclerView ingredientsRecyclerView;
+    private IngredientListAdapter ingredientListAdapter;
+    public IngredientPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient);
-        IngredientRepository repository = new IngredientRepository();
-//        categories = repository.getCategories();
-
-
-        cancelButton = (Button) findViewById(R.id.cancel_button);
-        submitButton = (Button) findViewById(R.id.submit_button);
-        ExpandableListView storageList = (ExpandableListView) findViewById(R.id.storage_list);
-        StorageListAdapter storageListAdapter = new StorageListAdapter(this, categories);
-        storageList.setAdapter(storageListAdapter);
-
-        if (getIntent().getSerializableExtra("ingredients") != null) {
-            ingredients = (ArrayList<Ingredient>) getIntent().getSerializableExtra("ingredients");
-            showButtons();
-        }
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.ingredient_list);
-        IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(ingredients, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(ingredientListAdapter);
-
+        initUI();
+        presenter = new IngredientPresenter(this);
+        presenter.initView((Product) getIntent().getSerializableExtra("product"));
         storageList.setOnChildClickListener((parent, v, groupPosition, childPosition, id) ->
         {
-            ingredients.add(categories.get(groupPosition).ingredients.get(childPosition));
-            ingredientListAdapter.notifyDataSetChanged();
-            if (ingredients.size() == 1) {
-                showButtons();
-            }
+            presenter.ingredientClicked(groupPosition, childPosition);
             return true;
         });
         submitButton.setOnClickListener(v ->
         {
-            Intent intent = new Intent();
-            intent.putExtra("ingredients", ingredients);
-            setResult(RESULT_OK, intent);
-            finish();
+            presenter.submitButtonClicked();
         });
         cancelButton.setOnClickListener(v ->
         {
-            Intent intent = new Intent();
-            setResult(RESULT_CANCELED, intent);
-            finish();
+            presenter.cancelButtonClicked();
         });
     }
 
+    private void initUI() {
+        cancelButton = (Button) findViewById(R.id.cancel_button);
+        submitButton = (Button) findViewById(R.id.submit_button);
+        storageList = (ExpandableListView) findViewById(R.id.storage_list);
+        ingredientsRecyclerView = (RecyclerView) findViewById(R.id.ingredient_list);
+        ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
     public void showButtons() {
         cancelButton.setVisibility(Button.VISIBLE);
         submitButton.setVisibility(Button.VISIBLE);
     }
 
+    @Override
     public void hideButtons() {
         cancelButton.setVisibility(Button.INVISIBLE);
         submitButton.setVisibility(Button.INVISIBLE);
+    }
+
+    @Override
+    public void showStorage(ArrayList<IngredientCategory> ingredientCategories) {
+        StorageListAdapter storageListAdapter = new StorageListAdapter(this, ingredientCategories);
+        storageList.setAdapter(storageListAdapter);
+    }
+
+    @Override
+    public void showIngredients(Product product) {
+        ingredientListAdapter = new IngredientListAdapter(product, presenter);
+        ingredientsRecyclerView.setAdapter(ingredientListAdapter);
+    }
+
+    @Override
+    public void updateIngredients() {
+        ingredientListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void returnProduct(Product product) {
+        Intent intent = new Intent();
+        intent.putExtra("product", product);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public void returnCancel() {
+        Intent intent = new Intent();
+        setResult(RESULT_CANCELED, intent);
+        finish();
     }
 }

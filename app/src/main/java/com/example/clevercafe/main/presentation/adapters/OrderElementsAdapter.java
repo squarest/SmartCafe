@@ -7,19 +7,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.entities.Product;
-
-import java.util.ArrayList;
+import com.example.clevercafe.entities.Order;
 
 /**
  * Created by Chudofom on 04.10.16.
  */
 
 public class OrderElementsAdapter extends RecyclerView.Adapter<OrderElementsAdapter.ViewHolder> {
-    private ArrayList<Product> products;
+    private Order order;
 
-    public OrderElementsAdapter(ArrayList<Product> objects) {
-        this.products = objects;
+    public OrderElementsAdapter(Order order) {
+        this.order = order;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -29,9 +27,9 @@ public class OrderElementsAdapter extends RecyclerView.Adapter<OrderElementsAdap
 
         public ViewHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.order_product_name);
-            cost = (TextView) itemView.findViewById(R.id.order_product_cost);
-            count = (TextView) itemView.findViewById(R.id.order_product_quantity);
+            name = itemView.findViewById(R.id.order_product_name);
+            cost = itemView.findViewById(R.id.order_product_cost);
+            count = itemView.findViewById(R.id.order_product_quantity);
         }
     }
 
@@ -45,13 +43,13 @@ public class OrderElementsAdapter extends RecyclerView.Adapter<OrderElementsAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.name.setText(products.get(position).name);
-        holder.cost.setText(String.valueOf(products.get(position).cost));
-        holder.count.setText(String.valueOf(products.get(position).quantity));
+        holder.name.setText(order.products.get(position).name);
+        holder.cost.setText(String.valueOf(order.products.get(position).cost));
+        holder.count.setText(String.valueOf(order.getProductCount(order.products.get(position).id)));
     }
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return order.products.size();
     }
 }

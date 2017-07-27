@@ -16,14 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.main.presentation.adapters.RecyclerItemClickListener;
-import com.example.clevercafe.base.BaseActivity;
-import com.example.clevercafe.storage.presentation.IngredientActivity;
 import com.example.clevercafe.adapters.CategoryListAdapter;
 import com.example.clevercafe.adapters.ProductListAdapter;
-import com.example.clevercafe.entities.Ingredient;
+import com.example.clevercafe.base.BaseActivity;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
+import com.example.clevercafe.main.presentation.adapters.RecyclerItemClickListener;
+import com.example.clevercafe.storage.presentation.IngredientActivity;
 
 import java.util.ArrayList;
 
@@ -43,7 +42,7 @@ public class MenuActivity extends BaseActivity implements MenuView {
     private ArrayAdapter categorySpinnerAdapter;
     private int curCategoryPosition;
     private Spinner categorySpinner;
-    private ArrayList<Ingredient> ingredients;
+    private Product newProduct;
     private ArrayList<String> categoryNames = new ArrayList<>();
 
     @Override
@@ -78,7 +77,6 @@ public class MenuActivity extends BaseActivity implements MenuView {
         categorySpinner.setAdapter(categorySpinnerAdapter);
         TextView addCategoryButton = (TextView) findViewById(R.id.add_category_button);
         addCategoryButton.setOnClickListener(v -> presenter.addCategoryButClicked());
-        ingredients = new ArrayList<>();
         presenter.viewInit();
     }
 
@@ -128,7 +126,6 @@ public class MenuActivity extends BaseActivity implements MenuView {
                 break;
             }
             case 2: {//remove
-                //TODO: добавить окно с разрешением на удаление
                 if (categoryOnScreen) {
                     presenter.deleteCategoryButClicked(position);
                 } else {
@@ -175,9 +172,10 @@ public class MenuActivity extends BaseActivity implements MenuView {
     }
 
 
-    public void showStorage(ArrayList<Ingredient> ingredients) {
+    public void showStorage() {
         Intent intent = new Intent(MenuActivity.this, IngredientActivity.class);
-        intent.putExtra("ingredients", ingredients);
+        if (newProduct.ingredients == null) newProduct.ingredients = new ArrayList<>();
+        intent.putExtra("product", newProduct);
         startActivityForResult(intent, 1);
     }
 
@@ -186,11 +184,10 @@ public class MenuActivity extends BaseActivity implements MenuView {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (null == data) {
-                ingredients.clear();
+                newProduct = new Product();
                 return;
             }
-//            TODO:придумать как очищать ингридиенты если для продукта их не выбрано
-            ingredients = (ArrayList<Ingredient>) data.getSerializableExtra("ingredients");
+            newProduct = (Product) data.getSerializableExtra("product");
         } else Toast.makeText(this, "Добавление ингедиентов отменено", Toast.LENGTH_SHORT).show();
     }
 
@@ -203,9 +200,7 @@ public class MenuActivity extends BaseActivity implements MenuView {
             categorySpinner.setClickable(false);
             categorySpinner.setEnabled(false);
             productCostEditText.setText(String.valueOf(product.cost));
-            if (product.ingredients != null && product.ingredients.size() > 0) {
-                ingredients = product.ingredients;
-            }
+            newProduct = product;
 
         } else { //иначе очищаем ее
             clearAddProductForm();
@@ -219,13 +214,7 @@ public class MenuActivity extends BaseActivity implements MenuView {
         } else {
             addIngredientButton.setText("Добавить ингредиенты");
         }
-        addIngredientButton.setOnClickListener(v -> {
-            if (ingredients != null) {
-                showStorage(ingredients);
-            } else {
-                showStorage(new ArrayList<>());
-            }
-        });
+        addIngredientButton.setOnClickListener(v -> showStorage());
         Button cancelButton = (Button) findViewById(R.id.product_cancel_button);
         cancelButton.setOnClickListener(v ->
         {
@@ -240,14 +229,12 @@ public class MenuActivity extends BaseActivity implements MenuView {
                     !productCostEditText.getText().toString().isEmpty()) {
                 addProductForm.setVisibility(View.INVISIBLE);
                 addProductForm.setClickable(false);
-                Product newProduct = new Product();
                 if (editForm) {
                     newProduct.id = product.id;
                     newProduct.categoryId = product.categoryId;
                 }
                 newProduct.name = productNameEditText.getText().toString();
                 newProduct.cost = Double.valueOf(productCostEditText.getText().toString());
-                newProduct.ingredients = ingredients;
                 presenter.submitProductFormButClicked(categorySpinner.getSelectedItemPosition(),
                         productId, newProduct, editForm);
             } else {
@@ -263,7 +250,7 @@ public class MenuActivity extends BaseActivity implements MenuView {
         categorySpinner.setSelection(0);
         categorySpinner.setClickable(true);
         categorySpinner.setEnabled(true);
-        ingredients = new ArrayList<>();
+        newProduct = new Product();
     }
 
     @Override

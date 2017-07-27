@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void setOrder(Order order) {
-        orderAdapter = new OrderAdapter(order.products, this);
+        orderAdapter = new OrderAdapter(order, this);
         orderRecyclerView.setAdapter(orderAdapter);
         showButtonPanel();
         addOrderButton.setText("ЗАКАЗ №" + order.id);

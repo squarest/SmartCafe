@@ -61,12 +61,12 @@ public class MainPresenter implements IMainPresenter {
     }
 
     @Override
-    public void itemClicked(boolean categoryOnscreen, int categoryId) {
+    public void itemClicked(boolean categoryOnscreen, int id) {
         if (categoryOnscreen) {
-            currentProducts = categories.get(categoryId).products;
+            currentProducts = categories.get(id).products;
             mainView.showProducts(currentProducts);
         } else if (ORDER_IS_ACTIVE) {
-            curOrder.products.add(currentProducts.get(categoryId));
+            curOrder.addProduct(currentProducts.get(id));
             mainView.updateOrder(curOrder);
         } else {
             mainView.showMessage("Добавьте новый заказ");
@@ -92,7 +92,7 @@ public class MainPresenter implements IMainPresenter {
     private double checkSum(ArrayList<Product> products) {
         double sum = 0;
         for (Product product : products) {
-            sum += product.cost * product.quantity;
+            sum += product.cost * curOrder.getProductCount(product.id);
         }
         return sum;
     }

@@ -13,13 +13,16 @@ public class ProductIngredient {
     public long id;
     public long productId;
     public long ingredientId;
+    public double quantity;
 
     public ProductIngredient() {
     }
 
     @Ignore
-    public ProductIngredient(long productId, long ingredientId) {
+    public ProductIngredient(long productId, long ingredientId, double quantity) {
         this.productId = productId;
         this.ingredientId = ingredientId;
+        this.quantity = quantity;
     }
+
 }

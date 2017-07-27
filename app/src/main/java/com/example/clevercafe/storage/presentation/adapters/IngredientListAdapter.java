@@ -10,17 +10,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
-import com.example.clevercafe.storage.presentation.IngredientActivity;
-import com.example.clevercafe.entities.Ingredient;
-
-import java.util.ArrayList;
+import com.example.clevercafe.entities.Product;
+import com.example.clevercafe.storage.presentation.IngredientPresenter;
 
 /**
  * Created by Chudofom on 21.09.16.
  */
 public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.ViewHolder> {
-    private ArrayList<Ingredient> ingredients = new ArrayList<>();
-    private IngredientActivity activity;
+
+    public IngredientPresenter presenter;
+    private Product product;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView ingredientName;
@@ -30,16 +29,16 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
 
         public ViewHolder(View v) {
             super(v);
-            ingredientName = (TextView) v.findViewById(R.id.ingredient_name);
-            ingredientQuantity = (EditText) v.findViewById(R.id.ingredient_quantity);
-            ingredientUnits = (TextView) v.findViewById(R.id.ingredient_units);
-            deleteButton = (TextView) v.findViewById(R.id.delete_button);
+            ingredientName = v.findViewById(R.id.ingredient_name);
+            ingredientQuantity = v.findViewById(R.id.ingredient_quantity);
+            ingredientUnits = v.findViewById(R.id.ingredient_units);
+            deleteButton = v.findViewById(R.id.delete_button);
         }
     }
 
-    public IngredientListAdapter(ArrayList<Ingredient> ingredients, IngredientActivity activity) {
-        this.ingredients = ingredients;
-        this.activity = activity;
+    public IngredientListAdapter(Product product, IngredientPresenter presenter) {
+        this.product = product;
+        this.presenter = presenter;
     }
 
     @Override
@@ -52,8 +51,8 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.ingredientName.setText(ingredients.get(position).name);
-        holder.ingredientQuantity.setText(String.valueOf(ingredients.get(position).quantity));
+        holder.ingredientName.setText(product.ingredients.get(position).name);
+        holder.ingredientQuantity.setText(String.valueOf(product.getIngredientCount(product.ingredients.get(position).id)));
         //TODO: попробовать реализовать сбор данных о количестве при нажатии кнопки готово
         holder.ingredientQuantity.addTextChangedListener(new TextWatcher() {
             @Override
@@ -68,26 +67,15 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
 
             @Override
             public void afterTextChanged(Editable s) {
-                ingredients.get(position).quantity = Double.valueOf(s.toString());
+                product.setIngredientCount(product.ingredients.get(position).id, Double.valueOf(s.toString()));
             }
         });
-        holder.ingredientUnits.setText(ingredients.get(position).units);
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ingredients.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, ingredients.size());
-                if (ingredients.size() == 0) {
-                    activity.hideButtons();
-
-                }
-            }
-        });
+        holder.ingredientUnits.setText(product.ingredients.get(position).units);
+        holder.deleteButton.setOnClickListener(v -> presenter.ingredientRemoved(position));
     }
 
     @Override
     public int getItemCount() {
-        return ingredients.size();
+        return product.ingredients.size();
     }
 }

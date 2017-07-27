@@ -10,17 +10,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
+import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.main.presentation.MainActivity;
-import com.example.clevercafe.entities.Product;
-
-import java.util.ArrayList;
 
 /**
  * Created by Chudofom on 21.09.16.
  */
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
-    private ArrayList<Product> products;
     private MainActivity view;
+    private Order order;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView productName;
@@ -37,8 +35,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
     }
 
-    public OrderAdapter(ArrayList<Product> products, MainActivity view) {
-        this.products = products;
+    public OrderAdapter(Order order, MainActivity view) {
+        this.order = order;
         this.view = view;
     }
 
@@ -52,31 +50,31 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.productName.setText(products.get(position).name);
-        holder.productQuantity.setText("1.0");
-            holder.productQuantity.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        holder.productName.setText(order.products.get(position).name);
+        holder.productQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                }
+            }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                }
+            }
 
-                @Override
-                public void afterTextChanged(Editable s) {
-                    products.get(position).quantity = Double.valueOf(s.toString());
-                }
-            });
-        holder.productUnits.setText(products.get(position).units);
+            @Override
+            public void afterTextChanged(Editable s) {
+                order.setProductCount(order.products.get(position).id, Double.valueOf(s.toString()));
+            }
+        });
+        holder.productQuantity.setText(String.valueOf(order.getProductCount(order.products.get(position).id)));
+        holder.productUnits.setText(order.products.get(position).units);
         holder.deleteButton.setOnClickListener(v ->
         {
-            products.remove(position);
+            order.products.remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, products.size());
-            if (products.size() == 0) {
+            notifyItemRangeChanged(position, order.products.size());
+            if (order.products.size() == 0) {
                 view.hideButtonPanel();
             }
 
@@ -85,6 +83,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return order.products.size();
     }
 }

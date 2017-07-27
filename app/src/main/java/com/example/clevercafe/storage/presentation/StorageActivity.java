@@ -99,7 +99,6 @@ public class StorageActivity extends BaseActivity implements StorageView {
                 break;
             }
             case 2: {//remove
-                //TODO: добавить окно с разрешением на удаление
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
                     presenter.deleteCategoryButClicked(groupId);
                 } else {
@@ -107,7 +106,6 @@ public class StorageActivity extends BaseActivity implements StorageView {
                 }
                 break;
             }
-//            case 3: {
 //            }
 
         }
@@ -167,14 +165,17 @@ public class StorageActivity extends BaseActivity implements StorageView {
         storageListAdapter = new StorageListAdapter(this, categories);
         storageList.setAdapter(storageListAdapter);
         registerForContextMenu(storageList);
-        for (IngredientCategory category : categories) {
-            categoryNames.add(category.name);
-        }
+        updateSpinners(categories);
     }
 
     @Override
     public void updateCategories(ArrayList<IngredientCategory> categories) {
         storageListAdapter.notifyDataSetChanged();
+        updateSpinners(categories);
+
+    }
+
+    private void updateSpinners(ArrayList<IngredientCategory> categories) {
         categoryNames.clear();
         for (IngredientCategory category : categories) {
             categoryNames.add(category.name);

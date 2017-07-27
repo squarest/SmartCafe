@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Chudofom on 24.07.17.
@@ -26,4 +27,26 @@ public class Order {
 
     @Ignore
     public ArrayList<Product> products;
+    @Ignore
+    private HashMap<Long, Double> productsCount = new HashMap<>();
+
+    @Ignore
+    public void addProduct(Product product) {
+        if (!products.contains(product)) {
+            products.add(product);
+            productsCount.put(product.id, 1.0);
+        } else {
+            productsCount.put(product.id, productsCount.get(product.id) + 1.0);
+        }
+    }
+
+    @Ignore
+    public void setProductCount(long productId, Double quantity) {
+        productsCount.put(productId, quantity);
+    }
+
+    @Ignore
+    public Double getProductCount(long productId) {
+        return productsCount.get(productId);
+    }
 }
