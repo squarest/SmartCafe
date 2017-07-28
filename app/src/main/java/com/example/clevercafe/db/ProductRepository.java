@@ -1,6 +1,5 @@
 package com.example.clevercafe.db;
 
-import com.example.clevercafe.App;
 import com.example.clevercafe.db.dao.DatabaseDao;
 import com.example.clevercafe.db.entities.ProductIngredient;
 import com.example.clevercafe.entities.Ingredient;
@@ -13,11 +12,10 @@ import java.util.ArrayList;
  * Created by Chudofom on 15.07.16.
  */
 public class ProductRepository {
-    DatabaseDao databaseDao;
+    public DatabaseDao databaseDao;
 
-    public ProductRepository() {
-        databaseDao = App.database.databaseDao();
-
+    public ProductRepository(DatabaseDao databaseDao) {
+        this.databaseDao = databaseDao;
     }
 
     //insert

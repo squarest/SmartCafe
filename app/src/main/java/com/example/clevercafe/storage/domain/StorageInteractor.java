@@ -14,7 +14,11 @@ import io.reactivex.Observable;
  */
 
 public class StorageInteractor implements IStrorageInteractor {
-    public IngredientRepository ingredientRepository = new IngredientRepository();
+    public IngredientRepository ingredientRepository;
+
+    public StorageInteractor(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
 
     @Override
     public Observable<ArrayList<IngredientCategory>> loadCategories() {

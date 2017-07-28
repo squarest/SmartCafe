@@ -1,6 +1,5 @@
 package com.example.clevercafe.db;
 
-import com.example.clevercafe.App;
 import com.example.clevercafe.db.dao.DatabaseDao;
 import com.example.clevercafe.db.entities.OrderProduct;
 import com.example.clevercafe.db.entities.ProductIngredient;
@@ -16,7 +15,11 @@ import java.util.List;
  */
 
 public class OrderRepository {
-    public DatabaseDao databaseDao = App.database.databaseDao();
+    public DatabaseDao databaseDao;
+
+    public OrderRepository(DatabaseDao databaseDao) {
+        this.databaseDao = databaseDao;
+    }
 
     public void addOrder(Order order) {
         order.id = databaseDao.insertOrder(order);

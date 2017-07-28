@@ -14,7 +14,11 @@ import io.reactivex.Observable;
  */
 
 public class MenuInteractor implements IMenuInteractor {
-    public ProductRepository productRepository = new ProductRepository();
+    public ProductRepository productRepository;
+
+    public MenuInteractor(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Observable<ArrayList<ProductCategory>> loadCategories() {

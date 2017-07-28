@@ -2,11 +2,14 @@ package com.example.clevercafe.storage.presentation;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.example.clevercafe.App;
 import com.example.clevercafe.entities.IngredientCategory;
 import com.example.clevercafe.entities.Product;
-import com.example.clevercafe.storage.domain.StorageInteractor;
+import com.example.clevercafe.storage.domain.IStrorageInteractor;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -17,13 +20,15 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class IngredientPresenter extends MvpPresenter<IngredientView> {
 
-    private StorageInteractor interactor;
     private Product product;
     private ArrayList<IngredientCategory> categories;
     private IngredientView view = getViewState();
 
+    @Inject
+    public IStrorageInteractor interactor;
+
     public IngredientPresenter() {
-        interactor = new StorageInteractor();
+        App.getStorageComponent().inject(this);
     }
 
     public void initView(Product product) {

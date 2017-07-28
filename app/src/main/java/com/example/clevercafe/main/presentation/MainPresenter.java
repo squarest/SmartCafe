@@ -2,14 +2,16 @@ package com.example.clevercafe.main.presentation;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.example.clevercafe.App;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
 import com.example.clevercafe.main.domain.IMainInteractor;
-import com.example.clevercafe.main.domain.MainInteractor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -20,15 +22,22 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class MainPresenter extends MvpPresenter<MainView> {
 
+    //todo: добавлять подписки в список и в basePresenter отписываться
+
     private ArrayList<ProductCategory> categories = new ArrayList<>();
     private ArrayList<Order> orders = new ArrayList<>();
     private ArrayList<Product> currentProducts = new ArrayList<>();
     private Order curOrder;
     private boolean ORDER_IS_ACTIVE = false;
 
-    public IMainInteractor mainInteractor = new MainInteractor();
-    MainView mainView = getViewState();
-    //todo: добавлять подписки в список и в basePresenter отписываться
+    private MainView mainView = getViewState();
+
+    @Inject
+    public IMainInteractor mainInteractor;
+
+    public MainPresenter() {
+        App.getMainComponent().inject(this);
+    }
 
     public void viewInit() {
         mainInteractor.loadCategories()

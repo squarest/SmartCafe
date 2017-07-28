@@ -16,9 +16,16 @@ import io.reactivex.Observable;
  */
 
 public class MainInteractor implements IMainInteractor {
-    public ProductRepository productRepository = new ProductRepository();
-    public OrderRepository orderRepository = new OrderRepository();
-    public CompleteOrderRepository completeOrderRepository = new CompleteOrderRepository();
+    public ProductRepository productRepository;
+    public OrderRepository orderRepository;
+    public CompleteOrderRepository completeOrderRepository;
+
+    public MainInteractor(ProductRepository productRepository, OrderRepository orderRepository,
+                          CompleteOrderRepository completeOrderRepository) {
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
+        this.completeOrderRepository = completeOrderRepository;
+    }
 
     @Override
     public Observable<ArrayList<ProductCategory>> loadCategories() {

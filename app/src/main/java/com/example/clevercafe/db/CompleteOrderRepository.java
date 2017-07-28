@@ -1,6 +1,5 @@
 package com.example.clevercafe.db;
 
-import com.example.clevercafe.App;
 import com.example.clevercafe.db.dao.DatabaseDao;
 import com.example.clevercafe.db.entities.CompleteOrderProduct;
 import com.example.clevercafe.entities.CompleteOrder;
@@ -11,7 +10,11 @@ import com.example.clevercafe.entities.Order;
  */
 
 public class CompleteOrderRepository {
-    public DatabaseDao databaseDao = App.database.databaseDao();
+    public DatabaseDao databaseDao;
+
+    public CompleteOrderRepository(DatabaseDao databaseDao) {
+        this.databaseDao = databaseDao;
+    }
 
     public void addCompleteOrder(Order order) {
         CompleteOrder completeOrder = new CompleteOrder(order.sum, order.products);

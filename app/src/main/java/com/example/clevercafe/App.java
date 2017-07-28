@@ -1,20 +1,77 @@
 package com.example.clevercafe;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
 
-import com.example.clevercafe.db.AppDatabase;
+import com.example.clevercafe.dagger.AppComponent;
+import com.example.clevercafe.dagger.DaggerAppComponent;
+import com.example.clevercafe.dagger.modules.AppModule;
+import com.example.clevercafe.main.di.MainComponent;
+import com.example.clevercafe.main.di.MainModule;
+import com.example.clevercafe.menu.di.MenuComponent;
+import com.example.clevercafe.menu.di.MenuModule;
+import com.example.clevercafe.storage.di.StorageComponent;
+import com.example.clevercafe.storage.di.StorageModule;
 
 /**
  * Created by Chudofom on 24.07.17.
  */
 
 public class App extends Application {
-    public static AppDatabase database;
+    private static AppComponent appComponent;
+
+    private static MainComponent mainComponent;
+    private static MenuComponent menuComponent;
+    private static StorageComponent storageComponent;
+
+    public static MainComponent getMainComponent() {
+        return mainComponent;
+    }
+
+    public static MenuComponent getMenuComponent() {
+        return menuComponent;
+    }
+
+    public static StorageComponent getStorageComponent() {
+        return storageComponent;
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
-        database = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "smartcafe").build();
+        appComponent = buildComponent();
+        mainComponent = plusMainComponent();
+        menuComponent = plusMenuComponent();
+        storageComponent = plusStorageComponent();
     }
+
+    protected AppComponent buildComponent() {
+        return DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+    }
+
+    public MainComponent plusMainComponent() {
+        if (mainComponent == null) {
+            mainComponent = appComponent.plusMainComponent(new MainModule());
+        }
+        return mainComponent;
+    }
+
+
+    public MenuComponent plusMenuComponent() {
+        if (menuComponent == null) {
+            menuComponent = appComponent.plusMenuComponent(new MenuModule());
+        }
+        return menuComponent;
+    }
+
+
+    public StorageComponent plusStorageComponent() {
+        if (storageComponent == null) {
+            storageComponent = appComponent.plusStorageComponent(new StorageModule());
+        }
+        return storageComponent;
+    }
+
 }

@@ -2,13 +2,15 @@ package com.example.clevercafe.menu.presentation;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.example.clevercafe.App;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
 import com.example.clevercafe.menu.domain.IMenuInteractor;
-import com.example.clevercafe.menu.domain.MenuInteractor;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,7 +23,13 @@ import io.reactivex.schedulers.Schedulers;
 public class MenuPresenter extends MvpPresenter<MenuView> {
     private MenuView menuView = getViewState();
     private ArrayList<ProductCategory> categories = new ArrayList<>();
-    public IMenuInteractor interactor = new MenuInteractor();
+
+    @Inject
+    public IMenuInteractor interactor;
+
+    public MenuPresenter() {
+        App.getMenuComponent().inject(this);
+    }
 
     public void viewInit() {
         setCategories();
