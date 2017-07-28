@@ -130,8 +130,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
         mainInteractor.setCompleteOrder(order)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
-        updateOrders();
+                .subscribe(this::updateOrders);
     }
 
     public void backToCategoryButtonClicked() {
