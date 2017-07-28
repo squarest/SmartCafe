@@ -2,12 +2,13 @@ package com.example.clevercafe.storage.presentation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
+import com.arellomobile.mvp.MvpActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.IngredientCategory;
 import com.example.clevercafe.entities.Product;
@@ -16,12 +17,14 @@ import com.example.clevercafe.storage.presentation.adapters.StorageListAdapter;
 
 import java.util.ArrayList;
 
-public class IngredientActivity extends AppCompatActivity implements IngredientView {
+public class IngredientActivity extends MvpActivity implements IngredientView {
     private Button cancelButton;
     private Button submitButton;
     private ExpandableListView storageList;
     private RecyclerView ingredientsRecyclerView;
     private IngredientListAdapter ingredientListAdapter;
+
+    @InjectPresenter
     public IngredientPresenter presenter;
 
     @Override
@@ -29,7 +32,6 @@ public class IngredientActivity extends AppCompatActivity implements IngredientV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient);
         initUI();
-        presenter = new IngredientPresenter(this);
         presenter.initView((Product) getIntent().getSerializableExtra("product"));
         storageList.setOnChildClickListener((parent, v, groupPosition, childPosition, id) ->
         {
@@ -47,10 +49,10 @@ public class IngredientActivity extends AppCompatActivity implements IngredientV
     }
 
     private void initUI() {
-        cancelButton = (Button) findViewById(R.id.cancel_button);
-        submitButton = (Button) findViewById(R.id.submit_button);
-        storageList = (ExpandableListView) findViewById(R.id.storage_list);
-        ingredientsRecyclerView = (RecyclerView) findViewById(R.id.ingredient_list);
+        cancelButton = findViewById(R.id.cancel_button);
+        submitButton = findViewById(R.id.submit_button);
+        storageList = findViewById(R.id.storage_list);
+        ingredientsRecyclerView = findViewById(R.id.ingredient_list);
         ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 

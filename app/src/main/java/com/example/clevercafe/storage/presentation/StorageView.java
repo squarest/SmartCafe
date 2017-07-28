@@ -1,5 +1,6 @@
 package com.example.clevercafe.storage.presentation;
 
+import com.arellomobile.mvp.MvpView;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.IngredientCategory;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * Created by Chudofom on 20.03.17.
  */
 
-public interface StorageView {
+public interface StorageView extends MvpView{
     void showCategories(ArrayList<IngredientCategory> categories);
     void updateCategories(ArrayList<IngredientCategory> categories);
     void createAddIngredientForm(int categoryId, int ingredientId, Ingredient ingredient, boolean editForm);

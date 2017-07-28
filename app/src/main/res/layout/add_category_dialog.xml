@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orderButtonColor"
         android:hint="Название категории"
-        android:singleLine="true" />
+        android:maxLines="1" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

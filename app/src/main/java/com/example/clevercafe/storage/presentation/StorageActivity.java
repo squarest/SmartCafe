@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
 import com.example.clevercafe.utils.Units;
 import com.example.clevercafe.base.BaseActivity;
@@ -33,24 +34,25 @@ public class StorageActivity extends BaseActivity implements StorageView {
     private ArrayAdapter unitsSpinnerAdapter;
     private StorageListAdapter storageListAdapter;
     private CardView addProductForm;
-    private IStoragePresenter presenter;
-    ArrayList<String> categoryNames = new ArrayList<>();
+    private ArrayList<String> categoryNames = new ArrayList<>();
+
+    @InjectPresenter
+    public StoragePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createToolbar();
         createDrawer();
-        presenter = new StoragePresenter(this);
         presenter.viewInit();
-        TextView addProductButton = (TextView) findViewById(R.id.add_product_button);
-        addProductForm = (CardView) findViewById(R.id.add_product_form);
-        ingredientNameEditText = (EditText) findViewById(R.id.ingredient_name_edit_text);
-        ingredientQuantityEditText = (EditText) findViewById(R.id.ingredient_quantity_edit_text);
+        TextView addProductButton = findViewById(R.id.add_product_button);
+        addProductForm = findViewById(R.id.add_product_form);
+        ingredientNameEditText = findViewById(R.id.ingredient_name_edit_text);
+        ingredientQuantityEditText = findViewById(R.id.ingredient_quantity_edit_text);
 
         createSpinners();
 
-        TextView addCategoryButton = (TextView) findViewById(R.id.add_category_button);
+        TextView addCategoryButton = findViewById(R.id.add_category_button);
         addCategoryButton.setOnClickListener(v -> presenter.addCategoryButClicked());
 
         addProductButton.setOnClickListener(v ->
@@ -129,14 +131,14 @@ public class StorageActivity extends BaseActivity implements StorageView {
         addProductForm.setVisibility(View.VISIBLE);
         addProductForm.setClickable(true);
 
-        Button cancelButton = (Button) findViewById(R.id.product_cancel_button);
+        Button cancelButton = findViewById(R.id.product_cancel_button);
         cancelButton.setOnClickListener(v ->
         {
             clearAddIngredientForm();
             addProductForm.setVisibility(View.INVISIBLE);
             addProductForm.setClickable(false);
         });
-        Button submitButton = (Button) findViewById(R.id.product_submit_button);
+        Button submitButton = findViewById(R.id.product_submit_button);
         submitButton.setOnClickListener(v ->
         {
             if (!ingredientNameEditText.getText().toString().isEmpty() &
@@ -161,7 +163,7 @@ public class StorageActivity extends BaseActivity implements StorageView {
 
     @Override
     public void showCategories(ArrayList<IngredientCategory> categories) {
-        ExpandableListView storageList = (ExpandableListView) findViewById(R.id.storage_list);
+        ExpandableListView storageList = findViewById(R.id.storage_list);
         storageListAdapter = new StorageListAdapter(this, categories);
         storageList.setAdapter(storageListAdapter);
         registerForContextMenu(storageList);
@@ -198,20 +200,20 @@ public class StorageActivity extends BaseActivity implements StorageView {
     public void createCategoryDialog(int categoryId, String name, boolean editForm) {
         Dialog categoryDialog = new Dialog(this);
         categoryDialog.setContentView(R.layout.add_category_dialog);
-        EditText categoryNameEditText = (EditText) categoryDialog.findViewById(R.id.add_category_edit_text);
+        EditText categoryNameEditText = categoryDialog.findViewById(R.id.add_category_edit_text);
 
         if (editForm) {
             categoryNameEditText.setText(name);
             categoryDialog.setTitle("Изменение категории");
         } else categoryDialog.setTitle("Добавление новой категории");
 
-        Button cancelCategoryButton = (Button) categoryDialog.findViewById(R.id.category_cancel_button);
+        Button cancelCategoryButton = categoryDialog.findViewById(R.id.category_cancel_button);
         cancelCategoryButton.setOnClickListener(v ->
         {
             categoryDialog.dismiss();
         });
 
-        Button submitCategoryButton = (Button) categoryDialog.findViewById(R.id.category_submit_button);
+        Button submitCategoryButton = categoryDialog.findViewById(R.id.category_submit_button);
         submitCategoryButton.setOnClickListener(v ->
         {
 
@@ -228,10 +230,10 @@ public class StorageActivity extends BaseActivity implements StorageView {
     }
 
     private void createSpinners() {
-        categorySpinner = (Spinner) findViewById(R.id.category_spinner);
+        categorySpinner = findViewById(R.id.category_spinner);
         categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
         categorySpinner.setAdapter(categorySpinnerAdapter);
-        unitsSpinner = (Spinner) findViewById(R.id.units_spinner);
+        unitsSpinner = findViewById(R.id.units_spinner);
         unitsSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Units.array);
         unitsSpinner.setAdapter(unitsSpinnerAdapter);
     }

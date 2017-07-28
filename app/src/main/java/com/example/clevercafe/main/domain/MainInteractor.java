@@ -67,4 +67,9 @@ public class MainInteractor implements IMainInteractor {
             e.onComplete();
         });
     }
+
+    @Override
+    public Completable checkIngredients(ProductCategory product) {
+        return null;
+    }
 }

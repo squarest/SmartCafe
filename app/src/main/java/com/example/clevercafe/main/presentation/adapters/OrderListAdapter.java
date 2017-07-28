@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.Order;
-import com.example.clevercafe.main.presentation.IMainPresenter;
+import com.example.clevercafe.main.presentation.MainPresenter;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
     private ArrayList<Order> orderList = new ArrayList<>();
     private Context context;
-    private IMainPresenter mainPresenter;
+    private MainPresenter mainPresenter;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView orderNumber;
@@ -40,7 +40,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         }
     }
 
-    public OrderListAdapter(Context context, ArrayList<Order> myDataSet, IMainPresenter mainPresenter) {
+    public OrderListAdapter(Context context, ArrayList<Order> myDataSet, MainPresenter mainPresenter) {
         this.context = context;
         this.mainPresenter = mainPresenter;
         orderList = myDataSet;

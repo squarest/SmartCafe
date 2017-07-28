@@ -1,5 +1,7 @@
 package com.example.clevercafe.storage.presentation;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.IngredientCategory;
 import com.example.clevercafe.storage.domain.StorageInteractor;
@@ -13,17 +15,13 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by Chudofom on 20.03.17.
  */
-
-public class StoragePresenter implements IStoragePresenter {
+@InjectViewState
+public class StoragePresenter extends MvpPresenter<StorageView> {
     private ArrayList<IngredientCategory> categories;
-    private StorageView view;
+    private StorageView view = getViewState();
     public StorageInteractor interactor = new StorageInteractor();
 
-    public StoragePresenter(StorageActivity view) {
-        this.view = view;
-    }
 
-    @Override
     public void viewInit() {
         interactor.loadCategories()
                 .subscribeOn(Schedulers.io())
@@ -36,18 +34,15 @@ public class StoragePresenter implements IStoragePresenter {
                 }, Throwable::fillInStackTrace);
     }
 
-    @Override
     public void addIngredientButClicked() {
         view.createAddIngredientForm(-1, -1, null, false);
     }
 
-    @Override
     public void editIngredientButClicked(int categoryId, int ingredientId) {
         Ingredient ingredient = categories.get(categoryId).ingredients.get(ingredientId);
         view.createAddIngredientForm(categoryId, ingredientId, ingredient, true);
     }
 
-    @Override
     public void deleteIngredientButClicked(int categoryId, int ingredientId) {
         interactor.deleteIngredient(categories.get(categoryId).ingredients.get(ingredientId))
                 .subscribeOn(Schedulers.io())
@@ -55,18 +50,15 @@ public class StoragePresenter implements IStoragePresenter {
                 .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
 
-    @Override
     public void addCategoryButClicked() {
         view.createCategoryDialog(-1, null, false);
     }
 
-    @Override
     public void editCategoryButClicked(int categoryId) {
         view.createCategoryDialog(categoryId, categories.get(categoryId).name, true);
 
     }
 
-    @Override
     public void deleteCategoryButClicked(int categoryId) {
         interactor.deleteCategory(categories.get(categoryId))
                 .subscribeOn(Schedulers.io())
@@ -74,7 +66,6 @@ public class StoragePresenter implements IStoragePresenter {
                 .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
 
-    @Override
     public void submitIngredientFormButClicked(int categoryId, int ingredientId, Ingredient ingredient, boolean editForm) {
         Completable completable;
         if (editForm) {
@@ -88,7 +79,6 @@ public class StoragePresenter implements IStoragePresenter {
                 .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
 
-    @Override
     public void submitCategoryFormButClicked(int categoryId, String name, boolean editForm) {
         Completable completable;
         if (editForm) {

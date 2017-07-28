@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
 import com.example.clevercafe.adapters.CategoryListAdapter;
 import com.example.clevercafe.adapters.ProductListAdapter;
@@ -31,7 +32,6 @@ import java.util.ArrayList;
  */
 
 public class MenuActivity extends BaseActivity implements MenuView {
-    private IMenuPresenter presenter;
     private EditText productNameEditText;
     private EditText productCostEditText;
     private CardView addProductForm;
@@ -45,13 +45,15 @@ public class MenuActivity extends BaseActivity implements MenuView {
     private Product newProduct;
     private ArrayList<String> categoryNames = new ArrayList<>();
 
+    @InjectPresenter
+    public MenuPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new MenuPresenter(this);
         createToolbar();
         createDrawer();
-        categoryProductRecyclerView = (RecyclerView) findViewById(R.id.category_table);
+        categoryProductRecyclerView = findViewById(R.id.category_table);
         categoryProductRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         categoryProductRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
                 (view, position) -> {
@@ -60,10 +62,10 @@ public class MenuActivity extends BaseActivity implements MenuView {
                     }
                     presenter.itemClicked(categoryOnScreen, position);
                 }));
-        TextView addProductButton = (TextView) findViewById(R.id.add_product_button);
-        addProductForm = (CardView) findViewById(R.id.add_product_form);
-        productNameEditText = (EditText) findViewById(R.id.ingredient_name_edit_text);
-        productCostEditText = (EditText) findViewById(R.id.ingredient_cost_edit_text);
+        TextView addProductButton = findViewById(R.id.add_product_button);
+        addProductForm = findViewById(R.id.add_product_form);
+        productNameEditText = findViewById(R.id.ingredient_name_edit_text);
+        productCostEditText = findViewById(R.id.ingredient_cost_edit_text);
         registerForContextMenu(categoryProductRecyclerView);
 
         addProductButton.setOnClickListener(v ->
@@ -72,10 +74,10 @@ public class MenuActivity extends BaseActivity implements MenuView {
         });
 
 
-        categorySpinner = (Spinner) findViewById(R.id.category_spinner);
+        categorySpinner = findViewById(R.id.category_spinner);
         categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
         categorySpinner.setAdapter(categorySpinnerAdapter);
-        TextView addCategoryButton = (TextView) findViewById(R.id.add_category_button);
+        TextView addCategoryButton = findViewById(R.id.add_category_button);
         addCategoryButton.setOnClickListener(v -> presenter.addCategoryButClicked());
         presenter.viewInit();
     }
@@ -208,21 +210,21 @@ public class MenuActivity extends BaseActivity implements MenuView {
 
         addProductForm.setVisibility(View.VISIBLE);
         addProductForm.setClickable(true);
-        Button addIngredientButton = (Button) findViewById(R.id.add_ingredients_button);
+        Button addIngredientButton = findViewById(R.id.add_ingredients_button);
         if (editForm) {
             addIngredientButton.setText("Редактировать ингредиенты");
         } else {
             addIngredientButton.setText("Добавить ингредиенты");
         }
         addIngredientButton.setOnClickListener(v -> showStorage());
-        Button cancelButton = (Button) findViewById(R.id.product_cancel_button);
+        Button cancelButton = findViewById(R.id.product_cancel_button);
         cancelButton.setOnClickListener(v ->
         {
             clearAddProductForm();
             addProductForm.setVisibility(View.INVISIBLE);
             addProductForm.setClickable(false);
         });
-        Button submitButton = (Button) findViewById(R.id.product_submit_button);
+        Button submitButton = findViewById(R.id.product_submit_button);
         submitButton.setOnClickListener(v ->
         {
             if (!productNameEditText.getText().toString().isEmpty() &

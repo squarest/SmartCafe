@@ -1,5 +1,7 @@
 package com.example.clevercafe.main.presentation;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
@@ -15,9 +17,9 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by Chudofom on 03.10.16.
  */
-public class MainPresenter implements IMainPresenter {
+@InjectViewState
+public class MainPresenter extends MvpPresenter<MainView> {
 
-    private MainView mainView;
     private ArrayList<ProductCategory> categories = new ArrayList<>();
     private ArrayList<Order> orders = new ArrayList<>();
     private ArrayList<Product> currentProducts = new ArrayList<>();
@@ -25,13 +27,9 @@ public class MainPresenter implements IMainPresenter {
     private boolean ORDER_IS_ACTIVE = false;
 
     public IMainInteractor mainInteractor = new MainInteractor();
-
+    MainView mainView = getViewState();
     //todo: добавлять подписки в список и в basePresenter отписываться
-    public MainPresenter(MainActivity mainView) {
-        this.mainView = mainView;
-    }
 
-    @Override
     public void viewInit() {
         mainInteractor.loadCategories()
                 .subscribeOn(Schedulers.io())
@@ -60,7 +58,6 @@ public class MainPresenter implements IMainPresenter {
                 });
     }
 
-    @Override
     public void itemClicked(boolean categoryOnscreen, int id) {
         if (categoryOnscreen) {
             currentProducts = categories.get(id).products;
@@ -74,7 +71,6 @@ public class MainPresenter implements IMainPresenter {
 
     }
 
-    @Override
     public void addOrderButtonClicked() {
         //при удалении всех заказов номер заказа сбрасывается
         //необходимо где то хранить
@@ -97,7 +93,6 @@ public class MainPresenter implements IMainPresenter {
         return sum;
     }
 
-    @Override
     public void submitButtonClicked() {
         ORDER_IS_ACTIVE = false;
         if (curOrder != null) {
@@ -109,19 +104,16 @@ public class MainPresenter implements IMainPresenter {
         } else mainView.showMessage("Заказ пуст");
     }
 
-    @Override
     public void cancelButtonClicked() {
         ORDER_IS_ACTIVE = false;
         mainView.setOrders(orders);
     }
 
-    @Override
     public void itemMoved(int oldPosition, int newPosition) {
         Collections.swap(orders, oldPosition, newPosition);
         mainView.moveOrder(oldPosition, newPosition);
     }
 
-    @Override
     public void itemRemoved(int position) {
         mainInteractor.removeOrder(orders.get(position))
                 .subscribeOn(Schedulers.io())
@@ -129,14 +121,12 @@ public class MainPresenter implements IMainPresenter {
                 .subscribe(this::updateOrders);
     }
 
-    @Override
     public int getOrderSize() {
         return orders.size();
     }
 
-    @Override
     public void orderSubmitButtonClicked(Order order) {
-        // TODO: захуярить прогрес бар
+        //// TODO: 27.07.17 списывать использованные для заказа ингредиенты
         mainInteractor.setCompleteOrder(order)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -144,7 +134,6 @@ public class MainPresenter implements IMainPresenter {
         updateOrders();
     }
 
-    @Override
     public void backToCategoryButtonClicked() {
         mainView.showCategories(categories);
     }

@@ -1,5 +1,7 @@
 package com.example.clevercafe.menu.presentation;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
@@ -15,18 +17,12 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by Chudofom on 20.03.17.
  */
-
-public class MenuPresenter implements IMenuPresenter {
-    private MenuView menuView;
+@InjectViewState
+public class MenuPresenter extends MvpPresenter<MenuView> {
+    private MenuView menuView = getViewState();
     private ArrayList<ProductCategory> categories = new ArrayList<>();
     public IMenuInteractor interactor = new MenuInteractor();
 
-    public MenuPresenter(MenuView menuView) {
-
-        this.menuView = menuView;
-    }
-
-    @Override
     public void viewInit() {
         setCategories();
     }
@@ -56,19 +52,17 @@ public class MenuPresenter implements IMenuPresenter {
                 }, Throwable::fillInStackTrace);
     }
 
-    @Override
+
     public void addProductButClicked() {
         menuView.createAddProductForm(-1, -1, null, false);
     }
 
-    @Override
     public void editProductButClicked(int categoryId, int productId) {
         Product product = categories.get(categoryId).products.get(productId);
         menuView.createAddProductForm(categoryId, productId, product, true);
 
     }
 
-    @Override
     public void deleteProductButClicked(int categoryId, int productId) {
         interactor.deleteProduct(categories.get(categoryId).products.get(productId))
                 .subscribeOn(Schedulers.io())
@@ -76,27 +70,22 @@ public class MenuPresenter implements IMenuPresenter {
                 .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
 
-    @Override
     public void addIngredientsButClicked(ArrayList<Ingredient> ingredients) {
 
     }
 
-    @Override
     public void addPictureButClicked() {
 
     }
 
-    @Override
     public void addCategoryButClicked() {
         menuView.createCategoryDialog(-1, null, false);
     }
 
-    @Override
     public void editCategoryButClicked(int categoryId) {
         menuView.createCategoryDialog(categoryId, categories.get(categoryId).name, true);
     }
 
-    @Override
     public void deleteCategoryButClicked(int categoryId) {
         interactor.deleteCategory(categories.get(categoryId))
                 .subscribeOn(Schedulers.io())
@@ -105,7 +94,6 @@ public class MenuPresenter implements IMenuPresenter {
 
     }
 
-    @Override
     public void submitProductFormButClicked(int categoryId, int productId, Product product, boolean editForm) {
         product.categoryId = categories.get(categoryId).id;
         Completable completable;
@@ -120,7 +108,6 @@ public class MenuPresenter implements IMenuPresenter {
 
     }
 
-    @Override
     public void submitCategoryFormButClicked(int categoryId, String name, boolean editForm) {
         ProductCategory category;
         Completable completable;
@@ -138,12 +125,10 @@ public class MenuPresenter implements IMenuPresenter {
                 .subscribe(this::updateCategories, Throwable::fillInStackTrace);
     }
 
-    @Override
     public void backToCategoryButtonClicked() {
         menuView.showCategories(categories);
     }
 
-    @Override
     public void itemClicked(boolean categoryOnscreen, int categoryId) {
         if (categoryOnscreen) {
             menuView.showProducts(categories.get(categoryId).products);

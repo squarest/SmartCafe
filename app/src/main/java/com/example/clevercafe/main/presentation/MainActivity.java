@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
 import com.example.clevercafe.adapters.CategoryListAdapter;
 import com.example.clevercafe.adapters.ProductListAdapter;
@@ -34,9 +35,11 @@ public class MainActivity extends BaseActivity implements MainView {
     private RecyclerView categoryProductRecyclerView;
     private RecyclerView orderRecyclerView;
     private ArrayList<Order> orderList = new ArrayList<>();
-    private IMainPresenter mainPresenter = new MainPresenter(this);
     private LinearLayout buttonPanel;
     private TextView addOrderButton;
+
+    @InjectPresenter
+    public MainPresenter mainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +52,12 @@ public class MainActivity extends BaseActivity implements MainView {
                     mainPresenter.itemClicked(categoryOnScreen, position);
                 }));
 
-        addOrderButton = (TextView) findViewById(R.id.add_order_button);
+        addOrderButton = findViewById(R.id.add_order_button);
         addOrderButton.setOnClickListener(view -> mainPresenter.addOrderButtonClicked());
 
-        Button submitButton = (Button) findViewById(R.id.submit_button);
+        Button submitButton = findViewById(R.id.submit_button);
         submitButton.setOnClickListener(v -> mainPresenter.submitButtonClicked());
-        Button cancelButton = (Button) findViewById(R.id.cancel_button);
+        Button cancelButton = findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(v -> mainPresenter.cancelButtonClicked());
         mainPresenter.viewInit();
 
@@ -149,7 +152,7 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     private void showButtonPanel() {
-        buttonPanel = (LinearLayout) findViewById(R.id.button_panel);
+        buttonPanel = findViewById(R.id.button_panel);
         buttonPanel.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
         buttonPanel.setVisibility(View.VISIBLE);
     }
@@ -162,14 +165,14 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     private void createRecyclerViews() {
-        orderRecyclerView = (RecyclerView) findViewById(R.id.order_list);
+        orderRecyclerView = findViewById(R.id.order_list);
         LinearLayoutManager orderLayoutManager = new LinearLayoutManager(this);
         orderRecyclerView.setLayoutManager(orderLayoutManager);
         ItemTouchHelper.Callback callback =
                 new MainViewTouchHelperCallback();
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(orderRecyclerView);
-        categoryProductRecyclerView = (RecyclerView) findViewById(R.id.product_table);
+        categoryProductRecyclerView = findViewById(R.id.product_table);
         categoryProductRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
     }
 

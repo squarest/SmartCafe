@@ -22,4 +22,6 @@ public interface IMainInteractor {
     Completable removeOrder(Order order);
 
     Completable setCompleteOrder(Order order);
+
+    Completable checkIngredients(ProductCategory product);
 }

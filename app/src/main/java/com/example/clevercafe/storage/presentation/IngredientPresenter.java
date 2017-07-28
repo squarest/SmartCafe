@@ -1,5 +1,7 @@
 package com.example.clevercafe.storage.presentation;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 import com.example.clevercafe.entities.IngredientCategory;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.storage.domain.StorageInteractor;
@@ -12,17 +14,16 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by Chudofom on 27.07.17.
  */
-
-public class IngredientPresenter {
+@InjectViewState
+public class IngredientPresenter extends MvpPresenter<IngredientView> {
 
     private StorageInteractor interactor;
     private Product product;
     private ArrayList<IngredientCategory> categories;
-    IngredientView view;
+    private IngredientView view = getViewState();
 
-    public IngredientPresenter(IngredientView view) {
+    public IngredientPresenter() {
         interactor = new StorageInteractor();
-        this.view = view;
     }
 
     public void initView(Product product) {
