@@ -49,7 +49,7 @@ public class OrderRepository {
     private ArrayList<Product> getProducts(Order order) {
         ArrayList<OrderProduct> orderProducts = (ArrayList<OrderProduct>) databaseDao.getOrderProducts(order.id);
         ArrayList<Product> products = new ArrayList<>();
-        if (orderProducts != null && orderProducts.size() > 0) {
+        if (orderProducts != null && !orderProducts.isEmpty()) {
             for (OrderProduct orderProduct : orderProducts) {
                 order.setProductCount(orderProduct.productId, orderProduct.quantity);
                 Product product = databaseDao.getProduct(orderProduct.productId);

@@ -53,7 +53,6 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.ingredientName.setText(product.ingredients.get(position).name);
         holder.ingredientQuantity.setText(String.valueOf(product.getIngredientCount(product.ingredients.get(position).id)));
-        //TODO: попробовать реализовать сбор данных о количестве при нажатии кнопки готово
         holder.ingredientQuantity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -1,8 +1,8 @@
 package com.example.clevercafe.storage.presentation;
 
 import android.app.Dialog;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,31 +10,25 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
-import com.example.clevercafe.utils.Units;
 import com.example.clevercafe.base.BaseActivity;
-import com.example.clevercafe.storage.presentation.adapters.StorageListAdapter;
+import com.example.clevercafe.databinding.ActivityStorageBinding;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.IngredientCategory;
+import com.example.clevercafe.storage.presentation.adapters.StorageListAdapter;
+import com.example.clevercafe.utils.Units;
 
 import java.util.ArrayList;
 
 public class StorageActivity extends BaseActivity implements StorageView {
-
-    private Spinner categorySpinner;
-    private Spinner unitsSpinner;
-    private EditText ingredientNameEditText;
-    private EditText ingredientQuantityEditText;
     private ArrayAdapter categorySpinnerAdapter;
     private ArrayAdapter unitsSpinnerAdapter;
     private StorageListAdapter storageListAdapter;
-    private CardView addProductForm;
     private ArrayList<String> categoryNames = new ArrayList<>();
+    private ActivityStorageBinding binding;
 
     @InjectPresenter
     public StoragePresenter presenter;
@@ -42,29 +36,21 @@ public class StorageActivity extends BaseActivity implements StorageView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_storage);
         createToolbar();
         createDrawer();
-        presenter.viewInit();
-        TextView addProductButton = findViewById(R.id.add_product_button);
-        addProductForm = findViewById(R.id.add_product_form);
-        ingredientNameEditText = findViewById(R.id.ingredient_name_edit_text);
-        ingredientQuantityEditText = findViewById(R.id.ingredient_quantity_edit_text);
-
         createSpinners();
+        setClickListeners();
 
-        TextView addCategoryButton = findViewById(R.id.add_category_button);
-        addCategoryButton.setOnClickListener(v -> presenter.addCategoryButClicked());
+        presenter.viewInit();
 
-        addProductButton.setOnClickListener(v ->
-        {
-            presenter.addIngredientButClicked();
-        });
     }
 
-    @Override
-    protected int getLayoutResourceId() {
-        return R.layout.activity_storage;
+    private void setClickListeners() {
+        binding.addCategoryButton.setOnClickListener(v -> presenter.addCategoryButClicked());
+        binding.addProductButton.setOnClickListener(v -> presenter.addIngredientButClicked());
     }
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
@@ -108,7 +94,6 @@ public class StorageActivity extends BaseActivity implements StorageView {
                 }
                 break;
             }
-//            }
 
         }
         return super.onContextItemSelected(item);
@@ -118,42 +103,40 @@ public class StorageActivity extends BaseActivity implements StorageView {
     public void createAddIngredientForm(int categoryId, int productId, Ingredient ingredient, boolean editForm) {
         if (editForm) //если форма вызвана для редактирования продукта то заполняем ее данными
         {
-            ingredientNameEditText.setText(ingredient.name);
-            categorySpinner.setSelection(categoryId);
-            categorySpinner.setClickable(false);
-            categorySpinner.setEnabled(false);
-            ingredientQuantityEditText.setText(String.valueOf(ingredient.quantity));
-            unitsSpinner.setSelection(Units.idOfUnit(ingredient.units));
+            binding.ingredientNameEditText.setText(ingredient.name);
+            binding.categorySpinner.setSelection(categoryId);
+            binding.categorySpinner.setClickable(false);
+            binding.categorySpinner.setEnabled(false);
+            binding.ingredientQuantityEditText.setText(String.valueOf(ingredient.quantity));
+            binding.unitsSpinner.setSelection(Units.idOfUnit(ingredient.units));
         } else { //иначе очищаем ее
             clearAddIngredientForm();
         }
 
-        addProductForm.setVisibility(View.VISIBLE);
-        addProductForm.setClickable(true);
+        binding.addProductForm.setVisibility(View.VISIBLE);
+        binding.addProductForm.setClickable(true);
 
-        Button cancelButton = findViewById(R.id.product_cancel_button);
-        cancelButton.setOnClickListener(v ->
+        binding.productCancelButton.setOnClickListener(v ->
         {
             clearAddIngredientForm();
-            addProductForm.setVisibility(View.INVISIBLE);
-            addProductForm.setClickable(false);
+            binding.addProductForm.setVisibility(View.INVISIBLE);
+            binding.addProductForm.setClickable(false);
         });
-        Button submitButton = findViewById(R.id.product_submit_button);
-        submitButton.setOnClickListener(v ->
+        binding.productSubmitButton.setOnClickListener(v ->
         {
-            if (!ingredientNameEditText.getText().toString().isEmpty() &
-                    !ingredientQuantityEditText.getText().toString().isEmpty()) {
-                addProductForm.setVisibility(View.INVISIBLE);
-                addProductForm.setClickable(false);
+            if (!binding.ingredientNameEditText.getText().toString().isEmpty() &
+                    !binding.ingredientQuantityEditText.getText().toString().isEmpty()) {
+                binding.addProductForm.setVisibility(View.INVISIBLE);
+                binding.addProductForm.setClickable(false);
                 Ingredient newIngredient = new Ingredient();
                 if (editForm) {
                     newIngredient.id = ingredient.id;
                     newIngredient.categoryId = ingredient.categoryId;
                 }
-                newIngredient.name = ingredientNameEditText.getText().toString();
-                newIngredient.quantity = Double.valueOf(ingredientQuantityEditText.getText().toString());
-                newIngredient.units = unitsSpinner.getSelectedItem().toString();
-                presenter.submitIngredientFormButClicked(categorySpinner.getSelectedItemPosition(),
+                newIngredient.name = binding.ingredientNameEditText.getText().toString();
+                newIngredient.quantity = Double.valueOf(binding.ingredientQuantityEditText.getText().toString());
+                newIngredient.units = binding.unitsSpinner.getSelectedItem().toString();
+                presenter.submitIngredientFormButClicked(binding.categorySpinner.getSelectedItemPosition(),
                         productId, newIngredient, editForm);
             } else {
                 Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
@@ -163,10 +146,9 @@ public class StorageActivity extends BaseActivity implements StorageView {
 
     @Override
     public void showCategories(ArrayList<IngredientCategory> categories) {
-        ExpandableListView storageList = findViewById(R.id.storage_list);
         storageListAdapter = new StorageListAdapter(this, categories);
-        storageList.setAdapter(storageListAdapter);
-        registerForContextMenu(storageList);
+        binding.storageList.setAdapter(storageListAdapter);
+        registerForContextMenu(binding.storageList);
         updateSpinners(categories);
     }
 
@@ -188,12 +170,12 @@ public class StorageActivity extends BaseActivity implements StorageView {
 
     @Override
     public void clearAddIngredientForm() {
-        ingredientNameEditText.setText(null);
-        ingredientQuantityEditText.setText(null);
-        categorySpinner.setSelection(0);
-        unitsSpinner.setSelection(0);
-        categorySpinner.setClickable(true);
-        categorySpinner.setEnabled(true);
+        binding.ingredientNameEditText.setText(null);
+        binding.ingredientQuantityEditText.setText(null);
+        binding.categorySpinner.setSelection(0);
+        binding.unitsSpinner.setSelection(0);
+        binding.categorySpinner.setClickable(true);
+        binding.categorySpinner.setEnabled(true);
     }
 
     @Override
@@ -230,12 +212,9 @@ public class StorageActivity extends BaseActivity implements StorageView {
     }
 
     private void createSpinners() {
-        categorySpinner = findViewById(R.id.category_spinner);
         categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
-        categorySpinner.setAdapter(categorySpinnerAdapter);
-        unitsSpinner = findViewById(R.id.units_spinner);
         unitsSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Units.array);
-        unitsSpinner.setAdapter(unitsSpinnerAdapter);
+        binding.categorySpinner.setAdapter(categorySpinnerAdapter);
+        binding.unitsSpinner.setAdapter(unitsSpinnerAdapter);
     }
-
 }

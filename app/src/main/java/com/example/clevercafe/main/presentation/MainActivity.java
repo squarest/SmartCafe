@@ -1,14 +1,13 @@
 package com.example.clevercafe.main.presentation;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -16,6 +15,7 @@ import com.example.clevercafe.R;
 import com.example.clevercafe.adapters.CategoryListAdapter;
 import com.example.clevercafe.adapters.ProductListAdapter;
 import com.example.clevercafe.base.BaseActivity;
+import com.example.clevercafe.databinding.ActivityMainBinding;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
@@ -27,63 +27,44 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainActivity extends BaseActivity implements MainView {
-    private ProductListAdapter productAdapter;
-    private CategoryListAdapter categoryAdapter;
     private OrderListAdapter orderListAdapter;
     private OrderAdapter orderAdapter;
     private boolean categoryOnScreen = true;
-    private RecyclerView categoryProductRecyclerView;
-    private RecyclerView orderRecyclerView;
     private ArrayList<Order> orderList = new ArrayList<>();
-    private LinearLayout buttonPanel;
-    private TextView addOrderButton;
-
+    private ActivityMainBinding binding;
     @InjectPresenter
     public MainPresenter mainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createRecyclerViews();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         createToolbar();
         createDrawer();
-        categoryProductRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
-                (view, position) -> {
-                    mainPresenter.itemClicked(categoryOnScreen, position);
-                }));
-
-        addOrderButton = findViewById(R.id.add_order_button);
-        addOrderButton.setOnClickListener(view -> mainPresenter.addOrderButtonClicked());
-
-        Button submitButton = findViewById(R.id.submit_button);
-        submitButton.setOnClickListener(v -> mainPresenter.submitButtonClicked());
-        Button cancelButton = findViewById(R.id.cancel_button);
-        cancelButton.setOnClickListener(v -> mainPresenter.cancelButtonClicked());
+        createRecyclerViews();
+        setClickListeners();
         mainPresenter.viewInit();
-
     }
 
-
-    @Override
-    protected int getLayoutResourceId() {
-        return R.layout.activity_main;
+    private void setClickListeners() {
+        binding.addOrderButton.setOnClickListener(view -> mainPresenter.addOrderButtonClicked());
+        binding.submitButton.setOnClickListener(v -> mainPresenter.submitButtonClicked());
+        binding.cancelButton.setOnClickListener(v -> mainPresenter.cancelButtonClicked());
     }
+
 
     @Override
     public void showProducts(ArrayList<Product> products) {
-        productAdapter = new ProductListAdapter(products, false);
-        categoryProductRecyclerView.setAdapter(productAdapter);
+        binding.productTable.setAdapter(new ProductListAdapter(products, false));
         categoryOnScreen = false;
         toolbar.setNavigationIcon(R.drawable.back_ic);
         toolbar.setNavigationOnClickListener(v -> mainPresenter.backToCategoryButtonClicked());
-
     }
 
 
     @Override
     public void showCategories(ArrayList<ProductCategory> categories) {
-        categoryAdapter = new CategoryListAdapter(categories, false);
-        categoryProductRecyclerView.setAdapter(categoryAdapter);
+        binding.productTable.setAdapter(new CategoryListAdapter(categories, false));
         categoryOnScreen = true;
         createToolbar();
     }
@@ -94,9 +75,9 @@ public class MainActivity extends BaseActivity implements MainView {
         orderList.clear();
         orderList.addAll(orders);
         orderListAdapter = new OrderListAdapter(this, orderList, mainPresenter);
-        orderRecyclerView.setAdapter(orderListAdapter);
-        addOrderButton.setText("ДОБАВИТЬ");
-        addOrderButton.setClickable(true);
+        binding.orderList.setAdapter(orderListAdapter);
+        binding.addOrderButton.setText("ДОБАВИТЬ");
+        binding.addOrderButton.setClickable(true);
     }
 
     @Override
@@ -104,22 +85,20 @@ public class MainActivity extends BaseActivity implements MainView {
         orderList.clear();
         orderList.addAll(orders);
         orderListAdapter.notifyDataSetChanged();
-
     }
 
     @Override
     public void updateOrder(Order order) {
         orderAdapter.notifyDataSetChanged();
-
     }
 
     @Override
     public void setOrder(Order order) {
         orderAdapter = new OrderAdapter(order, this);
-        orderRecyclerView.setAdapter(orderAdapter);
+        binding.orderList.setAdapter(orderAdapter);
         showButtonPanel();
-        addOrderButton.setText("ЗАКАЗ №" + order.id);
-        addOrderButton.setClickable(false);
+        binding.addOrderButton.setText("ЗАКАЗ №" + order.id);
+        binding.addOrderButton.setClickable(false);
     }
 
     @Override
@@ -130,7 +109,6 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     public void showProgress() {
         Toast.makeText(this, "showProgress", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -142,7 +120,6 @@ public class MainActivity extends BaseActivity implements MainView {
     public void moveOrder(int start, int finish) {
         Collections.swap(orderList, start, finish);
         orderListAdapter.notifyItemMoved(start, finish);
-
     }
 
     @Override
@@ -152,32 +129,32 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     private void showButtonPanel() {
-        buttonPanel = findViewById(R.id.button_panel);
-        buttonPanel.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        buttonPanel.setVisibility(View.VISIBLE);
+        binding.buttonPanel.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        binding.buttonPanel.setVisibility(View.VISIBLE);
     }
 
     public void hideButtonPanel() {
-        if (buttonPanel != null) {
-            buttonPanel.getLayoutParams().height = 0;
-            buttonPanel.setVisibility(View.INVISIBLE);
+        if (binding.buttonPanel != null) {
+            binding.buttonPanel.getLayoutParams().height = 0;
+            binding.buttonPanel.setVisibility(View.INVISIBLE);
         }
     }
 
     private void createRecyclerViews() {
-        orderRecyclerView = findViewById(R.id.order_list);
         LinearLayoutManager orderLayoutManager = new LinearLayoutManager(this);
-        orderRecyclerView.setLayoutManager(orderLayoutManager);
+        binding.orderList.setLayoutManager(orderLayoutManager);
         ItemTouchHelper.Callback callback =
                 new MainViewTouchHelperCallback();
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(orderRecyclerView);
-        categoryProductRecyclerView = findViewById(R.id.product_table);
-        categoryProductRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        itemTouchHelper.attachToRecyclerView(binding.orderList);
+        binding.productTable.setLayoutManager(new GridLayoutManager(this, 3));
+        binding.productTable.addOnItemTouchListener(new RecyclerItemClickListener(this,
+                (view, position) -> {
+                    mainPresenter.itemClicked(categoryOnScreen, position);
+                }));
     }
 
     private class MainViewTouchHelperCallback extends ItemTouchHelper.Callback {
-
         @Override
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
             int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;

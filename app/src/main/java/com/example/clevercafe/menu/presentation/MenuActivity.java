@@ -2,17 +2,14 @@ package com.example.clevercafe.menu.presentation;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -20,6 +17,7 @@ import com.example.clevercafe.R;
 import com.example.clevercafe.adapters.CategoryListAdapter;
 import com.example.clevercafe.adapters.ProductListAdapter;
 import com.example.clevercafe.base.BaseActivity;
+import com.example.clevercafe.databinding.ActivityMenuBinding;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
 import com.example.clevercafe.main.presentation.adapters.RecyclerItemClickListener;
@@ -32,66 +30,51 @@ import java.util.ArrayList;
  */
 
 public class MenuActivity extends BaseActivity implements MenuView {
-    private EditText productNameEditText;
-    private EditText productCostEditText;
-    private CardView addProductForm;
     private ProductListAdapter productAdapter;
     private CategoryListAdapter categoryAdapter;
-    private RecyclerView categoryProductRecyclerView;
     private boolean categoryOnScreen = true;
     private ArrayAdapter categorySpinnerAdapter;
     private int curCategoryPosition;
-    private Spinner categorySpinner;
     private Product newProduct;
     private ArrayList<String> categoryNames = new ArrayList<>();
-
+    private ActivityMenuBinding binding;
     @InjectPresenter
     public MenuPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_menu);
         createToolbar();
         createDrawer();
-        categoryProductRecyclerView = findViewById(R.id.category_table);
-        categoryProductRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        categoryProductRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
+        setClickLIsteners();
+        registerForContextMenu(binding.categoryTable);
+
+
+        binding.categoryTable.setLayoutManager(new GridLayoutManager(this, 3));
+        binding.categoryTable.addOnItemTouchListener(new RecyclerItemClickListener(this,
                 (view, position) -> {
                     if (categoryOnScreen) {
                         curCategoryPosition = position;
                     }
                     presenter.itemClicked(categoryOnScreen, position);
                 }));
-        TextView addProductButton = findViewById(R.id.add_product_button);
-        addProductForm = findViewById(R.id.add_product_form);
-        productNameEditText = findViewById(R.id.ingredient_name_edit_text);
-        productCostEditText = findViewById(R.id.ingredient_cost_edit_text);
-        registerForContextMenu(categoryProductRecyclerView);
-
-        addProductButton.setOnClickListener(v ->
-        {
-            presenter.addProductButClicked();
-        });
-
-
-        categorySpinner = findViewById(R.id.category_spinner);
         categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
-        categorySpinner.setAdapter(categorySpinnerAdapter);
-        TextView addCategoryButton = findViewById(R.id.add_category_button);
-        addCategoryButton.setOnClickListener(v -> presenter.addCategoryButClicked());
+        binding.categorySpinner.setAdapter(categorySpinnerAdapter);
         presenter.viewInit();
     }
 
-    @Override
-    protected int getLayoutResourceId() {
-        return R.layout.activity_menu;
+    private void setClickLIsteners() {
+        binding.addProductButton.setOnClickListener(v -> presenter.addProductButClicked());
+        binding.addCategoryButton.setOnClickListener(v -> presenter.addCategoryButClicked());
     }
+
 
     @Override
     public void showCategories(ArrayList<ProductCategory> categories) {
 
         categoryAdapter = new CategoryListAdapter(categories, true);
-        categoryProductRecyclerView.setAdapter(categoryAdapter);
+        binding.categoryTable.setAdapter(categoryAdapter);
         categoryOnScreen = true;
         updateSpinners(categories);
         createToolbar();
@@ -100,7 +83,7 @@ public class MenuActivity extends BaseActivity implements MenuView {
     @Override
     public void showProducts(ArrayList<Product> products) {
         productAdapter = new ProductListAdapter(products, true);
-        categoryProductRecyclerView.setAdapter(productAdapter);
+        binding.categoryTable.setAdapter(productAdapter);
         categoryOnScreen = false;
         toolbar.setNavigationIcon(R.drawable.back_ic);
         toolbar.setNavigationOnClickListener(v -> presenter.backToCategoryButtonClicked());
@@ -112,9 +95,9 @@ public class MenuActivity extends BaseActivity implements MenuView {
         int position = -1;
         try {
             if (categoryOnScreen) {
-                position = ((CategoryListAdapter) categoryProductRecyclerView.getAdapter()).getPosition();
+                position = ((CategoryListAdapter) binding.categoryTable.getAdapter()).getPosition();
             } else
-                position = ((ProductListAdapter) categoryProductRecyclerView.getAdapter()).getPosition();
+                position = ((ProductListAdapter) binding.categoryTable.getAdapter()).getPosition();
         } catch (Exception e) {
             return super.onContextItemSelected(item);
         }
@@ -146,8 +129,8 @@ public class MenuActivity extends BaseActivity implements MenuView {
             categoryNames.add(category.name);
         }
         categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
-        categorySpinner.setAdapter(categorySpinnerAdapter);
-        categorySpinner.setSelection(0);
+        binding.categorySpinner.setAdapter(categorySpinnerAdapter);
+        binding.categorySpinner.setSelection(0);
     }
 
     @Override
@@ -170,7 +153,7 @@ public class MenuActivity extends BaseActivity implements MenuView {
     @Override
     public void updateProducts(ArrayList<Product> products) {
         productAdapter = new ProductListAdapter(products, true);
-        categoryProductRecyclerView.setAdapter(productAdapter);
+        binding.categoryTable.setAdapter(productAdapter);
     }
 
 
@@ -197,47 +180,44 @@ public class MenuActivity extends BaseActivity implements MenuView {
     public void createAddProductForm(int categoryId, int productId, Product product, boolean editForm) {
         if (editForm) //если форма вызвана для редактирования продукта то заполняем ее данными
         {
-            productNameEditText.setText(product.name);
-            categorySpinner.setSelection(categoryId);
-            categorySpinner.setClickable(false);
-            categorySpinner.setEnabled(false);
-            productCostEditText.setText(String.valueOf(product.cost));
+            binding.productName.setText(product.name);
+            binding.categorySpinner.setSelection(categoryId);
+            binding.categorySpinner.setClickable(false);
+            binding.categorySpinner.setEnabled(false);
+            binding.productCost.setText(String.valueOf(product.cost));
             newProduct = product;
 
         } else { //иначе очищаем ее
             clearAddProductForm();
         }
 
-        addProductForm.setVisibility(View.VISIBLE);
-        addProductForm.setClickable(true);
-        Button addIngredientButton = findViewById(R.id.add_ingredients_button);
+        binding.addProductForm.setVisibility(View.VISIBLE);
+        binding.addProductForm.setClickable(true);
         if (editForm) {
-            addIngredientButton.setText("Редактировать ингредиенты");
+            binding.addIngredientsButton.setText("Редактировать ингредиенты");
         } else {
-            addIngredientButton.setText("Добавить ингредиенты");
+            binding.addIngredientsButton.setText("Добавить ингредиенты");
         }
-        addIngredientButton.setOnClickListener(v -> showStorage());
-        Button cancelButton = findViewById(R.id.product_cancel_button);
-        cancelButton.setOnClickListener(v ->
+        binding.addIngredientsButton.setOnClickListener(v -> showStorage());
+        binding.productCancelButton.setOnClickListener(v ->
         {
             clearAddProductForm();
-            addProductForm.setVisibility(View.INVISIBLE);
-            addProductForm.setClickable(false);
+            binding.addProductForm.setVisibility(View.INVISIBLE);
+            binding.addProductForm.setClickable(false);
         });
-        Button submitButton = findViewById(R.id.product_submit_button);
-        submitButton.setOnClickListener(v ->
+        binding.productSubmitButton.setOnClickListener(v ->
         {
-            if (!productNameEditText.getText().toString().isEmpty() &
-                    !productCostEditText.getText().toString().isEmpty()) {
-                addProductForm.setVisibility(View.INVISIBLE);
-                addProductForm.setClickable(false);
+            if (!binding.productName.getText().toString().isEmpty() &
+                    !binding.productCost.getText().toString().isEmpty()) {
+                binding.addProductForm.setVisibility(View.INVISIBLE);
+                binding.addProductForm.setClickable(false);
                 if (editForm) {
                     newProduct.id = product.id;
                     newProduct.categoryId = product.categoryId;
                 }
-                newProduct.name = productNameEditText.getText().toString();
-                newProduct.cost = Double.valueOf(productCostEditText.getText().toString());
-                presenter.submitProductFormButClicked(categorySpinner.getSelectedItemPosition(),
+                newProduct.name = binding.productName.getText().toString();
+                newProduct.cost = Double.valueOf(binding.productCost.getText().toString());
+                presenter.submitProductFormButClicked(binding.categorySpinner.getSelectedItemPosition(),
                         productId, newProduct, editForm);
             } else {
                 Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
@@ -247,11 +227,11 @@ public class MenuActivity extends BaseActivity implements MenuView {
 
     @Override
     public void clearAddProductForm() {
-        productCostEditText.setText(null);
-        productNameEditText.setText(null);
-        categorySpinner.setSelection(0);
-        categorySpinner.setClickable(true);
-        categorySpinner.setEnabled(true);
+        binding.productName.setText(null);
+        binding.productCost.setText(null);
+        binding.categorySpinner.setSelection(0);
+        binding.categorySpinner.setClickable(true);
+        binding.categorySpinner.setEnabled(true);
         newProduct = new Product();
     }
 

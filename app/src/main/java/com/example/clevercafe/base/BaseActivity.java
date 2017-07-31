@@ -15,6 +15,7 @@ import com.example.clevercafe.menu.presentation.MenuActivity;
 
 import java.util.ArrayList;
 
+
 public abstract class BaseActivity extends MvpActivity {
     protected Toolbar toolbar;
     private SlidingPaneLayout slidingPaneLayout;
@@ -30,10 +31,8 @@ public abstract class BaseActivity extends MvpActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutResourceId());
     }
 
-    protected abstract int getLayoutResourceId();
 
     protected void createDrawer() {
         slidingPaneLayout = findViewById(R.id.activity_main_sliding_pane);
@@ -57,7 +56,8 @@ public abstract class BaseActivity extends MvpActivity {
         ExpandableListView listView = findViewById(R.id.drawer_list_view);
         View view = getLayoutInflater().inflate(R.layout.drawer_header, null);
         listView.addHeaderView(view);
-        listView.setAdapter(new DrawerListAdapter(this, getResources().getStringArray(R.array.drawer_array), fillTitleArray(), itemIcons));
+        listView.setAdapter(new DrawerListAdapter(this, getResources().getStringArray(R.array.drawer_array),
+                fillTitleArray(), itemIcons));
         listView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
             switch (groupPosition) {
                 case 0: {
@@ -79,16 +79,12 @@ public abstract class BaseActivity extends MvpActivity {
     protected void createToolbar() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.burger_menu_ic);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (slidingPaneLayout.isOpen()) {
-                    slidingPaneLayout.closePane();
-                } else {
-                    slidingPaneLayout.openPane();
-                }
+        toolbar.setNavigationOnClickListener(v -> {
+            if (slidingPaneLayout.isOpen()) {
+                slidingPaneLayout.closePane();
+            } else {
+                slidingPaneLayout.openPane();
             }
-
         });
     }
 
