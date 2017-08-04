@@ -53,7 +53,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
                 }, Throwable::printStackTrace);
     }
 
-    private void updateOrders() {
+    public void updateOrders() {
         mainInteractor.loadOrders()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -74,6 +74,8 @@ public class MainPresenter extends MvpPresenter<MainView> {
         } else if (ORDER_IS_ACTIVE) {
             curOrder.addProduct(currentProducts.get(id));
             mainView.updateOrder(curOrder);
+            if (curOrder.products.size() > 0)
+                mainView.showButtonPanel();
         } else {
             mainView.showMessage("Добавьте новый заказ");
         }

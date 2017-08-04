@@ -32,4 +32,8 @@ public interface MainView extends MvpView {
     void moveOrder(int start, int finish);
 
     void removeOrder(int position);
+
+    void showButtonPanel();
+
+    void hideButtonPanel();
 }

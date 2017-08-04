@@ -19,6 +19,7 @@ import com.example.clevercafe.databinding.ActivityStorageBinding;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.IngredientCategory;
 import com.example.clevercafe.storage.presentation.adapters.StorageListAdapter;
+import com.example.clevercafe.utils.DialogUtil;
 import com.example.clevercafe.utils.Units;
 
 import java.util.ArrayList;
@@ -88,9 +89,14 @@ public class StorageActivity extends BaseActivity implements StorageView {
             }
             case 2: {//remove
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    presenter.deleteCategoryButClicked(groupId);
+                    DialogUtil.getDeleteAlertDialog(this, "Удаление категории", "Вы действительно хотите удалить категорию?", (dialogInterface, i) -> {
+                        presenter.deleteCategoryButClicked(groupId);
+                    }).show();
+
                 } else {
-                    presenter.deleteIngredientButClicked(groupId, childId);
+                    DialogUtil.getDeleteAlertDialog(this, "Удаление продукта", "Вы действительно хотите удалить продукт?", (dialogInterface, i) -> {
+                        presenter.deleteIngredientButClicked(groupId, childId);
+                    }).show();
                 }
                 break;
             }

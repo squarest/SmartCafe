@@ -1,5 +1,6 @@
 package com.example.clevercafe.main.presentation.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.main.presentation.MainActivity;
+import com.example.clevercafe.utils.DialogUtil;
 
 /**
  * Created by Chudofom on 21.09.16.
@@ -19,6 +21,7 @@ import com.example.clevercafe.main.presentation.MainActivity;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
     private MainActivity view;
     private Order order;
+    private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView productName;
@@ -43,7 +46,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public OrderAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                       int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
+        this.context = parent.getContext();
+        View v = LayoutInflater.from(context)
                 .inflate(R.layout.ingredient_element, parent, false);
         return new ViewHolder(v);
     }
@@ -71,12 +75,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.productUnits.setText(order.products.get(position).units);
         holder.deleteButton.setOnClickListener(v ->
         {
-            order.products.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, order.products.size());
-            if (order.products.size() == 0) {
-                view.hideButtonPanel();
-            }
+            DialogUtil.getDeleteAlertDialog(context, "Удаление продукта", "Вы действительно хотите удалить продукт?", (dialogInterface, i) -> {
+                order.products.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, order.products.size());
+                if (order.products.size() == 0) {
+                    view.hideButtonPanel();
+                }
+            }).show();
 
         });
     }

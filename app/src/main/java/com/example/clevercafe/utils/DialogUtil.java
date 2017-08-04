@@ -18,5 +18,14 @@ public class DialogUtil {
                 .setPositiveButton("Удалить", positiveListener)
                 .setNegativeButton("Отмена", (dialogInterface, i) -> dialogInterface.dismiss())
                 .create();
+    }    public static AlertDialog getDeleteAlertDialog(Context context, String title, String message,
+                                                        DialogInterface.OnClickListener positiveListener,
+                                                        DialogInterface.OnClickListener negativeListener) {
+        return new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Удалить", positiveListener)
+                .setNegativeButton("Отмена", negativeListener)
+                .create();
     }
 }

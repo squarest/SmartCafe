@@ -1,5 +1,6 @@
 package com.example.clevercafe.main.presentation;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,8 +13,6 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
-import com.example.clevercafe.menu.presentation.categories.CategoryListAdapter;
-import com.example.clevercafe.menu.presentation.products.ProductListAdapter;
 import com.example.clevercafe.base.BaseActivity;
 import com.example.clevercafe.databinding.ActivityMainBinding;
 import com.example.clevercafe.entities.Order;
@@ -22,6 +21,9 @@ import com.example.clevercafe.entities.ProductCategory;
 import com.example.clevercafe.main.presentation.adapters.OrderAdapter;
 import com.example.clevercafe.main.presentation.adapters.OrderListAdapter;
 import com.example.clevercafe.main.presentation.adapters.RecyclerItemClickListener;
+import com.example.clevercafe.menu.presentation.categories.CategoryListAdapter;
+import com.example.clevercafe.menu.presentation.products.ProductListAdapter;
+import com.example.clevercafe.utils.DialogUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,11 +36,13 @@ public class MainActivity extends BaseActivity implements MainView {
     private ActivityMainBinding binding;
     @InjectPresenter
     public MainPresenter mainPresenter;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        context = this;
         createToolbar("");
         createDrawer();
         createRecyclerViews();
@@ -96,7 +100,6 @@ public class MainActivity extends BaseActivity implements MainView {
     public void setOrder(Order order) {
         orderAdapter = new OrderAdapter(order, this);
         binding.orderList.setAdapter(orderAdapter);
-        showButtonPanel();
         binding.addOrderButton.setText("ЗАКАЗ №" + order.id);
         binding.addOrderButton.setClickable(false);
     }
@@ -128,11 +131,13 @@ public class MainActivity extends BaseActivity implements MainView {
         orderListAdapter.notifyItemRemoved(position);
     }
 
-    private void showButtonPanel() {
+    @Override
+    public void showButtonPanel() {
         binding.buttonPanel.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.buttonPanel.setVisibility(View.VISIBLE);
     }
 
+    @Override
     public void hideButtonPanel() {
         if (binding.buttonPanel != null) {
             binding.buttonPanel.getLayoutParams().height = 0;
@@ -180,7 +185,12 @@ public class MainActivity extends BaseActivity implements MainView {
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            mainPresenter.itemRemoved(viewHolder.getAdapterPosition());
+            DialogUtil.getDeleteAlertDialog(context, "Удаление заказа", "Вы действительно хотите удалить заказ?", (dialogInterface, i) -> {
+                mainPresenter.itemRemoved(viewHolder.getAdapterPosition());
+            }, (dialogInterface, i) -> {
+                mainPresenter.updateOrders();
+                dialogInterface.dismiss();
+            }).show();
         }
 
     }
