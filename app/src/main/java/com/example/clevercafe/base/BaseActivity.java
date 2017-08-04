@@ -1,22 +1,26 @@
 package com.example.clevercafe.base;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-import com.arellomobile.mvp.MvpActivity;
+import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.example.clevercafe.R;
 import com.example.clevercafe.base.adapters.DrawerListAdapter;
 import com.example.clevercafe.main.presentation.MainActivity;
 import com.example.clevercafe.menu.presentation.MenuActivity;
+import com.example.clevercafe.utils.DialogUtil;
 
 import java.util.ArrayList;
 
 
-public abstract class BaseActivity extends MvpActivity {
+public abstract class BaseActivity extends MvpAppCompatActivity {
     protected Toolbar toolbar;
     private SlidingPaneLayout slidingPaneLayout;
     private Integer[] itemIcons = {
@@ -35,7 +39,7 @@ public abstract class BaseActivity extends MvpActivity {
 
 
     protected void createDrawer() {
-        slidingPaneLayout = findViewById(R.id.activity_main_sliding_pane);
+        slidingPaneLayout = (SlidingPaneLayout) findViewById(R.id.activity_main_sliding_pane);
         slidingPaneLayout.setPanelSlideListener(new SlidingPaneLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -53,7 +57,7 @@ public abstract class BaseActivity extends MvpActivity {
                 toolbar.setNavigationIcon(R.drawable.burger_menu_ic);
             }
         });
-        ExpandableListView listView = findViewById(R.id.drawer_list_view);
+        ExpandableListView listView = (ExpandableListView) findViewById(R.id.drawer_list_view);
         View view = getLayoutInflater().inflate(R.layout.drawer_header, null);
         listView.addHeaderView(view);
         listView.setAdapter(new DrawerListAdapter(this, getResources().getStringArray(R.array.drawer_array),
@@ -76,9 +80,12 @@ public abstract class BaseActivity extends MvpActivity {
         });
     }
 
-    protected void createToolbar() {
-        toolbar = findViewById(R.id.toolbar);
+    protected void createToolbar(String title) {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(title);
+        toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setNavigationIcon(R.drawable.burger_menu_ic);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> {
             if (slidingPaneLayout.isOpen()) {
                 slidingPaneLayout.closePane();
@@ -86,6 +93,12 @@ public abstract class BaseActivity extends MvpActivity {
                 slidingPaneLayout.openPane();
             }
         });
+    }
+
+    protected void showDeleteDialog(String title, String message,
+                                    DialogInterface.OnClickListener positiveListener) {
+        AlertDialog alertDialog = DialogUtil.getDeleteAlertDialog(this, title, message, positiveListener);
+        alertDialog.show();
     }
 
     private ArrayList<String[]> fillTitleArray() {

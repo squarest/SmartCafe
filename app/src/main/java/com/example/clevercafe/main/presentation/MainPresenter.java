@@ -135,7 +135,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
     }
 
     public void orderSubmitButtonClicked(Order order) {
-        //// TODO: 27.07.17 списывать использованные для заказа ингредиенты
+        // TODO: 27.07.17 списывать использованные для заказа ингредиенты
         mainInteractor.setCompleteOrder(order)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

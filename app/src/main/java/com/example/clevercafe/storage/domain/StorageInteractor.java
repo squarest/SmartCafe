@@ -43,7 +43,7 @@ public class StorageInteractor implements IStrorageInteractor {
     public Completable editCategory(IngredientCategory category) {
         return Completable.create(e ->
         {
-            ingredientRepository.editCategory(category);
+            ingredientRepository.addCategory(category);
             e.onComplete();
         });
     }
@@ -70,7 +70,7 @@ public class StorageInteractor implements IStrorageInteractor {
     public Completable editIngredient(Ingredient ingredient) {
         return Completable.create(e ->
         {
-            ingredientRepository.editIngredient(ingredient);
+            ingredientRepository.addIngredient(ingredient);
             e.onComplete();
         });
     }

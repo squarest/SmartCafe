@@ -59,4 +59,14 @@ public class Product implements Serializable {
     public Double getIngredientCount(long ingredientId) {
         return ingredientCount.get(ingredientId);
     }
+
+    @Ignore
+    public HashMap<Long, Double> getIngredientsCount() {
+        return ingredientCount;
+    }
+
+    @Ignore
+    public void setIngredientsCount(HashMap<Long, Double> ingredientCount) {
+        this.ingredientCount = ingredientCount;
+    }
 }

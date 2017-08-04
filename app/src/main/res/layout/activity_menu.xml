@@ -2,7 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,41 +38,13 @@
                     <android.support.v7.widget.Toolbar
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content" />
 
-                        <LinearLayout
-                            android:id="@+id/activity_main_toolbar"
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
-                            android:layout_marginLeft="@dimen/main_activity_right_left_margin"
-                            android:layout_marginRight="@dimen/main_activity_right_left_margin"
-                            android:background="@android:color/transparent"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/add_category_button"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:gravity="right|center_vertical"
-                                android:text="ДОБАВИТЬ КАТЕГОРИЮ"
-                                android:textColor="#fff"
-                                android:textSize="20dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </android.support.v7.widget.Toolbar>
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/category_table"
+                    <FrameLayout
+                        android:id="@+id/table_fragment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        app:layoutManager="GridLayoutManager"
-                        app:spanCount="3"
-                        tools:listitem="@layout/product_list_item" />
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <View
@@ -81,113 +52,11 @@
                     android:layout_height="match_parent"
                     android:background="#fff" />
 
-                <LinearLayout
+                <FrameLayout
+                    android:id="@+id/add_fragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/add_product_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:gravity="center"
-                        android:text="ДОБАВИТЬ ПРОДУКТ"
-                        android:textColor="#fff"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/add_product_form"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="@dimen/main_activity_right_left_margin"
-                        android:layout_marginRight="@dimen/main_activity_right_left_margin"
-                        android:layout_marginTop="10dp"
-                        android:backgroundTint="#fff"
-                        android:clickable="false"
-                        android:visibility="invisible"
-                        app:cardCornerRadius="10dp"
-
-                        app:cardElevation="0dp"
-                        tools:visibility="visible">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="10dp">
-
-                            <EditText
-                                android:id="@+id/product_name"
-                                style="@style/add_product_edit_text"
-                                android:hint="Название" />
-
-                            <Spinner
-                                android:id="@+id/category_spinner"
-                                style="@style/add_product_edit_text" />
-
-                            <EditText
-                                android:id="@+id/product_cost"
-                                style="@style/add_product_edit_text"
-                                android:hint="Цена"
-                                android:inputType="numberDecimal" />
-
-                            <Button
-                                android:id="@+id/add_ingredients_button"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginBottom="10dp"
-
-                                android:layout_marginTop="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/round_done_button"
-                                android:shadowColor="@android:color/transparent"
-                                android:text="Добавить ингредиенты"
-                                android:textColor="#fff" />
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <Button
-                                    android:id="@+id/product_cancel_button"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:layout_marginBottom="5dp"
-                                    android:layout_marginRight="5dp"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_weight="1"
-                                    android:background="@drawable/round_cancel_button"
-                                    android:shadowColor="@android:color/transparent"
-                                    android:text="Отмена"
-
-                                    android:textColor="@color/orderButtonColor" />
-
-                                <Button
-                                    android:id="@+id/product_submit_button"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:layout_marginBottom="5dp"
-
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_weight="1"
-                                    android:background="@drawable/round_done_button"
-                                    android:shadowColor="@android:color/transparent"
-                                    android:text="Готово"
-                                    android:textColor="#fff" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                </LinearLayout>
+                    android:layout_weight="2" />
             </LinearLayout>
         </android.support.v4.widget.SlidingPaneLayout>
     </LinearLayout>

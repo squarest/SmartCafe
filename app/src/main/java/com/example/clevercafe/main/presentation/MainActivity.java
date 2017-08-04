@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
-import com.example.clevercafe.adapters.CategoryListAdapter;
-import com.example.clevercafe.adapters.ProductListAdapter;
+import com.example.clevercafe.menu.presentation.categories.CategoryListAdapter;
+import com.example.clevercafe.menu.presentation.products.ProductListAdapter;
 import com.example.clevercafe.base.BaseActivity;
 import com.example.clevercafe.databinding.ActivityMainBinding;
 import com.example.clevercafe.entities.Order;
@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity implements MainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        createToolbar();
+        createToolbar("");
         createDrawer();
         createRecyclerViews();
         setClickListeners();
@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity implements MainView {
     public void showCategories(ArrayList<ProductCategory> categories) {
         binding.productTable.setAdapter(new CategoryListAdapter(categories, false));
         categoryOnScreen = true;
-        createToolbar();
+        createToolbar("");
     }
 
     @Override
@@ -180,9 +180,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
             mainPresenter.itemRemoved(viewHolder.getAdapterPosition());
-
         }
 
     }

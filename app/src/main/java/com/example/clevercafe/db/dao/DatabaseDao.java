@@ -3,6 +3,7 @@ package com.example.clevercafe.db.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -49,7 +50,7 @@ public interface DatabaseDao {
 
 
     //ingredientCategory
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertIngredientCategory(IngredientCategory category);
 
     @Delete
@@ -58,14 +59,10 @@ public interface DatabaseDao {
     @Query("SELECT * FROM ingredientCategories")
     List<IngredientCategory> getIngredientCategories();
 
-    @Update
-    void updateIngredientCategory(IngredientCategory category);
-
 
     //ingredients
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertIngredient(Ingredient ingredient);
-
 
     @Delete
     void deleteIngredient(Ingredient ingredient);
@@ -79,12 +76,9 @@ public interface DatabaseDao {
     @Query("SELECT * FROM ingredients WHERE id = :id")
     Ingredient getIngredient(long id);
 
-    @Update
-    void updateIngredient(Ingredient ingredient);
-
 
     //productIngredients
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertProductIngredient(ProductIngredient productIngredient);
 
     @Query("SELECT * FROM productIngredients WHERE productId = :productId")
@@ -95,25 +89,23 @@ public interface DatabaseDao {
 
 
     //productCategory
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertProductCategory(ProductCategory category);
 
     @Delete
     void deleteProductCategory(ProductCategory category);
 
-    @Update
-    void updateProductCategory(ProductCategory category);
+    @Query("SELECT * FROM productCategories WHERE id = :id")
+    ProductCategory getProductCategory(long id);
+
 
     @Query("SELECT * FROM productCategories")
     List<ProductCategory> getProductCategories();
 
 
     //products
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertProduct(Product product);
-
-    @Update
-    void updateProduct(Product product);
 
     @Delete
     void deleteProduct(Product product);
@@ -131,6 +123,7 @@ public interface DatabaseDao {
     //orderProduct
     @Insert
     void insertOrderProduct(OrderProduct orderProduct);
+
     @Insert
     void insertOrderProducts(List<OrderProduct> orderProduct);
 

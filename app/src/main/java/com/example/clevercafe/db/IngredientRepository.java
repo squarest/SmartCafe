@@ -42,15 +42,6 @@ public class IngredientRepository {
 
     }
 
-    //edit
-    public void editCategory(IngredientCategory category) {
-        databaseDao.updateIngredientCategory(category);
-    }
-
-    public void editIngredient(Ingredient ingredient) {
-        databaseDao.updateIngredient(ingredient);
-    }
-
     //delete
     public void deleteCategory(IngredientCategory category) {
         databaseDao.deleteIngredientCategory(category);

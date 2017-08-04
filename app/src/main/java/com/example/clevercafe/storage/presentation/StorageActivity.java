@@ -37,7 +37,7 @@ public class StorageActivity extends BaseActivity implements StorageView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_storage);
-        createToolbar();
+        createToolbar("");
         createDrawer();
         createSpinners();
         setClickListeners();

@@ -29,6 +29,7 @@ public class ProductRepository {
         long newRowID = databaseDao.insertProduct(product);
         if (product.ingredients != null && product.ingredients.size() > 0) {
             product.id = (int) newRowID;
+            deleteIngredients(product.id);
             addIngredients(product);
         }
 
@@ -52,7 +53,7 @@ public class ProductRepository {
         return categories;
     }
 
-    private ArrayList<Product> getProducts(long categoryId) {
+    public ArrayList<Product> getProducts(long categoryId) {
         ArrayList<Product> products = (ArrayList<Product>) databaseDao.getProducts(categoryId);
         if (products.size() > 0) {
             for (Product product : products) {
@@ -76,22 +77,16 @@ public class ProductRepository {
         return ingredients;
     }
 
-    //edit
-    public void editCategory(ProductCategory category) {
-        databaseDao.updateProductCategory(category);
+    public ProductCategory getProductCategory(long categoryId) {
+        ProductCategory category = databaseDao.getProductCategory(categoryId);
+        category.products = getProducts(category.id);
+        return category;
     }
 
-
-    public void editProduct(Product product) {
-        databaseDao.updateProduct(product);
-        if (product.ingredients != null && product.ingredients.size() > 0) {
-            editIngredients(product);
-        }
-    }
-
-    public void editIngredients(Product product) {
-        deleteIngredients(product.id);
-        addIngredients(product);
+    public Product getProduct(long productId) {
+        Product product = databaseDao.getProduct(productId);
+        product.ingredients = getIngredients(product);
+        return product;
     }
 
     //delete

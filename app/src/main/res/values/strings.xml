@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CleverCafe</string>
+    <string name="app_name">SmartCafe</string>
     <string-array name="drawer_array">
         <item>ГЛАВНАЯ</item>
         <item>МЕНЮ</item>
@@ -7,4 +7,6 @@
         <item>РУКОВОДИТЕЛЮ</item>
         <item>НАСТРОЙКИ</item>
     </string-array>
+    <string name="menu_add_category_title">Добавить категорию</string>>
+    <string name="menu_toolbar_title">Редактирование меню </string>>
 </resources>

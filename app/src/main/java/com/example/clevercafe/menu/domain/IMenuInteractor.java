@@ -15,17 +15,31 @@ import io.reactivex.Observable;
 public interface IMenuInteractor {
     Observable<ArrayList<ProductCategory>> loadCategories();
 
+    Observable<ArrayList<Product>> loadProducts(long categoryId);
+
+    Observable<ProductCategory> loadCategory(long categoryId);
+
+    Observable<Product> loadProduct(long productId);
+
+    Observable<Long> productsUpdates();
+
+    Observable<Boolean> categoriesUpdates();
+
+    Observable<Long> productEdited();
+
+    Observable<Long> categoryEdited();
 
     Completable addCategory(ProductCategory category);
 
-    Completable editCategory(ProductCategory category);
+    void editCategory(long categoryId);
+
+    void editProduct(long productId);
 
     Completable deleteCategory(ProductCategory category);
 
-
     Completable addProduct(Product product);
 
-    Completable editProduct(Product product);
-
     Completable deleteProduct(Product product);
+
+
 }
