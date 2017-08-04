@@ -20,8 +20,8 @@ import java.util.ArrayList;
  */
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
     private ArrayList<Order> orderList = new ArrayList<>();
-    private Context context;
     private MainPresenter mainPresenter;
+    private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView orderNumber;
@@ -40,8 +40,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         }
     }
 
-    public OrderListAdapter(Context context, ArrayList<Order> myDataSet, MainPresenter mainPresenter) {
-        this.context = context;
+    public OrderListAdapter(ArrayList<Order> myDataSet, MainPresenter mainPresenter) {
         this.mainPresenter = mainPresenter;
         orderList = myDataSet;
     }
@@ -51,6 +50,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
                                                           int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.order_list_item, parent, false);
+        context = parent.getContext();
         return new ViewHolder(v);
     }
 

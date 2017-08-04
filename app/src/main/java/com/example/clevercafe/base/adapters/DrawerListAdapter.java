@@ -19,13 +19,11 @@ import java.util.ArrayList;
  */
 
 public class DrawerListAdapter extends BaseExpandableListAdapter {
-    Context context;
     String[] groups;
     ArrayList<String[]> childs;
     Integer[] icons;
 
-    public DrawerListAdapter(Context context, String[] groups, ArrayList<String[]> childs, Integer[] icons) {
-        this.context = context;
+    public DrawerListAdapter(String[] groups, ArrayList<String[]> childs, Integer[] icons) {
         this.childs = childs;
         this.groups = groups;
         this.icons = icons;
@@ -70,26 +68,26 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.drawer_list_item, parent, false);
-        TextView textView = (TextView) view.findViewById(R.id.drawer_item_text_view);
-        ImageView imageView = (ImageView) view.findViewById(R.id.drawer_item_image_view);
+        TextView textView = view.findViewById(R.id.drawer_item_text_view);
+        ImageView imageView = view.findViewById(R.id.drawer_item_image_view);
         textView.setText(groups[groupPosition]);
         imageView.setImageResource(icons[groupPosition]);
         return view;
     }
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.drawer_list_subitem, parent, false);
         view.setOnClickListener(v ->
         {
             if (groupPosition == 2 && childPosition == 0) {
-                Intent intent = new Intent(context, StorageActivity.class);
-                context.startActivity(intent);
+                Intent intent = new Intent(parent.getContext(), StorageActivity.class);
+                parent.getContext().startActivity(intent);
             }
         });
-        TextView textView = (TextView) view.findViewById(R.id.drawer_subitem_text_view);
+        TextView textView = view.findViewById(R.id.drawer_subitem_text_view);
         textView.setText(childs.get(groupPosition)[childPosition]);
         return view;
     }

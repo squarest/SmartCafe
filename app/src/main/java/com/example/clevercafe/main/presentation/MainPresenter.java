@@ -69,8 +69,12 @@ public class MainPresenter extends MvpPresenter<MainView> {
 
     public void itemClicked(boolean categoryOnscreen, int id) {
         if (categoryOnscreen) {
-            currentProducts = categories.get(id).products;
-            mainView.showProducts(currentProducts);
+            if (categories.get(id).products != null && categories.get(id).products.size() > 0) {
+                currentProducts = categories.get(id).products;
+                mainView.showProducts(currentProducts);
+            } else {
+                mainView.showMessage("Категория не содержит продуктов");
+            }
         } else if (ORDER_IS_ACTIVE) {
             curOrder.addProduct(currentProducts.get(id));
             mainView.updateOrder(curOrder);

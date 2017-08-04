@@ -60,7 +60,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.drawer_list_view);
         View view = getLayoutInflater().inflate(R.layout.drawer_header, null);
         listView.addHeaderView(view);
-        listView.setAdapter(new DrawerListAdapter(this, getResources().getStringArray(R.array.drawer_array),
+        listView.setAdapter(new DrawerListAdapter(getResources().getStringArray(R.array.drawer_array),
                 fillTitleArray(), itemIcons));
         listView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
             switch (groupPosition) {

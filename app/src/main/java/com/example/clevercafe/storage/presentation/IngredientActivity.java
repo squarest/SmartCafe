@@ -57,7 +57,7 @@ public class IngredientActivity extends MvpActivity implements IngredientView {
 
     @Override
     public void showStorage(ArrayList<IngredientCategory> ingredientCategories) {
-        StorageListAdapter storageListAdapter = new StorageListAdapter(this, ingredientCategories);
+        StorageListAdapter storageListAdapter = new StorageListAdapter(ingredientCategories);
         binding.storageList.setAdapter(storageListAdapter);
     }
 

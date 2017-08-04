@@ -19,11 +19,9 @@ import java.util.ArrayList;
 
 public class StorageListAdapter extends BaseExpandableListAdapter {
 
-    private Context context;
     private ArrayList<IngredientCategory> categories;
 
-    public StorageListAdapter(Context context, ArrayList<IngredientCategory> categories) {
-        this.context = context;
+    public StorageListAdapter(ArrayList<IngredientCategory> categories) {
         this.categories = categories;
     }
 
@@ -43,7 +41,7 @@ public class StorageListAdapter extends BaseExpandableListAdapter {
 
         final Ingredient child = (Ingredient) getChild(groupPosition, childPosition);
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) this.context
+            LayoutInflater inflater = (LayoutInflater) parent.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.storage_list_subitem, null);
         }
@@ -82,7 +80,7 @@ public class StorageListAdapter extends BaseExpandableListAdapter {
                              View convertView, ViewGroup parent) {
         if (convertView == null) {
 
-            LayoutInflater inflater = (LayoutInflater) this.context
+            LayoutInflater inflater = (LayoutInflater) parent.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.storage_list_item, null);
         }

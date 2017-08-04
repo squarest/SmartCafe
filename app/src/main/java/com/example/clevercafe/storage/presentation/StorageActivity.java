@@ -152,7 +152,7 @@ public class StorageActivity extends BaseActivity implements StorageView {
 
     @Override
     public void showCategories(ArrayList<IngredientCategory> categories) {
-        storageListAdapter = new StorageListAdapter(this, categories);
+        storageListAdapter = new StorageListAdapter(categories);
         binding.storageList.setAdapter(storageListAdapter);
         registerForContextMenu(binding.storageList);
         updateSpinners(categories);

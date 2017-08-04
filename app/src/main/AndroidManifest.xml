@@ -27,7 +27,9 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".base.BaseActivity" />
-        <activity android:name=".storage.presentation.IngredientActivity"></activity>
+        <activity
+            android:name=".storage.presentation.IngredientActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>
