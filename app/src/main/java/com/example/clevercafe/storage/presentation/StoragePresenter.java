@@ -1,8 +1,8 @@
 package com.example.clevercafe.storage.presentation;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 import com.example.clevercafe.App;
+import com.example.clevercafe.base.BasePresenter;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.IngredientCategory;
 import com.example.clevercafe.storage.domain.IStrorageInteractor;
@@ -13,13 +13,14 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Chudofom on 20.03.17.
  */
 @InjectViewState
-public class StoragePresenter extends MvpPresenter<StorageView> {
+public class StoragePresenter extends BasePresenter<StorageView> {
     private ArrayList<IngredientCategory> categories;
     private StorageView view = getViewState();
     @Inject
@@ -30,7 +31,7 @@ public class StoragePresenter extends MvpPresenter<StorageView> {
     }
 
     public void viewInit() {
-        interactor.loadCategories()
+        Disposable disposable = interactor.loadCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(ingredientCategories ->
@@ -39,6 +40,7 @@ public class StoragePresenter extends MvpPresenter<StorageView> {
                     if (categories != null) view.showCategories(categories);
 
                 }, Throwable::fillInStackTrace);
+        setDisposable(disposable);
     }
 
     public void addIngredientButClicked() {
@@ -51,10 +53,11 @@ public class StoragePresenter extends MvpPresenter<StorageView> {
     }
 
     public void deleteIngredientButClicked(int categoryId, int ingredientId) {
-        interactor.deleteIngredient(categories.get(categoryId).ingredients.get(ingredientId))
+        Disposable disposable = interactor.deleteIngredient(categories.get(categoryId).ingredients.get(ingredientId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+        setDisposable(disposable);
     }
 
     public void addCategoryButClicked() {
@@ -67,10 +70,11 @@ public class StoragePresenter extends MvpPresenter<StorageView> {
     }
 
     public void deleteCategoryButClicked(int categoryId) {
-        interactor.deleteCategory(categories.get(categoryId))
+        Disposable disposable = interactor.deleteCategory(categories.get(categoryId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+        setDisposable(disposable);
     }
 
     public void submitIngredientFormButClicked(int categoryId, int ingredientId, Ingredient ingredient, boolean editForm) {
@@ -81,9 +85,10 @@ public class StoragePresenter extends MvpPresenter<StorageView> {
             ingredient.categoryId = categories.get(categoryId).id;
             completable = interactor.addIngredient(ingredient);
         }
-        completable.subscribeOn(Schedulers.io())
+        Disposable disposable = completable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+        setDisposable(disposable);
     }
 
     public void submitCategoryFormButClicked(int categoryId, String name, boolean editForm) {
@@ -97,13 +102,14 @@ public class StoragePresenter extends MvpPresenter<StorageView> {
             completable = interactor.addCategory(category);
         }
 
-        completable.subscribeOn(Schedulers.io())
+        Disposable disposable = completable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+        setDisposable(disposable);
     }
 
     private void updateCategories() {
-        interactor.loadCategories()
+        Disposable disposable = interactor.loadCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(productCategories ->
@@ -113,6 +119,7 @@ public class StoragePresenter extends MvpPresenter<StorageView> {
                     view.updateCategories(categories);
 
                 }, Throwable::fillInStackTrace);
+        setDisposable(disposable);
 
     }
 }

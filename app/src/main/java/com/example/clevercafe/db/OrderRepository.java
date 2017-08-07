@@ -54,7 +54,7 @@ public class OrderRepository {
                 order.setProductCount(orderProduct.productId, orderProduct.quantity);
                 Product product = databaseDao.getProduct(orderProduct.productId);
                 if (product != null) {
-                    product.ingredients = getIngredients(product.id);
+                    product.ingredients = getIngredients(product);
                     products.add(product);
                 }
             }
@@ -63,12 +63,13 @@ public class OrderRepository {
 
     }
 
-    private ArrayList<Ingredient> getIngredients(long productId) {
-        ArrayList<ProductIngredient> productIngredients = (ArrayList<ProductIngredient>) databaseDao.getProductIngredients(productId);
+    private ArrayList<Ingredient> getIngredients(Product product) {
+        ArrayList<ProductIngredient> productIngredients = (ArrayList<ProductIngredient>) databaseDao.getProductIngredients(product.id);
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         if (productIngredients != null && productIngredients.size() > 0) {
             for (ProductIngredient productIngredient : productIngredients) {
                 ingredients.add(databaseDao.getIngredient(productIngredient.ingredientId));
+                product.setIngredientCount(productIngredient.ingredientId, productIngredient.quantity);
             }
         }
         return ingredients;

@@ -42,6 +42,10 @@ public class IngredientRepository {
 
     }
 
+    public double getIngredientsQuantity(long id) {
+        return databaseDao.getIngredientQuantity(id);
+    }
+
     //delete
     public void deleteCategory(IngredientCategory category) {
         databaseDao.deleteIngredientCategory(category);

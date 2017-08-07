@@ -1,8 +1,8 @@
 package com.example.clevercafe.storage.presentation;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 import com.example.clevercafe.App;
+import com.example.clevercafe.base.BasePresenter;
 import com.example.clevercafe.entities.IngredientCategory;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.storage.domain.IStrorageInteractor;
@@ -12,13 +12,14 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Chudofom on 27.07.17.
  */
 @InjectViewState
-public class IngredientPresenter extends MvpPresenter<IngredientView> {
+public class IngredientPresenter extends BasePresenter<IngredientView> {
 
     private Product product;
     private ArrayList<IngredientCategory> categories;
@@ -39,7 +40,7 @@ public class IngredientPresenter extends MvpPresenter<IngredientView> {
             view.showButtons();
         } else view.hideButtons();
         view.showIngredients(product);
-        interactor.loadCategories()
+        Disposable disposable = interactor.loadCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(ingredientCategories ->
@@ -48,6 +49,7 @@ public class IngredientPresenter extends MvpPresenter<IngredientView> {
                     if (categories != null) view.showStorage(categories);
 
                 }, Throwable::fillInStackTrace);
+        setDisposable(disposable);
 
     }
 

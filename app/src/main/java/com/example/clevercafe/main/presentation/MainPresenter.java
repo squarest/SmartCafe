@@ -1,8 +1,8 @@
 package com.example.clevercafe.main.presentation;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 import com.example.clevercafe.App;
+import com.example.clevercafe.base.BasePresenter;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
@@ -14,15 +14,14 @@ import java.util.Collections;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Chudofom on 03.10.16.
  */
 @InjectViewState
-public class MainPresenter extends MvpPresenter<MainView> {
-
-    //todo: добавлять подписки в список и в basePresenter отписываться
+public class MainPresenter extends BasePresenter<MainView> {
 
     private ArrayList<ProductCategory> categories = new ArrayList<>();
     private ArrayList<Order> orders = new ArrayList<>();
@@ -40,7 +39,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
     }
 
     public void viewInit() {
-        mainInteractor.loadCategories()
+        Disposable disposable = mainInteractor.loadCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(productCategories ->
@@ -51,10 +50,11 @@ public class MainPresenter extends MvpPresenter<MainView> {
                         updateOrders();
                     }
                 }, Throwable::printStackTrace);
+        setDisposable(disposable);
     }
 
     public void updateOrders() {
-        mainInteractor.loadOrders()
+        Disposable disposable = mainInteractor.loadOrders()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(returnedOrders ->
@@ -64,7 +64,24 @@ public class MainPresenter extends MvpPresenter<MainView> {
                         orders.addAll(returnedOrders);
                         mainView.setOrders(orders);
                     }
+                }, Throwable::printStackTrace);
+        setDisposable(disposable);
+    }
+
+    public void ingredientsCountChanged(Product product) {
+        Disposable disposable = mainInteractor.checkIngredients(product, curOrder.getProductCount(product.id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                }, throwable ->
+                {
+                    // TODO: 06.08.17 показывать диалог с названием недостающего ингредиента и спрашивать "все равно продолжить?"
+                    // TODO: 06.08.17 если пользователь нажал нет то удалять продукт
+
+
+                    mainView.showMessage("Недостаточно ингредиентов на складе");
                 });
+        setDisposable(disposable);
     }
 
     public void itemClicked(boolean categoryOnscreen, int id) {
@@ -80,6 +97,8 @@ public class MainPresenter extends MvpPresenter<MainView> {
             mainView.updateOrder(curOrder);
             if (curOrder.products.size() > 0)
                 mainView.showButtonPanel();
+
+
         } else {
             mainView.showMessage("Добавьте новый заказ");
         }
@@ -112,10 +131,11 @@ public class MainPresenter extends MvpPresenter<MainView> {
         ORDER_IS_ACTIVE = false;
         if (curOrder != null) {
             curOrder.sum = checkSum(curOrder.products);
-            mainInteractor.setOrder(curOrder)
+            Disposable disposable = mainInteractor.setOrder(curOrder)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::updateOrders);
+                    .subscribe(this::updateOrders, Throwable::printStackTrace);
+            setDisposable(disposable);
         } else mainView.showMessage("Заказ пуст");
     }
 
@@ -130,10 +150,11 @@ public class MainPresenter extends MvpPresenter<MainView> {
     }
 
     public void itemRemoved(int position) {
-        mainInteractor.removeOrder(orders.get(position))
+        Disposable disposable = mainInteractor.removeOrder(orders.get(position))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateOrders);
+                .subscribe(this::updateOrders, Throwable::printStackTrace);
+        setDisposable(disposable);
     }
 
     public int getOrderSize() {
@@ -141,11 +162,11 @@ public class MainPresenter extends MvpPresenter<MainView> {
     }
 
     public void orderSubmitButtonClicked(Order order) {
-        // TODO: 27.07.17 списывать использованные для заказа ингредиенты
-        mainInteractor.setCompleteOrder(order)
+        Disposable disposable = mainInteractor.setCompleteOrder(order)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateOrders);
+                .subscribe(this::updateOrders, Throwable::printStackTrace);
+        setDisposable(disposable);
     }
 
     public void backToCategoryButtonClicked() {

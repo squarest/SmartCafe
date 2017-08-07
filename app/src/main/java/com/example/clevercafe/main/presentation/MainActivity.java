@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity implements MainView {
         hideButtonPanel();
         orderList.clear();
         orderList.addAll(orders);
-        orderListAdapter = new OrderListAdapter(orderList, mainPresenter);
+        orderListAdapter = new OrderListAdapter(    orderList, mainPresenter);
         binding.orderList.setAdapter(orderListAdapter);
         binding.addOrderButton.setText("ДОБАВИТЬ");
         binding.addOrderButton.setClickable(true);
@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void setOrder(Order order) {
-        orderAdapter = new OrderAdapter(order, this);
+        orderAdapter = new OrderAdapter(order, this,mainPresenter);
         binding.orderList.setAdapter(orderAdapter);
         binding.addOrderButton.setText("ЗАКАЗ №" + order.id);
         binding.addOrderButton.setClickable(false);

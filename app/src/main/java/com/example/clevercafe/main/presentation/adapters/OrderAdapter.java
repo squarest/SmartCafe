@@ -12,14 +12,17 @@ import android.widget.TextView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.Order;
-import com.example.clevercafe.main.presentation.MainActivity;
+import com.example.clevercafe.main.presentation.MainPresenter;
+import com.example.clevercafe.main.presentation.MainView;
 import com.example.clevercafe.utils.DialogUtil;
 
 /**
  * Created by Chudofom on 21.09.16.
  */
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
-    private MainActivity view;
+    //// TODO: 06.08.17 inject dependency with dagger to all adapters
+    private MainView view;
+    public MainPresenter presenter;
     private Order order;
     private Context context;
 
@@ -38,9 +41,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
     }
 
-    public OrderAdapter(Order order, MainActivity view) {
+    public OrderAdapter(Order order, MainView view, MainPresenter presenter) {
         this.order = order;
         this.view = view;
+        this.presenter = presenter;
     }
 
     @Override
@@ -69,6 +73,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             @Override
             public void afterTextChanged(Editable s) {
                 order.setProductCount(order.products.get(position).id, Double.valueOf(s.toString()));
+                presenter.ingredientsCountChanged(order.products.get(position));
             }
         });
         holder.productQuantity.setText(String.valueOf(order.getProductCount(order.products.get(position).id)));

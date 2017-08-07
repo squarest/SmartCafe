@@ -2,6 +2,7 @@ package com.example.clevercafe.main.di;
 
 import com.example.clevercafe.dagger.scopes.MainScope;
 import com.example.clevercafe.db.CompleteOrderRepository;
+import com.example.clevercafe.db.IngredientRepository;
 import com.example.clevercafe.db.OrderRepository;
 import com.example.clevercafe.db.ProductRepository;
 import com.example.clevercafe.main.domain.IMainInteractor;
@@ -18,7 +19,8 @@ public class MainModule {
     @Provides
     @MainScope
     public IMainInteractor provideMainInteractor(ProductRepository productRepository,
-                                                 OrderRepository orderRepository, CompleteOrderRepository completeOrderRepository) {
-        return new MainInteractor(productRepository, orderRepository, completeOrderRepository);
+                                                 OrderRepository orderRepository, CompleteOrderRepository completeOrderRepository,
+                                                 IngredientRepository ingredientRepository) {
+        return new MainInteractor(productRepository, orderRepository, completeOrderRepository, ingredientRepository);
     }
 }

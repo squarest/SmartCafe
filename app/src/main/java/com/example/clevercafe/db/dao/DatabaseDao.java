@@ -76,6 +76,9 @@ public interface DatabaseDao {
     @Query("SELECT * FROM ingredients WHERE id = :id")
     Ingredient getIngredient(long id);
 
+    @Query("SELECT quantity FROM ingredients WHERE id = :id")
+    double getIngredientQuantity(long id);
+
 
     //productIngredients
     @Insert(onConflict = OnConflictStrategy.REPLACE)

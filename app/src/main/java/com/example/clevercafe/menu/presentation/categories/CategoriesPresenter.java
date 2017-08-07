@@ -1,8 +1,8 @@
 package com.example.clevercafe.menu.presentation.categories;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
 import com.example.clevercafe.App;
+import com.example.clevercafe.base.BasePresenter;
 import com.example.clevercafe.entities.ProductCategory;
 import com.example.clevercafe.menu.domain.IMenuInteractor;
 
@@ -18,12 +18,10 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Chudofom on 31.07.17.
  */
 @InjectViewState
-public class CategoriesPresenter extends MvpPresenter<ICategoriesFragment> {
+public class CategoriesPresenter extends BasePresenter<ICategoriesFragment> {
     private ArrayList<ProductCategory> categories = new ArrayList<>();
     @Inject
     public IMenuInteractor interactor;
-
-    private Disposable categoriesDisposable;
 
     public CategoriesPresenter() {
         App.getMenuComponent().inject(this);
@@ -35,7 +33,7 @@ public class CategoriesPresenter extends MvpPresenter<ICategoriesFragment> {
 
 
     private void setCategories() {
-        interactor.loadCategories()
+        Disposable disposable = interactor.loadCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(productCategories ->
@@ -44,6 +42,7 @@ public class CategoriesPresenter extends MvpPresenter<ICategoriesFragment> {
                     categories.addAll(productCategories);
                     getViewState().showCategories(categories);
                 }, Throwable::fillInStackTrace);
+        setDisposable(disposable);
     }
 
     public void editCategoryButClicked(int categoryPosition) {
@@ -51,26 +50,22 @@ public class CategoriesPresenter extends MvpPresenter<ICategoriesFragment> {
     }
 
     public void deleteCategoryButClicked(int categoryPosition) {
-        interactor.deleteCategory(categories.get(categoryPosition))
+        Disposable disposable = interactor.deleteCategory(categories.get(categoryPosition))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
+        setDisposable(disposable);
     }
 
     @Override
     public void attachView(ICategoriesFragment view) {
         super.attachView(view);
-        categoriesDisposable = interactor.categoriesUpdates()
+        Disposable disposable = interactor.categoriesUpdates()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(b ->
                 {
                     if (b) setCategories();
                 }, Throwable::printStackTrace);
-    }
-
-    @Override
-    public void detachView(ICategoriesFragment view) {
-        super.detachView(view);
-        categoriesDisposable.dispose();
+        setDisposable(disposable);
     }
 }

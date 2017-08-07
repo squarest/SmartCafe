@@ -1,6 +1,7 @@
 package com.example.clevercafe.main.domain;
 
 import com.example.clevercafe.entities.Order;
+import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
 
 import java.util.ArrayList;
@@ -23,5 +24,6 @@ public interface IMainInteractor {
 
     Completable setCompleteOrder(Order order);
 
-    Completable checkIngredients(ProductCategory product);
+    Completable checkIngredients(Product product, double productCount);
+
 }
