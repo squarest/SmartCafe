@@ -25,5 +25,6 @@ public interface IMainInteractor {
     Completable setCompleteOrder(Order order);
 
     Completable checkIngredients(Product product, double productCount);
+    long getCurOrderId();
 
 }

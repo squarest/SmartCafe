@@ -106,14 +106,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void addOrderButtonClicked() {
-        //при удалении всех заказов номер заказа сбрасывается
-        //необходимо где то хранить
-        //возможно в репозитории
-        // TODO: 26.07.17 fix orderId
-        long orderId = 1;
-        if (orders.size() > 0)
-            orderId = orders.get(orders.size() - 1).id + 1;
-        curOrder = new Order(orderId, new ArrayList<>());
+        curOrder = new Order(mainInteractor.getCurOrderId() + 1, new ArrayList<>());
         ORDER_IS_ACTIVE = true;
         mainView.setOrder(curOrder);
 

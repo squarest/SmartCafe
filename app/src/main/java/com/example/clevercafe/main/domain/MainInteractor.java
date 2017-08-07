@@ -95,6 +95,11 @@ public class MainInteractor implements IMainInteractor {
         });
     }
 
+    @Override
+    public long getCurOrderId() {
+        return orderRepository.getOrderId();
+    }
+
     private void subtractIngredients(Order order) {
         for (Product product : order.products) {
             for (Ingredient ingredient : product.ingredients) {

@@ -21,8 +21,15 @@ public class OrderRepository {
         this.databaseDao = databaseDao;
     }
 
+    private long orderId = 0;
+
+    public long getOrderId() {
+        return orderId;
+    }
+
     public void addOrder(Order order) {
-        order.id = databaseDao.insertOrder(order);
+        orderId = databaseDao.insertOrder(order);
+        order.id = orderId;
         if (order.products != null && order.products.size() > 0) addProducts(order);
     }
 
