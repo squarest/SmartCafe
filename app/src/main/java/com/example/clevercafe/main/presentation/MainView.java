@@ -36,4 +36,6 @@ public interface MainView extends MvpView {
     void showButtonPanel();
 
     void hideButtonPanel();
+
+    void showOrderAlertDialog(String productName, double maxProductCount);
 }

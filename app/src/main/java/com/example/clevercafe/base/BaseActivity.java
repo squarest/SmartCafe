@@ -1,11 +1,9 @@
 package com.example.clevercafe.base;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -15,7 +13,6 @@ import com.example.clevercafe.R;
 import com.example.clevercafe.base.adapters.DrawerListAdapter;
 import com.example.clevercafe.main.presentation.MainActivity;
 import com.example.clevercafe.menu.presentation.MenuActivity;
-import com.example.clevercafe.utils.DialogUtil;
 
 import java.util.ArrayList;
 
@@ -93,12 +90,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
                 slidingPaneLayout.openPane();
             }
         });
-    }
-
-    protected void showDeleteDialog(String title, String message,
-                                    DialogInterface.OnClickListener positiveListener) {
-        AlertDialog alertDialog = DialogUtil.getDeleteAlertDialog(this, title, message, positiveListener);
-        alertDialog.show();
     }
 
     private ArrayList<String[]> fillTitleArray() {

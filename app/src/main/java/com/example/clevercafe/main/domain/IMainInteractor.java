@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by Chudofom on 24.07.17.
@@ -24,7 +25,8 @@ public interface IMainInteractor {
 
     Completable setCompleteOrder(Order order);
 
-    Completable checkIngredients(Product product, double productCount);
+    Single<Double> checkIngredients(Product product, double productCount);
+
     long getCurOrderId();
 
 }

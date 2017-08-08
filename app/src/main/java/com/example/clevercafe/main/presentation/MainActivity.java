@@ -3,6 +3,7 @@ package com.example.clevercafe.main.presentation;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,7 @@ public class MainActivity extends BaseActivity implements MainView {
     private boolean categoryOnScreen = true;
     private ArrayList<Order> orderList = new ArrayList<>();
     private ActivityMainBinding binding;
+    private AlertDialog alertDialog;
     @InjectPresenter
     public MainPresenter mainPresenter;
     private Context context;
@@ -78,9 +80,9 @@ public class MainActivity extends BaseActivity implements MainView {
         hideButtonPanel();
         orderList.clear();
         orderList.addAll(orders);
-        orderListAdapter = new OrderListAdapter(    orderList, mainPresenter);
+        orderListAdapter = new OrderListAdapter(orderList, mainPresenter);
         binding.orderList.setAdapter(orderListAdapter);
-        binding.addOrderButton.setText("ДОБАВИТЬ");
+        binding.addOrderButton.setText("Новый заказ");
         binding.addOrderButton.setClickable(true);
     }
 
@@ -98,7 +100,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void setOrder(Order order) {
-        orderAdapter = new OrderAdapter(order, this,mainPresenter);
+        orderAdapter = new OrderAdapter(order, this, mainPresenter);
         binding.orderList.setAdapter(orderAdapter);
         binding.addOrderButton.setText("ЗАКАЗ №" + order.id);
         binding.addOrderButton.setClickable(false);
@@ -145,6 +147,16 @@ public class MainActivity extends BaseActivity implements MainView {
         }
     }
 
+    @Override
+    public void showOrderAlertDialog(String productName, double maxProductCount) {
+        alertDialog = DialogUtil.getWarningAlertDialog(this, "Недостаточно продуктов",
+                "Для добавления товара " + productName + " недостаточно продуктов. \n Возможно добавить только " + maxProductCount,
+                (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                });
+        alertDialog.show();
+    }
+
     private void createRecyclerViews() {
         LinearLayoutManager orderLayoutManager = new LinearLayoutManager(this);
         binding.orderList.setLayoutManager(orderLayoutManager);
@@ -185,7 +197,8 @@ public class MainActivity extends BaseActivity implements MainView {
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            DialogUtil.getDeleteAlertDialog(context, "Удаление заказа", "Вы действительно хотите удалить заказ?", (dialogInterface, i) -> {
+            DialogUtil.getDeleteAlertDialog(context, "Удаление заказа", "Вы действительно хотите удалить заказ?",
+                    (dialogInterface, i) -> {
                 mainPresenter.itemRemoved(viewHolder.getAdapterPosition());
             }, (dialogInterface, i) -> {
                 mainPresenter.updateOrders();

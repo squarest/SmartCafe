@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by Chudofom on 24.07.17.
@@ -82,16 +83,19 @@ public class MainInteractor implements IMainInteractor {
     }
 
     @Override
-    public Completable checkIngredients(Product product, double productCount) {
-        return Completable.create(e ->
+    public Single<Double> checkIngredients(Product product, double productCount) {
+        return Single.create(e ->
         {
+            double maxProductCount = -1;
             ArrayList<Ingredient> ingredients = product.ingredients;
             for (Ingredient ingredient : ingredients) {
                 double quantity = ingredientRepository.getIngredientsQuantity(ingredient.id);
                 if (quantity < product.getIngredientCount(ingredient.id) * productCount) {
-                    e.onError(new Exception());
-                } else e.onComplete();
+                    double count = quantity / product.getIngredientCount(ingredient.id);
+                    if (count > maxProductCount) maxProductCount = count;
+                }
             }
+            if (maxProductCount > -1) e.onSuccess(maxProductCount);
         });
     }
 

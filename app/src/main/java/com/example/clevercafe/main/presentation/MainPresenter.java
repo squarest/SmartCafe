@@ -72,17 +72,14 @@ public class MainPresenter extends BasePresenter<MainView> {
         Disposable disposable = mainInteractor.checkIngredients(product, curOrder.getProductCount(product.id))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {
-                }, throwable ->
-                {
-                    // TODO: 06.08.17 показывать диалог с названием недостающего ингредиента и спрашивать "все равно продолжить?"
-                    // TODO: 06.08.17 если пользователь нажал нет то удалять продукт
-
-
-                    mainView.showMessage("Недостаточно ингредиентов на складе");
-                });
+                .subscribe(maxProductCount -> {
+                    curOrder.setProductCount(product.id, maxProductCount);
+                    mainView.setOrder(curOrder);
+                    mainView.showOrderAlertDialog(product.name, maxProductCount);
+                }, Throwable::printStackTrace);
         setDisposable(disposable);
     }
+
 
     public void itemClicked(boolean categoryOnscreen, int id) {
         if (categoryOnscreen) {
@@ -97,8 +94,6 @@ public class MainPresenter extends BasePresenter<MainView> {
             mainView.updateOrder(curOrder);
             if (curOrder.products.size() > 0)
                 mainView.showButtonPanel();
-
-
         } else {
             mainView.showMessage("Добавьте новый заказ");
         }

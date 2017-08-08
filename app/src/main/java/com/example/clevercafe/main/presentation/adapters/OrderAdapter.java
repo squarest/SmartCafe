@@ -20,9 +20,8 @@ import com.example.clevercafe.utils.DialogUtil;
  * Created by Chudofom on 21.09.16.
  */
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
-    //// TODO: 06.08.17 inject dependency with dagger to all adapters
     private MainView view;
-    public MainPresenter presenter;
+    private MainPresenter presenter;
     private Order order;
     private Context context;
 

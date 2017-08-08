@@ -21,6 +21,9 @@ public class OrderRepository {
         this.databaseDao = databaseDao;
     }
 
+    // TODO: 07.08.17 хранить отдельно номер и id, в активити передавать номер, id только для базы
+    // TODO: 07.08.17 номер хранить в Shared Preference и проверять дату при запуске экрана и очищать
+    // TODO: 07.08.17  в настройках можно выбрать когда сбрасывать номер
     private long orderId = 0;
 
     public long getOrderId() {
