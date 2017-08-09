@@ -101,7 +101,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void addOrderButtonClicked() {
-        curOrder = new Order(mainInteractor.getCurOrderId() + 1, new ArrayList<>());
+        curOrder = new Order(mainInteractor.getCurOrderNumber(), new ArrayList<>());
         ORDER_IS_ACTIVE = true;
         mainView.setOrder(curOrder);
 

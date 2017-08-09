@@ -27,6 +27,6 @@ public interface IMainInteractor {
 
     Single<Double> checkIngredients(Product product, double productCount);
 
-    long getCurOrderId();
+    long getCurOrderNumber();
 
 }

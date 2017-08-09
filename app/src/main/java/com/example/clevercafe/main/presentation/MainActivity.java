@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity implements MainView {
     public void setOrder(Order order) {
         orderAdapter = new OrderAdapter(order, this, mainPresenter);
         binding.orderList.setAdapter(orderAdapter);
-        binding.addOrderButton.setText("ЗАКАЗ №" + order.id);
+        binding.addOrderButton.setText("ЗАКАЗ №" + order.number);
         binding.addOrderButton.setClickable(false);
     }
 

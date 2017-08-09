@@ -100,8 +100,8 @@ public class MainInteractor implements IMainInteractor {
     }
 
     @Override
-    public long getCurOrderId() {
-        return orderRepository.getOrderId();
+    public long getCurOrderNumber() {
+        return orderRepository.getCurOrderNumber();
     }
 
     private void subtractIngredients(Order order) {

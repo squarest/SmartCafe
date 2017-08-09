@@ -14,14 +14,16 @@ import java.util.HashMap;
 public class Order {
     @PrimaryKey(autoGenerate = true)
     public long id;
+    @Ignore
+    public long number;
     public Double sum;
 
     public Order() {
     }
 
     @Ignore
-    public Order(long id, ArrayList<Product> products) {
-        this.id = id;
+    public Order(long number, ArrayList<Product> products) {
+        this.number = number;
         this.products = products;
     }
 

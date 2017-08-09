@@ -2,6 +2,8 @@ package com.example.clevercafe.dagger.modules;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.example.clevercafe.db.AppDatabase;
 import com.example.clevercafe.db.CompleteOrderRepository;
@@ -35,6 +37,12 @@ public class DataModule {
 
     @Provides
     @Singleton
+    public SharedPreferences provideSharedPref(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    @Provides
+    @Singleton
     public IngredientRepository provideIngredientRepository(DatabaseDao databaseDao) {
         return new IngredientRepository(databaseDao);
     }
@@ -47,8 +55,8 @@ public class DataModule {
 
     @Provides
     @Singleton
-    public OrderRepository provideOrderRepository(DatabaseDao databaseDao) {
-        return new OrderRepository(databaseDao);
+    public OrderRepository provideOrderRepository(DatabaseDao databaseDao, SharedPreferences sharedPreferences) {
+        return new OrderRepository(databaseDao, sharedPreferences);
     }
 
     @Provides

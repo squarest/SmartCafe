@@ -1,5 +1,7 @@
 package com.example.clevercafe.db;
 
+import android.content.SharedPreferences;
+
 import com.example.clevercafe.db.dao.DatabaseDao;
 import com.example.clevercafe.db.entities.OrderProduct;
 import com.example.clevercafe.db.entities.ProductIngredient;
@@ -16,23 +18,33 @@ import java.util.List;
 
 public class OrderRepository {
     public DatabaseDao databaseDao;
+    public SharedPreferences preferences;
 
-    public OrderRepository(DatabaseDao databaseDao) {
+    public OrderRepository(DatabaseDao databaseDao, SharedPreferences preferences) {
         this.databaseDao = databaseDao;
+        this.preferences = preferences;
     }
 
-    // TODO: 07.08.17 хранить отдельно номер и id, в активити передавать номер, id только для базы
-    // TODO: 07.08.17 номер хранить в Shared Preference и проверять дату при запуске экрана и очищать
-    // TODO: 07.08.17  в настройках можно выбрать когда сбрасывать номер
-    private long orderId = 0;
+    private long curOrderNumber;
+    private String curOrderNumberString = "curOrderNumber";
 
-    public long getOrderId() {
-        return orderId;
+
+    public long getCurOrderNumber() {
+        this.curOrderNumber = preferences.getLong(curOrderNumberString, 1);
+        return curOrderNumber;
+    }
+
+    private void setCurOrderNumber(Order order) {
+        this.curOrderNumber = order.id + 1;
+        preferences.edit()
+                .putLong(curOrderNumberString, curOrderNumber)
+                .apply();
+//                .putLong("lastOrderTime",time)
     }
 
     public void addOrder(Order order) {
-        orderId = databaseDao.insertOrder(order);
-        order.id = orderId;
+        order.id = databaseDao.insertOrder(order);
+        setCurOrderNumber(order);
         if (order.products != null && order.products.size() > 0) addProducts(order);
     }
 
