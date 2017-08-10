@@ -27,7 +27,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/background"
+                android:background="@color/backgroundColor"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -40,7 +40,7 @@
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="8dp"
                         android:background="@android:color/transparent"
                         android:orientation="horizontal" />
 
@@ -48,26 +48,24 @@
                         android:id="@+id/product_table"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
                         app:layoutManager="GridLayoutManager"
                         app:spanCount="3"
-                        tools:listitem="@layout/product_list_item" />
+                        tools:listitem="@layout/category_list_item" />
                 </LinearLayout>
 
                 <View
-                    android:layout_width="2dp"
+                    android:layout_width="4dp"
                     android:layout_height="match_parent"
-                    android:background="#fff" />
+                    android:background="#fff"
+                    android:elevation="8dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:orientation="vertical"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/add_order_button"
@@ -75,8 +73,8 @@
                         android:layout_height="?attr/actionBarSize"
                         android:background="?android:attr/selectableItemBackground"
                         android:gravity="center"
-                        android:text="НОВЫЙ ЗАКАЗ"
-                        android:textColor="#fff"
+                        android:text="ДОБАВИТЬ ЗАКАЗ"
+                        android:textColor="@color/darkTextColor"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
@@ -99,27 +97,23 @@
                             android:id="@+id/cancel_button"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginTop="5dp"
+                            android:layout_margin="8dp"
                             android:layout_weight="1"
                             android:background="@drawable/round_cancel_button"
                             android:shadowColor="@android:color/transparent"
                             android:text="Отмена"
-                            android:textColor="@color/orderButtonColor" />
+                            android:textColor="@color/darkTextColor" />
 
                         <Button
                             android:id="@+id/submit_button"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginTop="5dp"
+                            android:layout_margin="8dp"
                             android:layout_weight="1"
                             android:background="@drawable/round_done_button"
                             android:shadowColor="@android:color/transparent"
                             android:text="Готово"
-                            android:textColor="#fff" />
+                            android:textColor="@color/whiteTextColor" />
 
                     </LinearLayout>
                 </LinearLayout>

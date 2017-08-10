@@ -1,5 +1,7 @@
 package com.example.clevercafe.menu.presentation.categories;
 
+import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -17,20 +19,24 @@ import java.util.ArrayList;
  */
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
     private ArrayList<ProductCategory> categoryList = new ArrayList<>();
+    private Context context;
     private static boolean editMode;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
         public TextView nameTextView;
+        public CardView cardView;
 
 
         public ViewHolder(View v) {
             super(v);
             nameTextView = v.findViewById(R.id.card_product_name);
+            cardView = v.findViewById(R.id.category_card);
             if (editMode)
                 v.setOnCreateContextMenuListener(this);
 
         }
+
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(1, 1, 1, "Редактировать");
@@ -64,7 +70,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     public CategoryListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                              int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.product_list_item, parent, false);
+                .inflate(R.layout.category_list_item, parent, false);
+        context = parent.getContext();
         return new ViewHolder(v);
     }
 
@@ -75,6 +82,15 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             setPosition(holder.getAdapterPosition());
             return false;
         });
+
+        int backgroundColor = R.color.darkTextColor;
+        if (position % 3 == 0)
+            backgroundColor = R.color.firstCardColor;
+        else if (position % 3 == 1 % 3)
+            backgroundColor = R.color.secondCardColor;
+        else if (position % 3 == 2 % 3)
+            backgroundColor = R.color.thirdCardColor;
+        holder.cardView.setCardBackgroundColor(context.getResources().getColor(backgroundColor));
 
     }
 
