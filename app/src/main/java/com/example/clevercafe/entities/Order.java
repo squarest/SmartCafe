@@ -34,7 +34,8 @@ public class Order {
 
     @Ignore
     public void addProduct(Product product) {
-        if (!products.contains(product)) {
+
+        if (!productsCount.containsKey(product.id)) {
             products.add(product);
             productsCount.put(product.id, 1.0);
         } else {

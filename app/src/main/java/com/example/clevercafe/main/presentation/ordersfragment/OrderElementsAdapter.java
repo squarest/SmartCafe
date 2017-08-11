@@ -1,4 +1,4 @@
-package com.example.clevercafe.main.presentation.adapters;
+package com.example.clevercafe.main.presentation.ordersfragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

@@ -21,7 +21,7 @@ public class AddProductPresenter extends BasePresenter<IAddProductFragment> {
     public IMenuInteractor interactor;
 
     public AddProductPresenter() {
-        App.getMenuComponent().inject(this);
+        App.getMainComponent().inject(this);
     }
 
     public void submitButtonClicked(Product product) {

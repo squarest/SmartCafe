@@ -1,4 +1,4 @@
-package com.example.clevercafe.main.presentation.adapters;
+package com.example.clevercafe.main.presentation.orderfragment;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,16 +12,13 @@ import android.widget.TextView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.Order;
-import com.example.clevercafe.main.presentation.MainPresenter;
-import com.example.clevercafe.main.presentation.MainView;
 import com.example.clevercafe.utils.DialogUtil;
 
 /**
  * Created by Chudofom on 21.09.16.
  */
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
-    private MainView view;
-    private MainPresenter presenter;
+    private OrderPresenter presenter;
     private Order order;
     private Context context;
 
@@ -40,9 +37,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         }
     }
 
-    public OrderAdapter(Order order, MainView view, MainPresenter presenter) {
+    public OrderAdapter(Order order, OrderPresenter presenter) {
         this.order = order;
-        this.view = view;
         this.presenter = presenter;
     }
 
@@ -83,9 +79,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                 order.products.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, order.products.size());
-                if (order.products.size() == 0) {
-                    view.hideButtonPanel();
-                }
             }).show();
 
         });

@@ -1,7 +1,12 @@
 package com.example.clevercafe.main.di;
 
 import com.example.clevercafe.dagger.scopes.MainScope;
-import com.example.clevercafe.main.presentation.MainPresenter;
+import com.example.clevercafe.main.presentation.orderfragment.OrderPresenter;
+import com.example.clevercafe.main.presentation.ordersfragment.OrdersPresenter;
+import com.example.clevercafe.menu.presentation.addcategory.AddCategoryPresenter;
+import com.example.clevercafe.menu.presentation.addproduct.AddProductPresenter;
+import com.example.clevercafe.menu.presentation.categories.CategoriesPresenter;
+import com.example.clevercafe.menu.presentation.products.ProductsPresenter;
 
 import dagger.Subcomponent;
 
@@ -11,6 +16,16 @@ import dagger.Subcomponent;
 @MainScope
 @Subcomponent(modules = {MainModule.class})
 public interface MainComponent {
-    void inject(MainPresenter mainPresenter);
+    void inject(OrderPresenter orderPresenter);
+
+    void inject(OrdersPresenter ordersPresenter);
+
+    void inject(CategoriesPresenter presenter);
+
+    void inject(ProductsPresenter presenter);
+
+    void inject(AddProductPresenter presenter);
+
+    void inject(AddCategoryPresenter presenter);
 
 }

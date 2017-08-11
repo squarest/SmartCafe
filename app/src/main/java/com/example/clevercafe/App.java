@@ -7,8 +7,6 @@ import com.example.clevercafe.dagger.DaggerAppComponent;
 import com.example.clevercafe.dagger.modules.AppModule;
 import com.example.clevercafe.main.di.MainComponent;
 import com.example.clevercafe.main.di.MainModule;
-import com.example.clevercafe.menu.di.MenuComponent;
-import com.example.clevercafe.menu.di.MenuModule;
 import com.example.clevercafe.storage.di.StorageComponent;
 import com.example.clevercafe.storage.di.StorageModule;
 
@@ -20,15 +18,10 @@ public class App extends Application {
     private static AppComponent appComponent;
 
     private static MainComponent mainComponent;
-    private static MenuComponent menuComponent;
     private static StorageComponent storageComponent;
 
     public static MainComponent getMainComponent() {
         return mainComponent;
-    }
-
-    public static MenuComponent getMenuComponent() {
-        return menuComponent;
     }
 
     public static StorageComponent getStorageComponent() {
@@ -41,7 +34,6 @@ public class App extends Application {
         super.onCreate();
         appComponent = buildComponent();
         mainComponent = plusMainComponent();
-        menuComponent = plusMenuComponent();
         storageComponent = plusStorageComponent();
     }
 
@@ -57,15 +49,6 @@ public class App extends Application {
         }
         return mainComponent;
     }
-
-
-    public MenuComponent plusMenuComponent() {
-        if (menuComponent == null) {
-            menuComponent = appComponent.plusMenuComponent(new MenuModule());
-        }
-        return menuComponent;
-    }
-
 
     public StorageComponent plusStorageComponent() {
         if (storageComponent == null) {

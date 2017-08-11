@@ -7,13 +7,13 @@ import com.example.clevercafe.db.ProductRepository;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
-import com.example.clevercafe.entities.ProductCategory;
 
 import java.util.ArrayList;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.subjects.ReplaySubject;
 
 /**
  * Created by Chudofom on 24.07.17.
@@ -25,22 +25,24 @@ public class MainInteractor implements IMainInteractor {
     public CompleteOrderRepository completeOrderRepository;
     public IngredientRepository ingredientRepository;
 
+    public ReplaySubject<Product> productSelected;
+
+    private boolean orderActive;
+
+    public void setOrderActive(boolean orderActive) {
+        this.orderActive = orderActive;
+    }
+
+    public boolean isOrderActive() {
+        return orderActive;
+    }
+
     public MainInteractor(ProductRepository productRepository, OrderRepository orderRepository,
                           CompleteOrderRepository completeOrderRepository, IngredientRepository ingredientRepository) {
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
         this.completeOrderRepository = completeOrderRepository;
         this.ingredientRepository = ingredientRepository;
-    }
-
-    @Override
-    public Observable<ArrayList<ProductCategory>> loadCategories() {
-        return Observable.create(e ->
-        {
-            ArrayList<ProductCategory> categories = productRepository.getCategories();
-            if (categories != null) e.onNext(categories);
-            else e.onError(new NullPointerException());
-        });
     }
 
     @Override
@@ -102,6 +104,17 @@ public class MainInteractor implements IMainInteractor {
     @Override
     public long getCurOrderNumber() {
         return orderRepository.getCurOrderNumber();
+    }
+
+    @Override
+    public void productSelected(Product product) {
+        productSelected.onNext(product);
+    }
+
+    @Override
+    public Observable<Product> productSelection() {
+        productSelected = ReplaySubject.create();
+        return productSelected;
     }
 
     private void subtractIngredients(Order order) {

@@ -1,7 +1,6 @@
 package com.example.clevercafe.base;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.widget.Toolbar;
@@ -80,7 +79,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
     protected void createToolbar(String title) {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(title);
-        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.darkTextColor));
         toolbar.setNavigationIcon(R.drawable.burger_menu_ic);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> {

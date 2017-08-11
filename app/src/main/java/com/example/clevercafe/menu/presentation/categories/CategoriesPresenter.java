@@ -24,7 +24,7 @@ public class CategoriesPresenter extends BasePresenter<ICategoriesFragment> {
     public IMenuInteractor interactor;
 
     public CategoriesPresenter() {
-        App.getMenuComponent().inject(this);
+        App.getMainComponent().inject(this);
     }
 
     public void categoriesInit() {

@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.example.clevercafe.App;
 import com.example.clevercafe.base.BasePresenter;
 import com.example.clevercafe.entities.Product;
+import com.example.clevercafe.main.domain.IMainInteractor;
 import com.example.clevercafe.menu.domain.IMenuInteractor;
 
 import java.util.ArrayList;
@@ -21,29 +22,43 @@ public class ProductsPresenter extends BasePresenter<IProductsFragment> {
 
     private ArrayList<Product> products = new ArrayList<>();
     @Inject
-    public IMenuInteractor interactor;
+    public IMenuInteractor menuInteractor;
+
+    @Inject
+    public IMainInteractor mainInteractor;
 
 
     public ProductsPresenter() {
-        App.getMenuComponent().inject(this);
+        App.getMainComponent().inject(this);
     }
 
 
     @Override
     public void attachView(IProductsFragment view) {
         super.attachView(view);
-        interactor.productsUpdates()
+        menuInteractor.productsUpdates()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::setProducts, Throwable::printStackTrace);
     }
 
+
+    public void productClicked(int productPosition) {
+        if (mainInteractor.isOrderActive()){
+            menuInteractor.loadProduct(products.get(productPosition).id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(product -> {mainInteractor.productSelected(product);},Throwable::printStackTrace);
+
+
+        }
+    }
 
     public void productsInit(long categoryId) {
         setProducts(categoryId);
     }
 
     private void setProducts(long categoryId) {
-        interactor.loadProducts(categoryId)
+        menuInteractor.loadProducts(categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(returnedProducts ->
@@ -55,11 +70,11 @@ public class ProductsPresenter extends BasePresenter<IProductsFragment> {
     }
 
     public void editProductButClicked(int productPosition) {
-        interactor.editProduct(products.get(productPosition).id);
+        menuInteractor.editProduct(products.get(productPosition).id);
     }
 
     public void deleteProductButClicked(int productPosition) {
-        interactor.deleteProduct(products.get(productPosition))
+        menuInteractor.deleteProduct(products.get(productPosition))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();

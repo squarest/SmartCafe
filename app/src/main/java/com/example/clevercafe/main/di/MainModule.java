@@ -7,6 +7,8 @@ import com.example.clevercafe.db.OrderRepository;
 import com.example.clevercafe.db.ProductRepository;
 import com.example.clevercafe.main.domain.IMainInteractor;
 import com.example.clevercafe.main.domain.MainInteractor;
+import com.example.clevercafe.menu.domain.IMenuInteractor;
+import com.example.clevercafe.menu.domain.MenuInteractor;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,5 +24,10 @@ public class MainModule {
                                                  OrderRepository orderRepository, CompleteOrderRepository completeOrderRepository,
                                                  IngredientRepository ingredientRepository) {
         return new MainInteractor(productRepository, orderRepository, completeOrderRepository, ingredientRepository);
+    }
+    @Provides
+    @MainScope
+    public IMenuInteractor provideMenuInteractor(ProductRepository productRepository) {
+        return new MenuInteractor(productRepository);
     }
 }

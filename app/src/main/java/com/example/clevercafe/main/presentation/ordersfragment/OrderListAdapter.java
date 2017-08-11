@@ -1,4 +1,4 @@
-package com.example.clevercafe.main.presentation.adapters;
+package com.example.clevercafe.main.presentation.ordersfragment;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.Order;
-import com.example.clevercafe.main.presentation.MainPresenter;
 
 import java.util.ArrayList;
 
@@ -20,7 +19,7 @@ import java.util.ArrayList;
  */
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
     private ArrayList<Order> orderList = new ArrayList<>();
-    private MainPresenter mainPresenter;
+    private OrdersPresenter presenter;
     private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -40,8 +39,8 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         }
     }
 
-    public OrderListAdapter(ArrayList<Order> myDataSet, MainPresenter mainPresenter) {
-        this.mainPresenter = mainPresenter;
+    public OrderListAdapter(ArrayList<Order> myDataSet, OrdersPresenter presenter) {
+        this.presenter = presenter;
         orderList = myDataSet;
     }
 
@@ -68,7 +67,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.recyclerView.setAdapter(new OrderElementsAdapter(orderList.get(position)));
         holder.submitOrderButton.setOnClickListener(v ->
         {
-            mainPresenter.orderSubmitButtonClicked(orderList.get(position));
+            presenter.orderSubmitButtonClicked(orderList.get(position));
         });
 
     }

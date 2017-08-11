@@ -20,7 +20,7 @@
                 android:layout_width="@dimen/drawer_width"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/drawer_background"
+                android:background="@color/drawerBackgroundColor"
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0dp" />
 
@@ -44,15 +44,10 @@
                         android:background="@android:color/transparent"
                         android:orientation="horizontal" />
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/product_table"
+                    <FrameLayout
+                        android:id="@+id/table_fragment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        app:layoutManager="GridLayoutManager"
-                        app:spanCount="3"
-                        tools:listitem="@layout/category_list_item" />
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
                 <View
@@ -61,62 +56,11 @@
                     android:background="#fff"
                     android:elevation="8dp" />
 
-                <LinearLayout
+                <FrameLayout
+                    android:id="@+id/orders_fragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/add_order_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:gravity="center"
-                        android:text="ДОБАВИТЬ ЗАКАЗ"
-                        android:textColor="@color/darkTextColor"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/order_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-
-                        tools:listitem="@layout/order_list_item" />
-
-                    <LinearLayout
-                        android:id="@+id/button_panel"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:orientation="horizontal"
-                        android:visibility="invisible">
-
-                        <Button
-                            android:id="@+id/cancel_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/round_cancel_button"
-                            android:shadowColor="@android:color/transparent"
-                            android:text="Отмена"
-                            android:textColor="@color/darkTextColor" />
-
-                        <Button
-                            android:id="@+id/submit_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_margin="8dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/round_done_button"
-                            android:shadowColor="@android:color/transparent"
-                            android:text="Готово"
-                            android:textColor="@color/whiteTextColor" />
-
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_weight="2" />
             </LinearLayout>
         </android.support.v4.widget.SlidingPaneLayout>
     </LinearLayout>

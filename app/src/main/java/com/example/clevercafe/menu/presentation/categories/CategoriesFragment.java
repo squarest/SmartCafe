@@ -14,9 +14,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
 import com.example.clevercafe.databinding.CategoriesFragmentBinding;
 import com.example.clevercafe.entities.ProductCategory;
-import com.example.clevercafe.main.presentation.adapters.RecyclerItemClickListener;
 import com.example.clevercafe.menu.presentation.MenuView;
 import com.example.clevercafe.utils.DialogUtil;
+import com.example.clevercafe.utils.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,16 @@ public class CategoriesFragment extends MvpAppCompatFragment implements ICategor
     public CategoriesPresenter presenter;
     private CategoryListAdapter categoryListAdapter;
     private MenuView menuView;
+    private boolean isEditMode;
     private ArrayList<ProductCategory> categories = new ArrayList<>();
+
+    public static CategoriesFragment newInstance(boolean isEditMode) {
+        Bundle args = new Bundle();
+        args.putBoolean("editMode", isEditMode);
+        CategoriesFragment fragment = new CategoriesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -41,12 +50,15 @@ public class CategoriesFragment extends MvpAppCompatFragment implements ICategor
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle args = getArguments();
+        long id = args.getLong("categoryId", -1);
+        isEditMode = args.getBoolean("editMode");
         binding.categoryTable.setLayoutManager(new GridLayoutManager(getContext(), 3));
         presenter.categoriesInit();
         menuView = (MenuView) getActivity();
         binding.categoryTable.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
                 (v, position) -> {
-                    menuView.showProducts(categories.get(position).id);
+                    menuView.showProducts(categories.get(position).id, categories.get(position).name);
                 }));
     }
 
@@ -74,7 +86,7 @@ public class CategoriesFragment extends MvpAppCompatFragment implements ICategor
     public void showCategories(ArrayList<ProductCategory> categories) {
         this.categories.clear();
         this.categories.addAll(categories);
-        categoryListAdapter = new CategoryListAdapter(categories, true);
+        categoryListAdapter = new CategoryListAdapter(categories, isEditMode);
         binding.categoryTable.setAdapter(categoryListAdapter);
     }
 

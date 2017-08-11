@@ -21,7 +21,7 @@ public class AddCategoryPresenter extends BasePresenter<IAddCategoryFragment> {
     public IMenuInteractor interactor;
 
     public AddCategoryPresenter() {
-        App.getMenuComponent().inject(this);
+        App.getMainComponent().inject(this);
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
 import com.example.clevercafe.base.BaseActivity;
 import com.example.clevercafe.entities.Product;
@@ -18,8 +17,6 @@ import com.example.clevercafe.menu.presentation.products.ProductsFragment;
  */
 
 public class MenuActivity extends BaseActivity implements MenuView {
-    @InjectPresenter
-    public MenuPresenter presenter;
     private AddProductFragment addProductFragment;
 
     @Override
@@ -45,19 +42,20 @@ public class MenuActivity extends BaseActivity implements MenuView {
 
     private void setCategories() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.table_fragment, new CategoriesFragment())
+                .replace(R.id.table_fragment, CategoriesFragment.newInstance(true))
                 .commit();
         createToolbar(getResources().getString(R.string.menu_toolbar_title));
         setAddCategoryFragment();
     }
 
     @Override
-    public void showProducts(long categoryId) {
+    public void showProducts(long categoryId, String categoryName) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.table_fragment, ProductsFragment.newInstance(categoryId))
+                .replace(R.id.table_fragment, ProductsFragment.newInstance(categoryId, true))
                 .commit();
         toolbar.setNavigationIcon(R.drawable.back_ic);
         toolbar.setNavigationOnClickListener(view -> setCategories());
+        toolbar.setTitle(categoryName);
         setAddProductFragment(categoryId);
 
 

@@ -6,6 +6,6 @@
     android:paddingBottom="50dp"
     android:paddingTop="50dp"
     android:text="SmartCafe"
-    android:textColor="#fff"
+    android:textColor="@color/darkTextColor"
     android:textSize="30dp"
     android:textStyle="bold" />

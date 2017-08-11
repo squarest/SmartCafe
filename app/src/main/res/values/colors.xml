@@ -12,6 +12,7 @@
     <color name="submitButtonColor">#952e8a</color>
     <color name="cancelButtonColor">#fff</color>
     <color name="whiteTextColor">#fff</color>
+    <color name="drawerBackgroundColor">#fff</color>
     <color name="darkTextColor">#353535</color>
     <color name="greyTextColor">#606060</color>
 </resources>

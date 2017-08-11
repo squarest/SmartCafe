@@ -2,7 +2,6 @@ package com.example.clevercafe.main.domain;
 
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
-import com.example.clevercafe.entities.ProductCategory;
 
 import java.util.ArrayList;
 
@@ -15,9 +14,11 @@ import io.reactivex.Single;
  */
 
 public interface IMainInteractor {
-    Observable<ArrayList<ProductCategory>> loadCategories();
-
     Observable<ArrayList<Order>> loadOrders();
+
+    void setOrderActive(boolean orderActive);
+
+    boolean isOrderActive();
 
     Completable setOrder(Order order);
 
@@ -28,5 +29,9 @@ public interface IMainInteractor {
     Single<Double> checkIngredients(Product product, double productCount);
 
     long getCurOrderNumber();
+
+    void productSelected(Product product);
+
+    Observable<Product> productSelection();
 
 }

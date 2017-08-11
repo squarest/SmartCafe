@@ -15,6 +15,7 @@ import com.example.clevercafe.R;
 import com.example.clevercafe.databinding.ProductsFragmentBinding;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.utils.DialogUtil;
+import com.example.clevercafe.utils.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 
@@ -27,10 +28,12 @@ public class ProductsFragment extends MvpAppCompatFragment implements IProductsF
     @InjectPresenter
     public ProductsPresenter presenter;
     private ProductListAdapter productListAdapter;
+    private  boolean isEditMode;
 
-    public static ProductsFragment newInstance(long categoryId) {
+    public static ProductsFragment newInstance(long categoryId, boolean isEditMode) {
         Bundle args = new Bundle();
         args.putLong("categoryId", categoryId);
+        args.putBoolean("editMode", isEditMode);
         ProductsFragment fragment = new ProductsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -47,10 +50,15 @@ public class ProductsFragment extends MvpAppCompatFragment implements IProductsF
         super.onViewCreated(view, savedInstanceState);
         Bundle args = getArguments();
         long id = args.getLong("categoryId", -1);
+        isEditMode = args.getBoolean("editMode");
         if (id == -1) {
             new NullPointerException().printStackTrace();
         } else {
             binding.productTable.setLayoutManager(new GridLayoutManager(getContext(), 3));
+            binding.productTable.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
+                    (v, position) -> {
+                        presenter.productClicked(position);
+                    }));
             presenter.productsInit(id);
         }
 
@@ -78,7 +86,7 @@ public class ProductsFragment extends MvpAppCompatFragment implements IProductsF
 
     @Override
     public void showProducts(ArrayList<Product> products) {
-        productListAdapter = new ProductListAdapter(products, true);
+        productListAdapter = new ProductListAdapter(products, isEditMode);
         binding.productTable.setAdapter(productListAdapter);
     }
 
