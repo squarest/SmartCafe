@@ -43,7 +43,8 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(product -> {
                     order.addProduct(product);
-                    getViewState().updateOrder();
+                    order.sum = checkSum(order);
+                    getViewState().updateOrder(order);
                 });
         setDisposable(disposable);
     }
@@ -54,7 +55,8 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(maxProductCount -> {
                     order.setProductCount(product.id, maxProductCount);
-                    getViewState().updateOrder();
+                    order.sum = checkSum(order);
+                    getViewState().updateOrder(order);
                     getViewState().showOrderAlertDialog(product.name, maxProductCount);
                 }, Throwable::printStackTrace);
         setDisposable(disposable);
@@ -62,7 +64,6 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
 
     public void submitButtonClicked() {
         if (order.products.size() > 0) {
-            order.sum = checkSum(order);
             Disposable disposable = interactor.setOrder(order)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

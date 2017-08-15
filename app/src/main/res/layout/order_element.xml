@@ -3,16 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:layout_width="300dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    tools:layout_width="300dp">
 
     <TextView
         android:id="@+id/order_product_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
+
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         android:text="борщик"
         android:textColor="#000" />
 
@@ -22,18 +23,21 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
         android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        tools:text="1.0"
-        android:textColor="#000" />
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textColor="#000"
+        android:textSize="16dp"
+        tools:text="1.0" />
+
     <TextView
         android:id="@+id/order_product_cost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
         android:gravity="right"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        tools:text="59р"
-        android:textColor="#000" />
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textColor="#000"
+        android:textSize="16dp"
+        tools:text="59р" />
 </LinearLayout>

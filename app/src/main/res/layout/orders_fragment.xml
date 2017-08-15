@@ -13,8 +13,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
-            android:text="ДОБАВИТЬ ЗАКАЗ"
-            android:textColor="@color/darkTextColor"
+            android:text="НОВЫЙ ЗАКАЗ"
+            android:textColor="@color/darkBlue"
             android:textSize="20dp"
             android:textStyle="bold" />
 

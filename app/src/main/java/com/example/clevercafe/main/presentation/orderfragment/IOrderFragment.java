@@ -14,7 +14,7 @@ public interface IOrderFragment extends MvpView {
 
     void showOrders();
 
-    void updateOrder();
+    void updateOrder(Order order);
 
     void showMessage(String message);
 }

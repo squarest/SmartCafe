@@ -83,13 +83,13 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             return false;
         });
 
-        int backgroundColor = R.color.darkTextColor;
+        int backgroundColor = R.color.darkGrey;
         if (position % 3 == 0)
-            backgroundColor = R.color.firstCardColor;
+            backgroundColor = R.color.purple;
         else if (position % 3 == 1 % 3)
-            backgroundColor = R.color.secondCardColor;
+            backgroundColor = R.color.darkBlue;
         else if (position % 3 == 2 % 3)
-            backgroundColor = R.color.thirdCardColor;
+            backgroundColor = R.color.lightBlue;
         holder.cardView.setCardBackgroundColor(context.getResources().getColor(backgroundColor));
 
     }

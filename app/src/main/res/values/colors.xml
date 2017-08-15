@@ -4,15 +4,11 @@
     <color name="colorPrimaryDark">#484846</color>
     <color name="colorAccent">#FF4081</color>
     <color name="orderButtonColor">#ffd900</color>
-    <color name="textColor">#fff</color>
     <color name="backgroundColor">#f2f2f2</color>
-    <color name="firstCardColor">#952e8a</color>
-    <color name="secondCardColor">#080e3f</color>
-    <color name="thirdCardColor">#3598db</color>
-    <color name="submitButtonColor">#952e8a</color>
-    <color name="cancelButtonColor">#fff</color>
-    <color name="whiteTextColor">#fff</color>
-    <color name="drawerBackgroundColor">#fff</color>
-    <color name="darkTextColor">#353535</color>
-    <color name="greyTextColor">#606060</color>
+    <color name="purple">#952e8a</color>
+    <color name="darkBlue">#080e3f</color>
+    <color name="lightBlue">#3598db</color>
+    <color name="white">#fff</color>
+    <color name="darkGrey">#353535</color>
+    <color name="grey">#606060</color>
 </resources>

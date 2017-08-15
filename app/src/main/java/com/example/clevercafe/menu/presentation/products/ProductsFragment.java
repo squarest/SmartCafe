@@ -16,6 +16,7 @@ import com.example.clevercafe.databinding.ProductsFragmentBinding;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.utils.DialogUtil;
 import com.example.clevercafe.utils.RecyclerItemClickListener;
+import com.example.clevercafe.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class ProductsFragment extends MvpAppCompatFragment implements IProductsF
     @InjectPresenter
     public ProductsPresenter presenter;
     private ProductListAdapter productListAdapter;
-    private  boolean isEditMode;
+    private boolean isEditMode;
 
     public static ProductsFragment newInstance(long categoryId, boolean isEditMode) {
         Bundle args = new Bundle();
@@ -54,7 +55,8 @@ public class ProductsFragment extends MvpAppCompatFragment implements IProductsF
         if (id == -1) {
             new NullPointerException().printStackTrace();
         } else {
-            binding.productTable.setLayoutManager(new GridLayoutManager(getContext(), 3));
+            binding.productTable.setLayoutManager(new GridLayoutManager(getContext(),
+                    Utility.calculateNoOfColumns(getContext())));
             binding.productTable.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),
                     (v, position) -> {
                         presenter.productClicked(position);

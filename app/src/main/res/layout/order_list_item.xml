@@ -10,12 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:backgroundTint="#fff"
-        app:cardElevation="8dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp">
+        android:backgroundTint="#fff"
+        app:cardElevation="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,11 +33,6 @@
                 android:textColor="#000"
                 android:textSize="18dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="@color/orderButtonColor" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,7 +45,9 @@
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     android:text="Блюдо"
-                    android:textColor="#000" />
+                    android:textColor="#000"
+                    android:textSize="18dp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,7 +56,8 @@
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     android:text="Кол-во"
-                    android:textColor="#000" />
+                    android:textColor="#000"
+                    android:textSize="18dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -68,13 +66,14 @@
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     android:text="Цена"
-                    android:textColor="#000" />
+                    android:textColor="#000"
+                    android:textSize="18dp" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@drawable/dotter_line" />
+                android:layout_height="1.5dp"
+                android:background="@color/darkBlue" />
 
             <TextView
                 android:id="@+id/choose_product"
@@ -94,7 +93,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"
-                android:background="@color/orderButtonColor" />
+                android:background="@color/darkBlue" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,12 +104,12 @@
                 <Button
                     android:id="@+id/order_submit_button"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_weight="1.5"
-                    android:shadowColor="@android:color/transparent"
                     android:background="@drawable/round_done_button"
+                    android:shadowColor="@android:color/transparent"
                     android:text="Готово"
                     android:textColor="#fff" />
 

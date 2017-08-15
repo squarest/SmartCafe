@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,9 @@ public class OrderFragment extends MvpAppCompatFragment implements IOrderFragmen
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mainView = (MainView) getActivity();
-        binding.orderList.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.orderList.setLayoutManager(layoutManager);
+        binding.orderList.addItemDecoration(new DividerItemDecoration(getContext(), layoutManager.getOrientation()));
         setClickListeners();
         presenter.viewInit();
     }
@@ -66,6 +69,7 @@ public class OrderFragment extends MvpAppCompatFragment implements IOrderFragmen
         orderAdapter = new OrderAdapter(order, presenter);
         binding.orderList.setAdapter(orderAdapter);
         binding.orderNumber.setText("ЗАКАЗ №" + order.number);
+        binding.orderSum.setText("Итого: " + order.sum);
 
     }
 
@@ -75,8 +79,9 @@ public class OrderFragment extends MvpAppCompatFragment implements IOrderFragmen
     }
 
     @Override
-    public void updateOrder() {
+    public void updateOrder(Order order) {
         orderAdapter.notifyDataSetChanged();
+        binding.orderSum.setText("Итого: " + order.sum);
     }
 
     @Override

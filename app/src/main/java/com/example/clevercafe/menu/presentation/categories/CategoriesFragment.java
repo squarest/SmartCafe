@@ -17,6 +17,7 @@ import com.example.clevercafe.entities.ProductCategory;
 import com.example.clevercafe.menu.presentation.MenuView;
 import com.example.clevercafe.utils.DialogUtil;
 import com.example.clevercafe.utils.RecyclerItemClickListener;
+import com.example.clevercafe.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,8 @@ public class CategoriesFragment extends MvpAppCompatFragment implements ICategor
         Bundle args = getArguments();
         long id = args.getLong("categoryId", -1);
         isEditMode = args.getBoolean("editMode");
-        binding.categoryTable.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        binding.categoryTable.setLayoutManager(new GridLayoutManager(getContext(),
+                Utility.calculateNoOfColumns(getContext())));
         presenter.categoriesInit();
         menuView = (MenuView) getActivity();
         binding.categoryTable.addOnItemTouchListener(new RecyclerItemClickListener(getContext(),

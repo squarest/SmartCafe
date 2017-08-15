@@ -79,7 +79,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
     protected void createToolbar(String title) {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(title);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.darkTextColor));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.darkBlue));
         toolbar.setNavigationIcon(R.drawable.burger_menu_ic);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> {
