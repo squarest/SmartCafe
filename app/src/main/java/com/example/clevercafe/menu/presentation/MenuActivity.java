@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.clevercafe.App;
 import com.example.clevercafe.R;
 import com.example.clevercafe.base.BaseActivity;
 import com.example.clevercafe.entities.Product;
@@ -11,6 +12,7 @@ import com.example.clevercafe.menu.presentation.addcategory.AddCategoryFragment;
 import com.example.clevercafe.menu.presentation.addproduct.AddProductFragment;
 import com.example.clevercafe.menu.presentation.categories.CategoriesFragment;
 import com.example.clevercafe.menu.presentation.products.ProductsFragment;
+import com.example.clevercafe.utils.ImagePicker;
 
 /**
  * Created by Chudofom on 20.03.17.
@@ -18,6 +20,7 @@ import com.example.clevercafe.menu.presentation.products.ProductsFragment;
 
 public class MenuActivity extends BaseActivity implements MenuView {
     private AddProductFragment addProductFragment;
+    private AddCategoryFragment addCategoryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +38,9 @@ public class MenuActivity extends BaseActivity implements MenuView {
     }
 
     private void setAddCategoryFragment() {
+        addCategoryFragment = new AddCategoryFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.add_fragment, new AddCategoryFragment())
+                .replace(R.id.add_fragment, addCategoryFragment)
                 .commit();
     }
 
@@ -57,8 +61,6 @@ public class MenuActivity extends BaseActivity implements MenuView {
         toolbar.setNavigationOnClickListener(view -> setCategories());
         toolbar.setTitle(categoryName);
         setAddProductFragment(categoryId);
-
-
     }
 
     @Override
@@ -69,8 +71,22 @@ public class MenuActivity extends BaseActivity implements MenuView {
             if (null == data) {
                 return;
             }
-            newProduct = (Product) data.getSerializableExtra("product");
-            addProductFragment.setIngredients(newProduct);
-        } else Toast.makeText(this, "Добавление ингедиентов отменено", Toast.LENGTH_SHORT).show();
+            switch (requestCode) {
+                case App.INGREDIENT_REQUEST_CODE: {
+                    newProduct = (Product) data.getSerializableExtra("product");
+                    addProductFragment.setIngredients(newProduct);
+                    break;
+                }
+                case App.ICON_REQUEST_CODE: {
+                    addCategoryFragment.setCategoryIconPath(data.getStringExtra("iconPath"));
+                    break;
+                }
+                case App.IMAGE_REQUEST_CODE: {
+                    addProductFragment.setImagePath(ImagePicker.getImageFromResult(this, resultCode, data));
+                    break;
+                }
+            }
+
+        } else Toast.makeText(this, "Добавление отменено", Toast.LENGTH_SHORT).show();
     }
 }

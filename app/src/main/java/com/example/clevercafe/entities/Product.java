@@ -19,6 +19,7 @@ public class Product implements Serializable {
     public String name;
     public double cost;
     public String units;
+    public String imagePath;
 
     public Product() {
     }

@@ -1,7 +1,13 @@
 package com.example.clevercafe.utils;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by Chudofom on 15.08.17.
@@ -14,4 +20,16 @@ public class Utility {
         return (int) (dpWidth / 320);
     }
 
+    public static Bitmap loadIconFromAssets(Context context, String fileName) {
+
+        AssetManager assetmanager = context.getAssets();
+        InputStream is = null;
+        try {
+
+            is = assetmanager.open("icons/"+fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return BitmapFactory.decodeStream(is);
+    }
 }

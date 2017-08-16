@@ -14,7 +14,7 @@ import io.reactivex.subjects.ReplaySubject;
  * Created by Chudofom on 24.07.17.
  */
 
-public class  MenuInteractor implements IMenuInteractor {
+public class MenuInteractor implements IMenuInteractor {
     private ProductRepository productRepository;
 
     private ReplaySubject<Long> productsUpdates;

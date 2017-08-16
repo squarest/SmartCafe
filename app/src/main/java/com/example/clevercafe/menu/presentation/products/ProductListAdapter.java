@@ -1,10 +1,12 @@
 package com.example.clevercafe.menu.presentation.products;
 
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
@@ -22,11 +24,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
         public TextView nameTextView;
+        public ImageView imageView;
 
 
         public ViewHolder(View v) {
             super(v);
             nameTextView = v.findViewById(R.id.card_product_name);
+            imageView = v.findViewById(R.id.product_imageview);
             if (editMode)
                 v.setOnCreateContextMenuListener(this);
         }
@@ -65,7 +69,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.nameTextView.setText(productList.get(position).name);
+        Product product = productList.get(position);
+        holder.nameTextView.setText(product.name);
+        if (product.imagePath != null && !product.imagePath.isEmpty()) {
+            holder.imageView.setImageBitmap(BitmapFactory.decodeFile(product.imagePath));
+        }
         holder.itemView.setOnLongClickListener(v -> {
             setPosition(holder.getAdapterPosition());
             return false;

@@ -33,7 +33,7 @@ public class CategoriesPresenter extends BasePresenter<ICategoriesFragment> {
 
 
     private void setCategories() {
-        Disposable disposable = interactor.loadCategories()
+        interactor.loadCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(productCategories ->
@@ -42,7 +42,6 @@ public class CategoriesPresenter extends BasePresenter<ICategoriesFragment> {
                     categories.addAll(productCategories);
                     getViewState().showCategories(categories);
                 }, Throwable::fillInStackTrace);
-        setDisposable(disposable);
     }
 
     public void editCategoryButClicked(int categoryPosition) {
@@ -60,12 +59,11 @@ public class CategoriesPresenter extends BasePresenter<ICategoriesFragment> {
     @Override
     public void attachView(ICategoriesFragment view) {
         super.attachView(view);
-        Disposable disposable = interactor.categoriesUpdates()
+        interactor.categoriesUpdates()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(b ->
                 {
                     if (b) setCategories();
                 }, Throwable::printStackTrace);
-        setDisposable(disposable);
     }
 }

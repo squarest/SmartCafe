@@ -34,20 +34,17 @@ public class AddCategoryPresenter extends BasePresenter<IAddCategoryFragment> {
     }
 
     private void setCategory(long categoryId) {
-        Disposable disposable = interactor.loadCategory(categoryId)
+       interactor.loadCategory(categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(category -> getViewState().showEditForm(category),
                         Throwable::printStackTrace);
-        setDisposable(disposable);
-
     }
 
     public void submitButtonClicked(ProductCategory category) {
-        Disposable disposable = interactor.addCategory(category)
+        interactor.addCategory(category)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::hideForm, Throwable::fillInStackTrace);
-        setDisposable(disposable);
     }
 }

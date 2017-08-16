@@ -54,11 +54,20 @@
                     android:id="@+id/add_ingredients_button"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_weight="1"
                     android:background="@drawable/round_done_button"
                     android:text="Добавить ингредиенты"
+                    android:textColor="#fff" />
+                <Button
+                    android:id="@+id/add_picture_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_done_button"
+                    android:text="Добавить изображение"
                     android:textColor="#fff" />
 
                 <LinearLayout

@@ -18,6 +18,5 @@ import dagger.Component;
 @Singleton
 public interface AppComponent {
     MainComponent plusMainComponent(MainModule mainModule);
-
     StorageComponent plusStorageComponent(StorageModule storageModule);
 }

@@ -32,6 +32,7 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
     public void viewInit() {
         interactor.setOrderActive(true);
         order = new Order(interactor.getCurOrderNumber(), new ArrayList<>());
+        if (order.sum == null) order.sum = 0.0;
         getViewState().setOrder(order);
     }
 

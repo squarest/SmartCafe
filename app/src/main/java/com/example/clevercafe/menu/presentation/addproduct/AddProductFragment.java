@@ -11,10 +11,12 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.example.clevercafe.App;
 import com.example.clevercafe.R;
 import com.example.clevercafe.databinding.AddproductFragmentBinding;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.storage.presentation.IngredientActivity;
+import com.example.clevercafe.utils.ImagePicker;
 
 import java.util.ArrayList;
 
@@ -63,8 +65,11 @@ public class AddProductFragment extends MvpAppCompatFragment implements IAddProd
         });
         binding.addProductButton.setOnClickListener(v -> showAddForm());
         binding.addIngredientsButton.setOnClickListener(v -> showStorage());
+        binding.addPictureButton.setOnClickListener(v -> {
+            Intent chooseImageIntent = ImagePicker.getPickImageIntent(getContext());
+            getActivity().startActivityForResult(chooseImageIntent, App.IMAGE_REQUEST_CODE);
+        });
     }
-
 
     @Override
     public void showAddForm() {
@@ -116,7 +121,11 @@ public class AddProductFragment extends MvpAppCompatFragment implements IAddProd
         Intent intent = new Intent(getActivity(), IngredientActivity.class);
         if (curentProduct.ingredients == null) curentProduct.ingredients = new ArrayList<>();
         intent.putExtra("product", curentProduct);
-        startActivityForResult(intent, 1);
+        getActivity().startActivityForResult(intent, App.INGREDIENT_REQUEST_CODE);
+    }
+
+    public void setImagePath(String imagePath) {
+        curentProduct.imagePath = imagePath;
     }
 
     public void setIngredients(Product product) {

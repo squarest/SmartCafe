@@ -1,5 +1,6 @@
 package com.example.clevercafe.menu.presentation.addcategory;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.example.clevercafe.App;
 import com.example.clevercafe.R;
 import com.example.clevercafe.databinding.AddcategoryFragmentBinding;
 import com.example.clevercafe.entities.ProductCategory;
@@ -44,10 +46,16 @@ public class AddCategoryFragment extends MvpAppCompatFragment implements IAddCat
             presenter.submitButtonClicked(category);
         });
         binding.addCategoryButton.setOnClickListener(v -> showAddForm());
+        binding.addIconButton.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(getContext(), IconsActivity.class);
+            getActivity().startActivityForResult(intent, App.ICON_REQUEST_CODE);
+        });
     }
 
     @Override
     public void showAddForm() {
+        currentCategory = new ProductCategory();
         binding.addCategoryForm.setVisibility(View.VISIBLE);
         binding.addCategoryForm.setClickable(true);
 
@@ -55,8 +63,8 @@ public class AddCategoryFragment extends MvpAppCompatFragment implements IAddCat
 
     @Override
     public void showEditForm(ProductCategory category) {
-        currentCategory = category;
         showAddForm();
+        currentCategory = category;
         setCategory(category);
     }
 
@@ -81,9 +89,6 @@ public class AddCategoryFragment extends MvpAppCompatFragment implements IAddCat
 
     private ProductCategory getCategory() {
         if (!binding.categoryName.getText().toString().isEmpty()) {
-            if (currentCategory == null) {
-                currentCategory = new ProductCategory();
-            }
             currentCategory.name = binding.categoryName.getText().toString();
         } else {
             Toast.makeText(getContext(), "Заполните все поля", Toast.LENGTH_SHORT).show();
@@ -94,5 +99,9 @@ public class AddCategoryFragment extends MvpAppCompatFragment implements IAddCat
     private void setCategory(ProductCategory category) {
         binding.categoryName.setText(category.name);
 
+    }
+
+    public void setCategoryIconPath(String iconPath) {
+        currentCategory.setIconPath(iconPath);
     }
 }

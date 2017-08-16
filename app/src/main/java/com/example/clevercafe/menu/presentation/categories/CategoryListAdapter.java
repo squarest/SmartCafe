@@ -7,10 +7,12 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.ProductCategory;
+import com.example.clevercafe.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -26,11 +28,13 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
         public TextView nameTextView;
         public CardView cardView;
+        public ImageView imageView;
 
 
         public ViewHolder(View v) {
             super(v);
             nameTextView = v.findViewById(R.id.card_product_name);
+            imageView = v.findViewById(R.id.category_imageview);
             cardView = v.findViewById(R.id.category_card);
             if (editMode)
                 v.setOnCreateContextMenuListener(this);
@@ -77,7 +81,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.nameTextView.setText(categoryList.get(position).name);
+        ProductCategory productCategory = categoryList.get(position);
+        holder.nameTextView.setText(productCategory.name);
         holder.itemView.setOnLongClickListener(v -> {
             setPosition(holder.getAdapterPosition());
             return false;
@@ -91,6 +96,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         else if (position % 3 == 2 % 3)
             backgroundColor = R.color.lightBlue;
         holder.cardView.setCardBackgroundColor(context.getResources().getColor(backgroundColor));
+        holder.imageView.setImageBitmap(Utility.loadIconFromAssets(context, productCategory.iconPath));
 
     }
 

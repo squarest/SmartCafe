@@ -16,9 +16,12 @@ import com.example.clevercafe.storage.di.StorageModule;
 
 public class App extends Application {
     private static AppComponent appComponent;
-
     private static MainComponent mainComponent;
     private static StorageComponent storageComponent;
+
+    public static final int INGREDIENT_REQUEST_CODE = 0;
+    public static final int ICON_REQUEST_CODE = 1;
+    public static final int IMAGE_REQUEST_CODE = 2;
 
     public static MainComponent getMainComponent() {
         return mainComponent;
