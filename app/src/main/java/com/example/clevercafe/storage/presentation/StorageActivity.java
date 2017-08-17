@@ -64,8 +64,8 @@ public class StorageActivity extends BaseActivity implements StorageView {
         menu.add(1, 1, 1, "Редактировать");
         menu.add(2, 2, 2, "Удалить");
         if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            //menu.add(3, 3, 3, "Cписать");
             menu.setHeaderTitle("Изменение продукта");
+            menu.add(3, 3, 3, "Cписать");
         } else {
             menu.setHeaderTitle("Изменение категории");
         }
@@ -97,6 +97,15 @@ public class StorageActivity extends BaseActivity implements StorageView {
                     DialogUtil.getDeleteAlertDialog(this, "Удаление продукта", "Вы действительно хотите удалить продукт?", (dialogInterface, i) -> {
                         presenter.deleteIngredientButClicked(groupId, childId);
                     }).show();
+                }
+                break;
+            }
+            case 3: {//subtract
+                if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                    DialogUtil.getDeleteAlertDialog(this, "Удаление категории", "Вы действительно хотите удалить категорию?", (dialogInterface, i) -> {
+                        presenter.deleteCategoryButClicked(groupId);
+                    }).show();
+
                 }
                 break;
             }

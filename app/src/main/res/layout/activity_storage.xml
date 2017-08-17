@@ -50,8 +50,8 @@
                                 android:background="?android:attr/selectableItemBackground"
                                 android:clickable="true"
                                 android:gravity="right|center_vertical"
-                                android:text="ДОБАВИТЬ КАТЕГОРИЮ"
-                                android:textColor="#fff"
+                                android:text="НОВАЯ КАТЕГОРИЯ"
+                                android:textColor="@color/darkBlue"
                                 android:textSize="20dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -63,9 +63,9 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/main_activity_right_left_margin"
                         android:layout_marginRight="@dimen/main_activity_right_left_margin"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="16dp"
                         android:childDivider="@drawable/divider_line"
-                        android:divider="@color/orderButtonColor"
+                        android:divider="@color/darkBlue"
                         android:dividerHeight="2dp"
                         tools:listitem="@layout/drawer_list_item" />
                 </LinearLayout>
@@ -89,8 +89,8 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:gravity="center"
-                        android:text="ДОБАВИТЬ ПРОДУКТ"
-                        android:textColor="#fff"
+                        android:text="НОВЫЙ ПРОДУКТ"
+                        android:textColor="@color/darkBlue"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
@@ -99,10 +99,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="@dimen/main_activity_right_left_margin"
                         android:layout_marginRight="@dimen/main_activity_right_left_margin"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="16dp"
                         android:backgroundTint="#fff"
                         android:clickable="false"
                         android:visibility="invisible"
@@ -115,7 +114,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="10dp">
+                            android:padding="16dp">
 
                             <EditText
                                 android:id="@+id/ingredient_name_edit_text"
@@ -146,27 +145,24 @@
                                     android:id="@+id/product_cancel_button"
                                     android:layout_width="match_parent"
                                     android:layout_height="40dp"
-                                    android:layout_marginBottom="5dp"
-                                    android:layout_marginRight="5dp"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginRight="8dp"
+                                    android:layout_marginTop="8dp"
                                     android:layout_weight="1"
                                     android:background="@drawable/round_cancel_button"
-                                    android:shadowColor="@android:color/transparent"
                                     android:text="Отмена"
 
-                                    android:textColor="@color/orderButtonColor" />
+                                    android:textColor="@color/darkGrey" />
 
                                 <Button
                                     android:id="@+id/product_submit_button"
                                     android:layout_width="match_parent"
                                     android:layout_height="40dp"
-                                    android:layout_marginBottom="5dp"
-
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginTop="8dp"
                                     android:layout_weight="1"
                                     android:background="@drawable/round_done_button"
-                                    android:shadowColor="@android:color/transparent"
                                     android:text="Готово"
                                     android:textColor="#fff" />
 

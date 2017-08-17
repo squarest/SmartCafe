@@ -15,7 +15,7 @@
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:text="борщик"
-        android:textColor="#000" />
+        android:textColor="@color/grey" />
 
     <TextView
         android:id="@+id/order_product_quantity"
@@ -25,7 +25,7 @@
         android:gravity="center"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:textColor="#000"
+        android:textColor="@color/grey"
         android:textSize="16dp"
         tools:text="1.0" />
 
@@ -38,7 +38,7 @@
         android:maxLines="1"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:textColor="#000"
+        android:textColor="@color/grey"
         android:textSize="16dp"
         tools:text="59р" />
 </LinearLayout>

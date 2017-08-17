@@ -95,7 +95,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
         ArrayList<String[]> titleArray = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             if (i == 2) {
-                String[] storageSubtitles = {"На складе", "Приходные накладные", "Списание"};
+                String[] storageSubtitles = {"На складе", "Приходные накладные"};
                 titleArray.add(storageSubtitles);
             } else if (i == 3) {
                 String[] storageSubtitles = {"Состояние предприятия", "Отчеты"};
