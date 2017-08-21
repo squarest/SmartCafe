@@ -4,6 +4,7 @@ import com.example.clevercafe.data.CompleteOrderRepository;
 import com.example.clevercafe.data.IngredientRepository;
 import com.example.clevercafe.data.OrderRepository;
 import com.example.clevercafe.data.ProductRepository;
+import com.example.clevercafe.entities.CompleteOrder;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
@@ -50,6 +51,16 @@ public class MainInteractor implements IMainInteractor {
         return Observable.create(e ->
         {
             ArrayList<Order> orders = orderRepository.getOrders();
+            if (orders != null) e.onNext(orders);
+            else e.onError(new NullPointerException());
+        });
+    }
+
+    @Override
+    public Observable<ArrayList<CompleteOrder>> loadCompleteOrders() {
+        return Observable.create(e ->
+        {
+            ArrayList<CompleteOrder> orders = completeOrderRepository.getCompleteOrders();
             if (orders != null) e.onNext(orders);
             else e.onError(new NullPointerException());
         });

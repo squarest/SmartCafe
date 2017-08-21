@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Chudofom on 24.07.17.
@@ -16,7 +17,7 @@ public class CompleteOrder {
     public long id;
     public Double sum;
     public Double costSum;
-    public Double dateTime;
+    public Date dateTime;
     @Ignore
     public ArrayList<Product> products;
 

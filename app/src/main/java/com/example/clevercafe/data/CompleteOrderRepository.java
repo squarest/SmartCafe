@@ -5,6 +5,9 @@ import com.example.clevercafe.data.entities.CompleteOrderProduct;
 import com.example.clevercafe.entities.CompleteOrder;
 import com.example.clevercafe.entities.Order;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 /**
  * Created by Chudofom on 07.07.17.
  */
@@ -18,6 +21,7 @@ public class CompleteOrderRepository {
 
     public void addCompleteOrder(Order order) {
         CompleteOrder completeOrder = new CompleteOrder(order.costSum, order.sum, order.products);
+        completeOrder.dateTime = Calendar.getInstance().getTime();
         completeOrder.id = databaseDao.insertCompleteOrder(completeOrder);
         if (order.products != null && order.products.size() > 0) addProducts(completeOrder);
     }
@@ -30,14 +34,14 @@ public class CompleteOrderRepository {
         }
     }
 
-//    public ArrayList<CompleteOrder> getCompleteOrders() {
-//        ArrayList<CompleteOrder> orders = (ArrayList<CompleteOrder>) databaseDao.getCompleteOrders();
-//        for (CompleteOrder order : orders) {
+    public ArrayList<CompleteOrder> getCompleteOrders() {
+        ArrayList<CompleteOrder> orders = (ArrayList<CompleteOrder>) databaseDao.getCompleteOrders();
+        for (CompleteOrder order : orders) {
 //            order.products = getProducts(order.id);
-//        }
-//        return orders;
-//    }
-//
+        }
+        return orders;
+    }
+
 //    private ArrayList<Product> getProducts(long orderId) {
 //        ArrayList<CompleteOrderProduct> orderProducts = (ArrayList<CompleteOrderProduct>) databaseDao.getCompleteOrderProducts(orderId);
 //        ArrayList<Product> products = new ArrayList<>();

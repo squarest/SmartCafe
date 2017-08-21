@@ -1,5 +1,6 @@
 package com.example.clevercafe.main.domain;
 
+import com.example.clevercafe.entities.CompleteOrder;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
 
@@ -15,6 +16,8 @@ import io.reactivex.Single;
 
 public interface IMainInteractor {
     Observable<ArrayList<Order>> loadOrders();
+
+    Observable<ArrayList<CompleteOrder>> loadCompleteOrders();
 
     void setOrderActive(boolean orderActive);
 
@@ -33,5 +36,6 @@ public interface IMainInteractor {
     void productSelected(Product product);
 
     Observable<Product> productSelection();
+
 
 }

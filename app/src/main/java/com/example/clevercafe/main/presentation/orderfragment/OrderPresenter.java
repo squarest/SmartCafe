@@ -3,6 +3,7 @@ package com.example.clevercafe.main.presentation.orderfragment;
 import com.arellomobile.mvp.InjectViewState;
 import com.example.clevercafe.App;
 import com.example.clevercafe.base.BasePresenter;
+import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.main.domain.IMainInteractor;
@@ -65,6 +66,7 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
 
     public void submitButtonClicked() {
         if (order.products.size() > 0) {
+            order.costSum = checkCostSum(order);
             Disposable disposable = interactor.setOrder(order)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -77,6 +79,17 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
         double sum = 0;
         for (Product product : order.products) {
             sum += product.cost * order.getProductCount(product.id);
+        }
+        return sum;
+    }
+
+    private double checkCostSum(Order order) {
+        double sum = 0;
+        for (Product product : order.products) {
+            for (Ingredient ingredient : product.ingredients) {
+                sum += ingredient.cost * product.getIngredientCount(ingredient.id);
+            }
+            sum *= order.getProductCount(product.id);
         }
         return sum;
     }

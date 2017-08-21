@@ -41,4 +41,16 @@ public class Utility {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         return sdf.format(date);
     }
+
+    public static String timeToString(Date date) {
+        String myFormat = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        return sdf.format(date);
+    }
+
+    public static String dateTimeToString(Date date) {
+        String myFormat = "dd.MM.yyyy HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        return sdf.format(date);
+    }
 }

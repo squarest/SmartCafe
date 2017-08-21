@@ -30,7 +30,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".base.BaseActivity" />
         <activity
-            android:name=".storage.presentation.order.IngredientActivity"
+            android:name=".storage.presentation.ingredient.IngredientActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
         <activity
