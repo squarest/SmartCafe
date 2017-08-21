@@ -17,6 +17,7 @@ public class Order {
     @Ignore
     public long number;
     public Double sum;
+    public Double costSum;
 
     public Order() {
     }

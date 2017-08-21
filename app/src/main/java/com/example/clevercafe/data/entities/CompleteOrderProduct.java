@@ -1,4 +1,4 @@
-package com.example.clevercafe.db.entities;
+package com.example.clevercafe.data.entities;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
@@ -7,20 +7,20 @@ import android.arch.persistence.room.PrimaryKey;
 /**
  * Created by Chudofom on 24.07.17.
  */
-@Entity(tableName = "orderProducts")
-public class OrderProduct {
+@Entity(tableName = "completeOrderProducts")
+public class CompleteOrderProduct {
     @PrimaryKey(autoGenerate = true)
     public long id;
     public long orderId;
     public long productId;
-    public double quantity;
 
-    public OrderProduct() {
+    public CompleteOrderProduct() {
+
     }
+
     @Ignore
-    public OrderProduct(long orderId, long productId, double quantity) {
+    public CompleteOrderProduct(long orderId, long productId) {
         this.orderId = orderId;
         this.productId = productId;
-        this.quantity = quantity;
     }
 }

@@ -15,8 +15,9 @@ public class Ingredient implements Serializable {
     public long id;
     public long categoryId;
     public String name;
-    public double quantity;
+    public Double quantity;
     public String units;
+    public Double cost;
 
     @Ignore
     public Ingredient(String name, double quantity, String units) {

@@ -1,4 +1,4 @@
-package com.example.clevercafe.db.dao;
+package com.example.clevercafe.data.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -7,12 +7,14 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.example.clevercafe.db.entities.CompleteOrderProduct;
-import com.example.clevercafe.db.entities.OrderProduct;
-import com.example.clevercafe.db.entities.ProductIngredient;
+import com.example.clevercafe.data.entities.CompleteOrderProduct;
+import com.example.clevercafe.data.entities.InvoiceIngredient;
+import com.example.clevercafe.data.entities.OrderProduct;
+import com.example.clevercafe.data.entities.ProductIngredient;
 import com.example.clevercafe.entities.CompleteOrder;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.IngredientCategory;
+import com.example.clevercafe.entities.Invoice;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
@@ -24,6 +26,17 @@ import java.util.List;
  */
 @Dao
 public interface DatabaseDao {
+    //Invoices
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insertInvoice(Invoice invoice);
+
+    @Delete
+    void deleteInvoice(Invoice invoice);
+
+    @Query("SELECT * FROM invoices")
+    List<Invoice> getInvoices();
+
+
     //Orders
     @Insert
     long insertOrder(Order order);
@@ -89,6 +102,17 @@ public interface DatabaseDao {
 
     @Query("DELETE FROM productIngredients WHERE productId = :productId")
     void deleteProductIngredients(long productId);
+
+
+    //invoiceIngredients
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertInvoiceIngredient(InvoiceIngredient invoiceIngredient);
+
+    @Query("SELECT * FROM invoiceIngredients WHERE invoiceId = :invoiceId")
+    List<InvoiceIngredient> getInvoiceIngredients(long invoiceId);
+
+    @Query("DELETE FROM invoiceIngredients WHERE invoiceId = :invoiceId")
+    void deleteInvoiceIngredients(long invoiceId);
 
 
     //productCategory

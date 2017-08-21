@@ -41,12 +41,12 @@
 
                 <EditText
                     android:id="@+id/product_name"
-                    style="@style/add_product_edit_text"
+                    style="@style/edit_text"
                     android:hint="Название" />
 
                 <EditText
                     android:id="@+id/product_cost"
-                    style="@style/add_product_edit_text"
+                    style="@style/edit_text"
                     android:hint="Цена"
                     android:inputType="numberDecimal" />
 

@@ -46,12 +46,14 @@ public class StorageListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.storage_list_subitem, null);
         }
 
-        TextView ingredientName = (TextView) convertView
-                .findViewById(R.id.storage_item_text_view);
+        TextView ingredientName = convertView.findViewById(R.id.storage_item_text_view);
         ingredientName.setText(child.name);
 
-        TextView ingredientQuantity = (TextView) convertView.findViewById(R.id.storage_product_quantity);
+        TextView ingredientQuantity = convertView.findViewById(R.id.storage_product_quantity);
         ingredientQuantity.setText(String.valueOf(child.quantity)+" "+child.units);
+
+        TextView ingredientCost = convertView.findViewById(R.id.storage_product_cost);
+        ingredientCost.setText(String.valueOf(child.cost) + "руб");
         return convertView;
     }
 
@@ -86,7 +88,7 @@ public class StorageListAdapter extends BaseExpandableListAdapter {
         }
 
         IngredientCategory categoryName = (IngredientCategory) getGroup(groupPosition);
-        TextView lblListHeader = (TextView) convertView.findViewById(R.id.storage_item_text_view);
+        TextView lblListHeader = convertView.findViewById(R.id.storage_item_text_view);
         lblListHeader.setText(categoryName.name);
         return convertView;
     }

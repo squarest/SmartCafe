@@ -1,4 +1,4 @@
-package com.example.clevercafe.storage.presentation;
+package com.example.clevercafe.storage.presentation.storage;
 
 import android.app.Dialog;
 import android.databinding.DataBindingUtil;
@@ -118,12 +118,13 @@ public class StorageActivity extends BaseActivity implements StorageView {
     public void createAddIngredientForm(int categoryId, int productId, Ingredient ingredient, boolean editForm) {
         if (editForm) //если форма вызвана для редактирования продукта то заполняем ее данными
         {
-            binding.ingredientNameEditText.setText(ingredient.name);
+            binding.ingredientName.setText(ingredient.name);
             binding.categorySpinner.setSelection(categoryId);
             binding.categorySpinner.setClickable(false);
             binding.categorySpinner.setEnabled(false);
-            binding.ingredientQuantityEditText.setText(String.valueOf(ingredient.quantity));
+            binding.ingredientQuantity.setText(String.valueOf(ingredient.quantity));
             binding.unitsSpinner.setSelection(Units.idOfUnit(ingredient.units));
+            binding.ingredientCost.setText(String.valueOf(ingredient.cost));
         } else { //иначе очищаем ее
             clearAddIngredientForm();
         }
@@ -139,8 +140,9 @@ public class StorageActivity extends BaseActivity implements StorageView {
         });
         binding.productSubmitButton.setOnClickListener(v ->
         {
-            if (!binding.ingredientNameEditText.getText().toString().isEmpty() &
-                    !binding.ingredientQuantityEditText.getText().toString().isEmpty()) {
+            if (!binding.ingredientName.getText().toString().isEmpty() &
+                    !binding.ingredientQuantity.getText().toString().isEmpty() &
+                    !binding.ingredientCost.getText().toString().isEmpty()) {
                 binding.addProductForm.setVisibility(View.INVISIBLE);
                 binding.addProductForm.setClickable(false);
                 Ingredient newIngredient = new Ingredient();
@@ -148,9 +150,10 @@ public class StorageActivity extends BaseActivity implements StorageView {
                     newIngredient.id = ingredient.id;
                     newIngredient.categoryId = ingredient.categoryId;
                 }
-                newIngredient.name = binding.ingredientNameEditText.getText().toString();
-                newIngredient.quantity = Double.valueOf(binding.ingredientQuantityEditText.getText().toString());
+                newIngredient.name = binding.ingredientName.getText().toString();
+                newIngredient.quantity = Double.valueOf(binding.ingredientQuantity.getText().toString());
                 newIngredient.units = binding.unitsSpinner.getSelectedItem().toString();
+                newIngredient.cost = Double.valueOf(binding.ingredientCost.getText().toString());
                 presenter.submitIngredientFormButClicked(binding.categorySpinner.getSelectedItemPosition(),
                         productId, newIngredient, editForm);
             } else {
@@ -185,8 +188,9 @@ public class StorageActivity extends BaseActivity implements StorageView {
 
     @Override
     public void clearAddIngredientForm() {
-        binding.ingredientNameEditText.setText(null);
-        binding.ingredientQuantityEditText.setText(null);
+        binding.ingredientName.setText(null);
+        binding.ingredientQuantity.setText(null);
+        binding.ingredientCost.setText(null);
         binding.categorySpinner.setSelection(0);
         binding.unitsSpinner.setSelection(0);
         binding.categorySpinner.setClickable(true);

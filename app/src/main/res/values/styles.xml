@@ -9,7 +9,7 @@
         <item name="actionMenuTextColor">@color/darkGrey</item>
     </style>
 
-    <style name="add_product_edit_text">
+    <style name="edit_text">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:backgroundTint">@color/darkBlue</item>

@@ -52,18 +52,33 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:gravity="center|top"
-                        android:text="Выберите ингредиенты"
+                        android:text="Выберите товары"
                         android:textColor="#000"
                         android:textSize="18dp" />
 
 
                     <android.support.v7.widget.RecyclerView
-                        android:id="@+id/ingredient_list"
+                        android:id="@+id/product_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_weight="1" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:background="@color/darkBlue" />
+
+                    <TextView
+                        android:id="@+id/invoice_sum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center|bottom"
+                        android:text="Итого: 250 000 р"
+                        android:textColor="#000"
+                        android:textSize="18dp" />
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>

@@ -1,10 +1,9 @@
-package com.example.clevercafe.storage.presentation;
+package com.example.clevercafe.storage.presentation.ingredient;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.widget.Button;
 
 import com.arellomobile.mvp.MvpActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -16,6 +15,7 @@ import com.example.clevercafe.storage.presentation.adapters.IngredientListAdapte
 import com.example.clevercafe.storage.presentation.adapters.StorageListAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class IngredientActivity extends MvpActivity implements IngredientView {
     private IngredientListAdapter ingredientListAdapter;
@@ -42,19 +42,6 @@ public class IngredientActivity extends MvpActivity implements IngredientView {
         binding.cancelButton.setOnClickListener(v -> presenter.cancelButtonClicked());
     }
 
-
-    @Override
-    public void showButtons() {
-        binding.cancelButton.setVisibility(Button.VISIBLE);
-        binding.submitButton.setVisibility(Button.VISIBLE);
-    }
-
-    @Override
-    public void hideButtons() {
-        binding.cancelButton.setVisibility(Button.INVISIBLE);
-        binding.submitButton.setVisibility(Button.INVISIBLE);
-    }
-
     @Override
     public void showStorage(ArrayList<IngredientCategory> ingredientCategories) {
         StorageListAdapter storageListAdapter = new StorageListAdapter(ingredientCategories);
@@ -76,6 +63,7 @@ public class IngredientActivity extends MvpActivity implements IngredientView {
     public void returnProduct(Product product) {
         Intent intent = new Intent();
         intent.putExtra("product", product);
+        intent.putExtra("",new HashMap<String, String>());
         setResult(RESULT_OK, intent);
         finish();
     }

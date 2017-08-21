@@ -15,7 +15,7 @@ import com.example.clevercafe.App;
 import com.example.clevercafe.R;
 import com.example.clevercafe.databinding.AddproductFragmentBinding;
 import com.example.clevercafe.entities.Product;
-import com.example.clevercafe.storage.presentation.IngredientActivity;
+import com.example.clevercafe.storage.presentation.ingredient.IngredientActivity;
 import com.example.clevercafe.utils.ImagePicker;
 
 import java.util.ArrayList;

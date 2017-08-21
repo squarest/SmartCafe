@@ -1,4 +1,4 @@
-package com.example.clevercafe.storage.presentation;
+package com.example.clevercafe.storage.presentation.storage;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.example.clevercafe.App;

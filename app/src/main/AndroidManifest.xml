@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".storage.presentation.StorageActivity"
+            android:name=".storage.presentation.storage.StorageActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -30,12 +30,31 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".base.BaseActivity" />
         <activity
-            android:name=".storage.presentation.IngredientActivity"
+            android:name=".storage.presentation.order.IngredientActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".menu.presentation.addcategory.IconsActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action." />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".invoice.presentation.InvoiceActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action." />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".storage.presentation.invoiceIngredients.InvoiceIngredientActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action." />
                 <category android:name="android.intent.category.LAUNCHER" />

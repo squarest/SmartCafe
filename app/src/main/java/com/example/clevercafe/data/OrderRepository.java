@@ -1,10 +1,10 @@
-package com.example.clevercafe.db;
+package com.example.clevercafe.data;
 
 import android.content.SharedPreferences;
 
-import com.example.clevercafe.db.dao.DatabaseDao;
-import com.example.clevercafe.db.entities.OrderProduct;
-import com.example.clevercafe.db.entities.ProductIngredient;
+import com.example.clevercafe.data.dao.DatabaseDao;
+import com.example.clevercafe.data.entities.OrderProduct;
+import com.example.clevercafe.data.entities.ProductIngredient;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;

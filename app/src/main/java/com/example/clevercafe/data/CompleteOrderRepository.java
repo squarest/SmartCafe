@@ -1,7 +1,7 @@
-package com.example.clevercafe.db;
+package com.example.clevercafe.data;
 
-import com.example.clevercafe.db.dao.DatabaseDao;
-import com.example.clevercafe.db.entities.CompleteOrderProduct;
+import com.example.clevercafe.data.dao.DatabaseDao;
+import com.example.clevercafe.data.entities.CompleteOrderProduct;
 import com.example.clevercafe.entities.CompleteOrder;
 import com.example.clevercafe.entities.Order;
 
@@ -17,7 +17,7 @@ public class CompleteOrderRepository {
     }
 
     public void addCompleteOrder(Order order) {
-        CompleteOrder completeOrder = new CompleteOrder(order.sum, order.products);
+        CompleteOrder completeOrder = new CompleteOrder(order.costSum, order.sum, order.products);
         completeOrder.id = databaseDao.insertCompleteOrder(completeOrder);
         if (order.products != null && order.products.size() > 0) addProducts(completeOrder);
     }

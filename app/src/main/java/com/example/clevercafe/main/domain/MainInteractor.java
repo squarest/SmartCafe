@@ -1,9 +1,9 @@
 package com.example.clevercafe.main.domain;
 
-import com.example.clevercafe.db.CompleteOrderRepository;
-import com.example.clevercafe.db.IngredientRepository;
-import com.example.clevercafe.db.OrderRepository;
-import com.example.clevercafe.db.ProductRepository;
+import com.example.clevercafe.data.CompleteOrderRepository;
+import com.example.clevercafe.data.IngredientRepository;
+import com.example.clevercafe.data.OrderRepository;
+import com.example.clevercafe.data.ProductRepository;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;

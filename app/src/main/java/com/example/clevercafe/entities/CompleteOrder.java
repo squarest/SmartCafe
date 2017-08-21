@@ -14,8 +14,9 @@ import java.util.ArrayList;
 public class CompleteOrder {
     @PrimaryKey(autoGenerate = true)
     public long id;
-
     public Double sum;
+    public Double costSum;
+    public Double dateTime;
     @Ignore
     public ArrayList<Product> products;
 
@@ -23,7 +24,8 @@ public class CompleteOrder {
     }
 
     @Ignore
-    public CompleteOrder(Double sum, ArrayList<Product> products) {
+    public CompleteOrder(Double costSum, Double sum, ArrayList<Product> products) {
+        this.costSum = costSum;
         this.sum = sum;
         this.products = products;
     }

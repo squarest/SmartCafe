@@ -1,4 +1,4 @@
-package com.example.clevercafe.db.entities;
+package com.example.clevercafe.data.entities;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;

@@ -1,7 +1,7 @@
-package com.example.clevercafe.db;
+package com.example.clevercafe.data;
 
-import com.example.clevercafe.db.dao.DatabaseDao;
-import com.example.clevercafe.db.entities.ProductIngredient;
+import com.example.clevercafe.data.dao.DatabaseDao;
+import com.example.clevercafe.data.entities.ProductIngredient;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;

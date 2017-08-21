@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="horizontal"
-    tools:layout_width="300dp">
+    tools:layout_width="400dp">
 
     <TextView
         android:id="@+id/ingredient_name"
@@ -19,37 +19,36 @@
         android:textColor="@color/grey"
         android:textSize="20dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/ingredient_quantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
-        android:gravity="right"
-        android:inputType="numberDecimal"
+        android:gravity="left"
         android:maxLines="1"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:textColor="@color/grey"
-        android:textSize="20dp"
-        tools:text="59" />
+        android:textSize="18dp"
+        tools:text="50 шт" />
 
     <TextView
-        android:id="@+id/ingredient_units"
+        android:id="@+id/ingredient_cost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
         android:gravity="left"
+        android:maxLines="1"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:textColor="@color/grey"
         android:textSize="18dp"
-        tools:text="шт" />
+        tools:text="2000 руб" />
 
     <TextView
         android:id="@+id/delete_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1.5"
         android:gravity="right"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"

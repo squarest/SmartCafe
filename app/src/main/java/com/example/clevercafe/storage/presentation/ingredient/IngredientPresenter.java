@@ -1,4 +1,4 @@
-package com.example.clevercafe.storage.presentation;
+package com.example.clevercafe.storage.presentation.ingredient;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.example.clevercafe.App;
@@ -36,9 +36,6 @@ public class IngredientPresenter extends BasePresenter<IngredientView> {
         this.product = product;
         if (product == null)
             product = new Product(new ArrayList<>());
-        if (product.ingredients.size() > 0) {
-            view.showButtons();
-        } else view.hideButtons();
         view.showIngredients(product);
         Disposable disposable = interactor.loadCategories()
                 .subscribeOn(Schedulers.io())
@@ -57,17 +54,11 @@ public class IngredientPresenter extends BasePresenter<IngredientView> {
 
         product.addIngredient(categories.get(categoryId).ingredients.get(productId));
         view.updateIngredients();
-        if (product.ingredients.size() == 1) {
-            view.showButtons();
-        }
     }
 
     public void ingredientRemoved(int position) {
         product.ingredients.remove(position);
         view.updateIngredients();
-        if (product.ingredients.size() == 0) {
-            view.hideButtons();
-        }
     }
 
     public void submitButtonClicked() {

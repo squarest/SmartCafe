@@ -2,6 +2,8 @@ package com.example.clevercafe.dagger;
 
 import com.example.clevercafe.dagger.modules.AppModule;
 import com.example.clevercafe.dagger.modules.DataModule;
+import com.example.clevercafe.invoice.di.InvoiceComponent;
+import com.example.clevercafe.invoice.di.InvoiceModule;
 import com.example.clevercafe.main.di.MainComponent;
 import com.example.clevercafe.main.di.MainModule;
 import com.example.clevercafe.storage.di.StorageComponent;
@@ -18,5 +20,8 @@ import dagger.Component;
 @Singleton
 public interface AppComponent {
     MainComponent plusMainComponent(MainModule mainModule);
+
     StorageComponent plusStorageComponent(StorageModule storageModule);
+
+    InvoiceComponent plusInvoiceComponent(InvoiceModule invoiceModule);
 }

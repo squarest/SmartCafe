@@ -5,12 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.example.clevercafe.db.AppDatabase;
-import com.example.clevercafe.db.CompleteOrderRepository;
-import com.example.clevercafe.db.IngredientRepository;
-import com.example.clevercafe.db.OrderRepository;
-import com.example.clevercafe.db.ProductRepository;
-import com.example.clevercafe.db.dao.DatabaseDao;
+import com.example.clevercafe.data.AppDatabase;
+import com.example.clevercafe.data.CompleteOrderRepository;
+import com.example.clevercafe.data.IngredientRepository;
+import com.example.clevercafe.data.InvoiceRepository;
+import com.example.clevercafe.data.OrderRepository;
+import com.example.clevercafe.data.ProductRepository;
+import com.example.clevercafe.data.dao.DatabaseDao;
 
 import javax.inject.Singleton;
 
@@ -63,6 +64,12 @@ public class DataModule {
     @Singleton
     public CompleteOrderRepository provideCompleteRepository(DatabaseDao databaseDao) {
         return new CompleteOrderRepository(databaseDao);
+    }
+
+    @Provides
+    @Singleton
+    public InvoiceRepository provideInvoiceRepository(DatabaseDao databaseDao) {
+        return new InvoiceRepository(databaseDao);
     }
 
 }

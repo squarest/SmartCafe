@@ -1,4 +1,4 @@
-package com.example.clevercafe.storage.presentation;
+package com.example.clevercafe.storage.presentation.ingredient;
 
 import com.arellomobile.mvp.MvpView;
 import com.example.clevercafe.entities.IngredientCategory;
@@ -11,10 +11,6 @@ import java.util.ArrayList;
  */
 
 public interface IngredientView extends MvpView {
-    void showButtons();
-
-    void hideButtons();
-
     void showStorage(ArrayList<IngredientCategory> ingredientCategories);
 
     void showIngredients(Product product);
