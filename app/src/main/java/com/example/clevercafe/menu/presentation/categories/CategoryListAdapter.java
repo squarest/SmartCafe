@@ -87,14 +87,27 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             setPosition(holder.getAdapterPosition());
             return false;
         });
-
         int backgroundColor = R.color.darkGrey;
-        if (position % 3 == 0)
-            backgroundColor = R.color.purple;
-        else if (position % 3 == 1 % 3)
-            backgroundColor = R.color.darkBlue;
-        else if (position % 3 == 2 % 3)
-            backgroundColor = R.color.lightBlue;
+        if (Utility.calculateNoOfColumns(context) == 3) {
+            if (position % 3 == 0)
+                backgroundColor = R.color.purple;
+            else if (position % 3 == 1 % 3)
+                backgroundColor = R.color.darkBlue;
+            else if (position % 3 == 2 % 3)
+                backgroundColor = R.color.lightBlue;
+        } else if (Utility.calculateNoOfColumns(context) == 4) {
+            if (position % 4 == 0)
+                backgroundColor = R.color.darkGrey;
+            else if (position % 4 == 1 % 4)
+                backgroundColor = R.color.purple;
+            else if (position % 4 == 2 % 4)
+                backgroundColor = R.color.lightBlue;
+            else if (position % 4 == 3 % 4)
+                backgroundColor = R.color.darkBlue;
+
+        }
+
+
         holder.cardView.setCardBackgroundColor(context.getResources().getColor(backgroundColor));
         holder.imageView.setImageBitmap(Utility.loadIconFromAssets(context, productCategory.iconPath));
 
