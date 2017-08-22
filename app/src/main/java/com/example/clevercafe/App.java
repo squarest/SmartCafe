@@ -2,6 +2,8 @@ package com.example.clevercafe;
 
 import android.app.Application;
 
+import com.example.clevercafe.analytics.di.AnalyticsComponent;
+import com.example.clevercafe.analytics.di.AnalyticsModule;
 import com.example.clevercafe.dagger.AppComponent;
 import com.example.clevercafe.dagger.DaggerAppComponent;
 import com.example.clevercafe.dagger.modules.AppModule;
@@ -21,6 +23,7 @@ public class App extends Application {
     private static MainComponent mainComponent;
     private static StorageComponent storageComponent;
     private static InvoiceComponent invoiceComponent;
+    private static AnalyticsComponent analyticsComponent;
 
     public static final int INGREDIENT_REQUEST_CODE = 0;
     public static final int ICON_REQUEST_CODE = 1;
@@ -38,6 +41,10 @@ public class App extends Application {
         return invoiceComponent;
     }
 
+    public static AnalyticsComponent getAnalyticsComponent() {
+        return analyticsComponent;
+    }
+
 
     @Override
     public void onCreate() {
@@ -46,6 +53,7 @@ public class App extends Application {
         mainComponent = plusMainComponent();
         storageComponent = plusStorageComponent();
         invoiceComponent = plusInvoiceComponent();
+        analyticsComponent = plusAnalyticsComponent();
     }
 
     protected AppComponent buildComponent() {
@@ -73,6 +81,13 @@ public class App extends Application {
             invoiceComponent = appComponent.plusInvoiceComponent(new InvoiceModule());
         }
         return invoiceComponent;
+    }
+
+    public AnalyticsComponent plusAnalyticsComponent() {
+        if (analyticsComponent == null) {
+            analyticsComponent = appComponent.plusAnalyticsComponent(new AnalyticsModule());
+        }
+        return analyticsComponent;
     }
 
 }

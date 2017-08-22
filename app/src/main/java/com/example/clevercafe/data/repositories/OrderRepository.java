@@ -1,4 +1,4 @@
-package com.example.clevercafe.data;
+package com.example.clevercafe.data.repositories;
 
 import android.content.SharedPreferences;
 

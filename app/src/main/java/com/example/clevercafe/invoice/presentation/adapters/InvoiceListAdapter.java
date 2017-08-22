@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.Invoice;
-import com.example.clevercafe.utils.Utility;
+import com.example.clevercafe.utils.dateTime.DateTimeUtil;
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public class InvoiceListAdapter extends RecyclerView.Adapter<InvoiceListAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Invoice invoice = invoices.get(position);
-        holder.invoiceName.setText(invoice.name + " от " + Utility.dateToString(invoice.date));
+        holder.invoiceName.setText(invoice.name + " от " + DateTimeUtil.dateToString(invoice.date));
         holder.supplierName.setText("Поставщик: " + invoice.supplierName);
         holder.invoiceSum.setText(String.valueOf("Сумма: " + invoice.sum));
 

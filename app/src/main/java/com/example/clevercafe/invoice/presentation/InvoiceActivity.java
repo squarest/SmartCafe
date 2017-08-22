@@ -15,7 +15,7 @@ import com.example.clevercafe.databinding.ActivityInvocesBinding;
 import com.example.clevercafe.entities.Invoice;
 import com.example.clevercafe.invoice.presentation.adapters.InvoiceListAdapter;
 import com.example.clevercafe.storage.presentation.invoiceIngredients.InvoiceIngredientActivity;
-import com.example.clevercafe.utils.Utility;
+import com.example.clevercafe.utils.dateTime.DateTimeUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,7 +66,7 @@ public class InvoiceActivity extends BaseActivity implements InvoiceView {
                     calendar.set(Calendar.YEAR, selectedYear);
                     calendar.set(Calendar.MONTH, selectedMonth);
                     calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
-                    binding.invoiceDate.setText(Utility.dateToString(calendar.getTime()));
+                    binding.invoiceDate.setText(DateTimeUtil.dateToString(calendar.getTime()));
                     curInvoice.date = calendar.getTime();
                 }, mYear, mMonth, mDay);
         mDatePicker.setTitle("Select date");

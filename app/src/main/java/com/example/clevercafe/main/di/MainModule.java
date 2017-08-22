@@ -1,10 +1,10 @@
 package com.example.clevercafe.main.di;
 
 import com.example.clevercafe.dagger.scopes.MainScope;
-import com.example.clevercafe.data.CompleteOrderRepository;
-import com.example.clevercafe.data.IngredientRepository;
-import com.example.clevercafe.data.OrderRepository;
-import com.example.clevercafe.data.ProductRepository;
+import com.example.clevercafe.data.repositories.CompleteOrderRepository;
+import com.example.clevercafe.data.repositories.IngredientRepository;
+import com.example.clevercafe.data.repositories.OrderRepository;
+import com.example.clevercafe.data.repositories.ProductRepository;
 import com.example.clevercafe.main.domain.IMainInteractor;
 import com.example.clevercafe.main.domain.MainInteractor;
 import com.example.clevercafe.menu.domain.IMenuInteractor;

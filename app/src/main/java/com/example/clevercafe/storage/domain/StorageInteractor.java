@@ -1,6 +1,6 @@
 package com.example.clevercafe.storage.domain;
 
-import com.example.clevercafe.data.IngredientRepository;
+import com.example.clevercafe.data.repositories.IngredientRepository;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.IngredientCategory;
 

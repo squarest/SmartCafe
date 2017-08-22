@@ -1,7 +1,7 @@
 package com.example.clevercafe.invoice.di;
 
 import com.example.clevercafe.dagger.scopes.InvoiceScope;
-import com.example.clevercafe.data.InvoiceRepository;
+import com.example.clevercafe.data.repositories.InvoiceRepository;
 import com.example.clevercafe.invoice.domain.IInvoiceInteractor;
 import com.example.clevercafe.invoice.domain.InvoiceInteractor;
 

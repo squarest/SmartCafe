@@ -1,7 +1,7 @@
 package com.example.clevercafe.storage.di;
 
 import com.example.clevercafe.dagger.scopes.StorageScope;
-import com.example.clevercafe.data.IngredientRepository;
+import com.example.clevercafe.data.repositories.IngredientRepository;
 import com.example.clevercafe.storage.domain.IStrorageInteractor;
 import com.example.clevercafe.storage.domain.StorageInteractor;
 

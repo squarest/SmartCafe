@@ -1,6 +1,6 @@
 package com.example.clevercafe.invoice.domain;
 
-import com.example.clevercafe.data.InvoiceRepository;
+import com.example.clevercafe.data.repositories.InvoiceRepository;
 import com.example.clevercafe.entities.Invoice;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.clevercafe.data;
+package com.example.clevercafe.data.repositories;
 
 import com.example.clevercafe.data.dao.DatabaseDao;
 import com.example.clevercafe.entities.Ingredient;

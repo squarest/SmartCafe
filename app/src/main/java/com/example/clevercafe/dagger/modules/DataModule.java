@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.example.clevercafe.data.AppDatabase;
-import com.example.clevercafe.data.CompleteOrderRepository;
-import com.example.clevercafe.data.IngredientRepository;
-import com.example.clevercafe.data.InvoiceRepository;
-import com.example.clevercafe.data.OrderRepository;
-import com.example.clevercafe.data.ProductRepository;
+import com.example.clevercafe.data.dao.AnalyticsDao;
+import com.example.clevercafe.data.repositories.AnalyticsRepository;
+import com.example.clevercafe.data.repositories.CompleteOrderRepository;
+import com.example.clevercafe.data.repositories.IngredientRepository;
+import com.example.clevercafe.data.repositories.InvoiceRepository;
+import com.example.clevercafe.data.repositories.OrderRepository;
+import com.example.clevercafe.data.repositories.ProductRepository;
 import com.example.clevercafe.data.dao.DatabaseDao;
 
 import javax.inject.Singleton;
@@ -34,6 +36,12 @@ public class DataModule {
     @Singleton
     public DatabaseDao provideDao(AppDatabase database) {
         return database.databaseDao();
+    }
+
+    @Provides
+    @Singleton
+    public AnalyticsDao provideAnalyticsDao(AppDatabase database) {
+        return database.analyticsDao();
     }
 
     @Provides
@@ -70,6 +78,12 @@ public class DataModule {
     @Singleton
     public InvoiceRepository provideInvoiceRepository(DatabaseDao databaseDao) {
         return new InvoiceRepository(databaseDao);
+    }
+
+    @Provides
+    @Singleton
+    public AnalyticsRepository provideAnalyticsRepository(AnalyticsDao analyticsDao) {
+        return new AnalyticsRepository(analyticsDao);
     }
 
 }

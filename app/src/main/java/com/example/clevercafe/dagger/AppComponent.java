@@ -1,5 +1,7 @@
 package com.example.clevercafe.dagger;
 
+import com.example.clevercafe.analytics.di.AnalyticsComponent;
+import com.example.clevercafe.analytics.di.AnalyticsModule;
 import com.example.clevercafe.dagger.modules.AppModule;
 import com.example.clevercafe.dagger.modules.DataModule;
 import com.example.clevercafe.invoice.di.InvoiceComponent;
@@ -24,4 +26,6 @@ public interface AppComponent {
     StorageComponent plusStorageComponent(StorageModule storageModule);
 
     InvoiceComponent plusInvoiceComponent(InvoiceModule invoiceModule);
+
+    AnalyticsComponent plusAnalyticsComponent(AnalyticsModule analyticsModule);
 }

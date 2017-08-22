@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/backgroundColor"
-                android:elevation="16dp"
+                android:elevation="@dimen/drawer_elevation"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -132,6 +132,7 @@
                             <Spinner
                                 android:id="@+id/units_spinner"
                                 style="@style/edit_text" />
+
                             <EditText
                                 android:id="@+id/ingredient_cost"
                                 style="@style/edit_text"

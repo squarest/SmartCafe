@@ -8,9 +8,6 @@ import android.util.DisplayMetrics;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Chudofom on 15.08.17.
@@ -34,23 +31,5 @@ public class Utility {
             e.printStackTrace();
         }
         return BitmapFactory.decodeStream(is);
-    }
-
-    public static String dateToString(Date date) {
-        String myFormat = "dd.MM.yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        return sdf.format(date);
-    }
-
-    public static String timeToString(Date date) {
-        String myFormat = "HH:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        return sdf.format(date);
-    }
-
-    public static String dateTimeToString(Date date) {
-        String myFormat = "dd.MM.yyyy HH:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        return sdf.format(date);
     }
 }

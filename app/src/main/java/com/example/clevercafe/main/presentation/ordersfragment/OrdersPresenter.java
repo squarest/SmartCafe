@@ -8,7 +8,7 @@ import com.example.clevercafe.base.BasePresenter;
 import com.example.clevercafe.entities.CompleteOrder;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.main.domain.IMainInteractor;
-import com.example.clevercafe.utils.Utility;
+import com.example.clevercafe.utils.dateTime.DateTimeUtil;
 
 import java.util.ArrayList;
 
@@ -87,7 +87,7 @@ public class OrdersPresenter extends BasePresenter<IOrdersFragment> {
 
     private void logOrders(ArrayList<CompleteOrder> orders) {
         for (CompleteOrder order : orders) {
-            Log.d("orders", order.id + " datetime" + Utility.dateTimeToString(order.dateTime) + " sum " + order.sum + " costSum" + order.costSum);
+            Log.d("orders", order.id + " datetime" + DateTimeUtil.dateTimeToString(order.dateTime) + " sum " + order.sum + " costSum" + order.costSum);
         }
     }
 }

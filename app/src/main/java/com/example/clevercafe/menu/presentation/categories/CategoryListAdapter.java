@@ -97,7 +97,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                 backgroundColor = R.color.lightBlue;
         } else if (Utility.calculateNoOfColumns(context) == 4) {
             if (position % 4 == 0)
-                backgroundColor = R.color.darkGrey;
+                backgroundColor = R.color.darkPurple;
             else if (position % 4 == 1 % 4)
                 backgroundColor = R.color.purple;
             else if (position % 4 == 2 % 4)

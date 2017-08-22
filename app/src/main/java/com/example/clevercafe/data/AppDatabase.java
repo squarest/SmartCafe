@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 
+import com.example.clevercafe.data.dao.AnalyticsDao;
 import com.example.clevercafe.data.dao.DatabaseDao;
 import com.example.clevercafe.data.entities.CompleteOrderProduct;
 import com.example.clevercafe.data.entities.InvoiceIngredient;
@@ -27,4 +28,6 @@ import com.example.clevercafe.utils.RoomConverter;
 @TypeConverters({RoomConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract DatabaseDao databaseDao();
+
+    public abstract AnalyticsDao analyticsDao();
 }

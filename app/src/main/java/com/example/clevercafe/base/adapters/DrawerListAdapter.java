@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.clevercafe.R;
+import com.example.clevercafe.analytics.presentation.AnalyticsActivity;
 import com.example.clevercafe.invoice.presentation.InvoiceActivity;
 import com.example.clevercafe.storage.presentation.storage.StorageActivity;
 
@@ -20,9 +22,9 @@ import java.util.ArrayList;
  */
 
 public class DrawerListAdapter extends BaseExpandableListAdapter {
-    String[] groups;
-    ArrayList<String[]> childs;
-    Integer[] icons;
+    private String[] groups;
+    private ArrayList<String[]> childs;
+    private Integer[] icons;
 
     public DrawerListAdapter(String[] groups, ArrayList<String[]> childs, Integer[] icons) {
         this.childs = childs;
@@ -77,6 +79,7 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
         imageView.setImageResource(icons[groupPosition]);
         return view;
     }
+
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -90,6 +93,13 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
             if (groupPosition == 2 && childPosition == 1) {
                 Intent intent = new Intent(parent.getContext(), InvoiceActivity.class);
                 parent.getContext().startActivity(intent);
+            }
+            if (groupPosition == 3 && childPosition == 0) {
+                Intent intent = new Intent(parent.getContext(), AnalyticsActivity.class);
+                parent.getContext().startActivity(intent);
+            }
+            if (groupPosition == 3 && childPosition == 1) {
+                Toast.makeText(parent.getContext(), "гоп гоп гоп чидагоп", Toast.LENGTH_SHORT).show();
             }
         });
         TextView textView = view.findViewById(R.id.drawer_subitem_text_view);
