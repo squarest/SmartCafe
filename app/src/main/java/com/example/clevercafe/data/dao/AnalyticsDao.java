@@ -11,10 +11,13 @@ import java.util.Date;
 @Dao
 public interface AnalyticsDao {
     @Query("SELECT SUM(sum) FROM completeOrders WHERE dateTime BETWEEN :from AND :to")
-    Double proceedsForPeriod(Date from, Date to);
+    double proceedsForPeriod(Date from, Date to);
+
+    @Query("SELECT AVG(sum) FROM completeOrders WHERE dateTime BETWEEN :from AND :to")
+    double averageProceedsForPeriod(Date from, Date to);
 
     @Query("SELECT SUM(costSum) FROM completeOrders WHERE dateTime BETWEEN :from AND :to")
-    Double costSumForPeriod(Date from, Date to);
+    double costSumForPeriod(Date from, Date to);
 
     @Query("SELECT COUNT(id) FROM completeOrders WHERE dateTime BETWEEN :from AND :to")
     int orderCountForPeriod(Date from, Date to);

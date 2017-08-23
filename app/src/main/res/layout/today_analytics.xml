@@ -14,18 +14,20 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:background="@color/lightBlue"
+        android:layout_marginBottom="32dp"
+        android:background="@color/white"
         android:elevation="8dp"
         android:orientation="horizontal"
         android:padding="16dp">
 
         <TextView
+            android:id="@+id/current_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="Сегодня \n16 августа"
-            android:textColor="@color/white"
+            android:textColor="@color/darkBlue"
             android:textSize="20dp"
             android:textStyle="bold" />
 

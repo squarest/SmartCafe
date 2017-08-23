@@ -17,11 +17,29 @@ public class AnalyticsRepository {
 
     public Analytics getAnalyticsForPeriod(Period period) {
         Analytics analytics = new Analytics();
-        analytics.proceeds = analyticsDao.proceedsForPeriod(period.startDate, period.endDate);
+        analytics.proceeds = getProceedForPeriod(period);
         analytics.profit = analytics.proceeds -
                 analyticsDao.costSumForPeriod(period.startDate, period.endDate);
         analytics.orders = analyticsDao.orderCountForPeriod(period.startDate, period.endDate);
-        analytics.averageCheck = analytics.proceeds/analytics.orders;
+        analytics.averageCheck = analyticsDao.averageProceedsForPeriod(period.startDate, period.endDate);
         return analytics;
     }
+
+    public Double getProceedForPeriod(Period period) {
+        return analyticsDao.proceedsForPeriod(period.startDate, period.endDate);
+    }
+
+    public Double getProfitForPeriod(Period period) {
+        return analyticsDao.proceedsForPeriod(period.startDate, period.endDate) -
+                analyticsDao.costSumForPeriod(period.startDate, period.endDate);
+    }
+
+    public Integer getOrdersForPeriod(Period period) {
+        return analyticsDao.orderCountForPeriod(period.startDate, period.endDate);
+    }
+
+    public Double getAverageForPeriod(Period period) {
+        return analyticsDao.averageProceedsForPeriod(period.startDate, period.endDate);
+    }
+
 }

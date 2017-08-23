@@ -85,4 +85,8 @@ dependencies {
 
     //MPChart
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
+    //segmentControl
+    compile 'com.github.ceryle:SegmentedButton:v2.0.1'
+
 }
