@@ -1,5 +1,6 @@
 package com.example.clevercafe.menu.presentation.products;
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.Product;
+import com.example.clevercafe.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
     private ArrayList<Product> productList = new ArrayList<>();
     private static boolean editMode;
+    private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
@@ -64,6 +67,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                                                             int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.product_list_item, parent, false);
+        context = parent.getContext();
         return new ViewHolder(v);
     }
 
@@ -78,6 +82,27 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             setPosition(holder.getAdapterPosition());
             return false;
         });
+        int backgroundColor = R.color.darkGrey;
+        if (Utility.calculateNoOfColumns(context) == 3) {
+            if (position % 3 == 0)
+                backgroundColor = R.color.purple;
+            else if (position % 3 == 1 % 3)
+                backgroundColor = R.color.darkBlue;
+            else if (position % 3 == 2 % 3)
+                backgroundColor = R.color.lightBlue;
+        } else if (Utility.calculateNoOfColumns(context) == 4) {
+            if (position % 4 == 0)
+                backgroundColor = R.color.darkPurple;
+            else if (position % 4 == 1 % 4)
+                backgroundColor = R.color.purple;
+            else if (position % 4 == 2 % 4)
+                backgroundColor = R.color.lightBlue;
+            else if (position % 4 == 3 % 4)
+                backgroundColor = R.color.darkBlue;
+
+        }
+        holder.nameTextView.setBackgroundColor(context.getResources().getColor(backgroundColor));
+
 
     }
 

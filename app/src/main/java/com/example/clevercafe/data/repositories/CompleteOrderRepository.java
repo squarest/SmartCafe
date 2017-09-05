@@ -23,13 +23,14 @@ public class CompleteOrderRepository {
         CompleteOrder completeOrder = new CompleteOrder(order.costSum, order.sum, order.products);
         completeOrder.dateTime = Calendar.getInstance().getTime();
         completeOrder.id = databaseDao.insertCompleteOrder(completeOrder);
-        if (order.products != null && order.products.size() > 0) addProducts(completeOrder);
+        if (order.products != null && order.products.size() > 0) addProducts(order);
     }
 
 
-    private void addProducts(CompleteOrder order) {
+    private void addProducts(Order order) {
         for (int i = 0; i < order.products.size(); i++) {
-            CompleteOrderProduct orderProduct = new CompleteOrderProduct(order.id, order.products.get(i).id);
+            CompleteOrderProduct orderProduct = new CompleteOrderProduct(order.id, order.products.get(i).id,
+                    order.getProductCount(order.products.get(i).id));
             databaseDao.insertCompleteOrderProduct(orderProduct);
         }
     }

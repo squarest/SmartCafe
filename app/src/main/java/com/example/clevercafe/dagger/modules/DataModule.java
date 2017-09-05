@@ -82,8 +82,8 @@ public class DataModule {
 
     @Provides
     @Singleton
-    public AnalyticsRepository provideAnalyticsRepository(AnalyticsDao analyticsDao) {
-        return new AnalyticsRepository(analyticsDao);
+    public AnalyticsRepository provideAnalyticsRepository(AnalyticsDao analyticsDao, DatabaseDao databaseDao) {
+        return new AnalyticsRepository(analyticsDao, databaseDao);
     }
 
 }

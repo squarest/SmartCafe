@@ -42,6 +42,7 @@ public class AnalyticsPresenter extends BasePresenter<AnalyticsView> {
         setCurPeriods(periodChecked);
         setCurChartMode(modeChecked);
         setChart();
+        setProductTops();
     }
 
     private void setCurPeriods(int periodChecked) {
@@ -132,5 +133,16 @@ public class AnalyticsPresenter extends BasePresenter<AnalyticsView> {
         }
         view.setChartTitle(generateChartTitle() + sum);
         return entries;
+    }
+
+    private void setProductTops() {
+        interactor.loadPopularProducts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(view::setPopularProducts, Throwable::printStackTrace);
+        interactor.loadUnpopularProducts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(view::setUnpopularProducts, Throwable::printStackTrace);
     }
 }

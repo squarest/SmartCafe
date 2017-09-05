@@ -3,12 +3,14 @@ package com.example.clevercafe.analytics.presentation;
 import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
 import com.example.clevercafe.base.BaseActivity;
 import com.example.clevercafe.databinding.ActivityAnalyticsBinding;
 import com.example.clevercafe.entities.Analytics;
+import com.example.clevercafe.entities.TopProduct;
 import com.example.clevercafe.utils.chart.DayFormatter;
 import com.example.clevercafe.utils.chart.YearFormatter;
 import com.example.clevercafe.utils.dateTime.DateTimeUtil;
@@ -36,10 +38,10 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
         createToolbar("Состояние предприятия");
         createDrawer();
         setChart();
-        binding.periodSwitch.setOnPositionChangedListener(presenter::curPeriodChanged);
+        binding.chartCard.periodSwitch.setOnPositionChangedListener(presenter::curPeriodChanged);
         binding.chartCard.chartModeSwitch.setOnPositionChangedListener(presenter::curChartModeChanged);
         binding.todayAnalytics.currentDate.setText("Сегодня \n" + DateTimeUtil.getCurDayAndMonth());
-        presenter.viewInit(binding.periodSwitch.getPosition(),
+        presenter.viewInit(binding.chartCard.periodSwitch.getPosition(),
                 binding.chartCard.chartModeSwitch.getPosition());
     }
 
@@ -59,7 +61,7 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
 
     @Override
     public void setDataToChart(ArrayList<Entry> entries) {
-        switch (binding.periodSwitch.getPosition()) {
+        switch (binding.chartCard.periodSwitch.getPosition()) {
             case DateTimeUtil.WEEK_PERIOD: {
 
                 chart.getXAxis().setValueFormatter(new DayFormatter());
@@ -89,6 +91,18 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
     @Override
     public void setChartTitle(String title) {
         binding.chartCard.chartTitle.setText(title);
+    }
+
+    @Override
+    public void setPopularProducts(ArrayList<TopProduct> popularProducts) {
+        binding.popularProducts.setLayoutManager(new LinearLayoutManager(this));
+        binding.popularProducts.setAdapter(new TopProductsAdapter(popularProducts));
+    }
+
+    @Override
+    public void setUnpopularProducts(ArrayList<TopProduct> unpopularProducts) {
+        binding.unpopularProducts.setLayoutManager(new LinearLayoutManager(this));
+        binding.unpopularProducts.setAdapter(new TopProductsAdapter(unpopularProducts));
     }
 
 

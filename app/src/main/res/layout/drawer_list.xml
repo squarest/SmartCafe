@@ -6,4 +6,5 @@
     android:layout_weight="1"
     android:background="@color/white"
     android:divider="@android:color/transparent"
+    android:groupIndicator="@android:color/transparent"
     android:dividerHeight="0dp" />

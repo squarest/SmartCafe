@@ -3,7 +3,10 @@ package com.example.clevercafe.data.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
+import com.example.clevercafe.data.entities.CompleteOrderProduct;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Chudofom on 24.07.17.
@@ -21,5 +24,11 @@ public interface AnalyticsDao {
 
     @Query("SELECT COUNT(id) FROM completeOrders WHERE dateTime BETWEEN :from AND :to")
     int orderCountForPeriod(Date from, Date to);
+
+    @Query("SELECT productId, SUM(quantity) AS quantity FROM completeOrderProducts GROUP BY productId ORDER BY quantity ASC LIMIT 5")
+    List<CompleteOrderProduct> getUnpopularProducts();
+
+    @Query("SELECT productId, SUM(quantity) AS quantity FROM completeOrderProducts GROUP BY productId ORDER BY quantity DESC LIMIT 5")
+    List<CompleteOrderProduct> getPopularProducts();
 
 }

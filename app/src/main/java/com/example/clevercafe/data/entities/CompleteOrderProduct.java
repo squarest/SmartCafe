@@ -13,14 +13,16 @@ public class CompleteOrderProduct {
     public long id;
     public long orderId;
     public long productId;
+    public double quantity;
 
     public CompleteOrderProduct() {
 
     }
 
     @Ignore
-    public CompleteOrderProduct(long orderId, long productId) {
+    public CompleteOrderProduct(long orderId, long productId, double quantity) {
         this.orderId = orderId;
         this.productId = productId;
+        this.quantity = quantity;
     }
 }

@@ -6,12 +6,16 @@ import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.example.clevercafe.R;
+import com.example.clevercafe.analytics.presentation.AnalyticsActivity;
 import com.example.clevercafe.base.adapters.DrawerListAdapter;
+import com.example.clevercafe.invoice.presentation.InvoiceActivity;
 import com.example.clevercafe.main.presentation.MainActivity;
 import com.example.clevercafe.menu.presentation.MenuActivity;
+import com.example.clevercafe.storage.presentation.storage.StorageActivity;
 
 import java.util.ArrayList;
 
@@ -24,7 +28,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
             R.drawable.menu_ic,
             R.drawable.storage_ic,
             R.drawable.director_ic,
-            R.drawable.setting_ic,
+            R.drawable.settings_ic,
     };
 
     @Override
@@ -32,7 +36,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
 
         super.onCreate(savedInstanceState);
     }
-
 
     protected void createDrawer() {
         slidingPaneLayout = (SlidingPaneLayout) findViewById(R.id.activity_main_sliding_pane);
@@ -71,6 +74,25 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
                     break;
                 }
 
+            }
+            return false;
+        });
+        listView.setOnChildClickListener((expandableListView, view1, i, i1, l) ->
+        {
+            if (i == 2 && i1 == 0) {
+                Intent intent = new Intent(this, StorageActivity.class);
+                this.startActivity(intent);
+            }
+            if (i == 2 && i1 == 1) {
+                Intent intent = new Intent(this, InvoiceActivity.class);
+                this.startActivity(intent);
+            }
+            if (i == 3 && i1 == 0) {
+                Intent intent = new Intent(this, AnalyticsActivity.class);
+                this.startActivity(intent);
+            }
+            if (i == 3 && i1 == 1) {
+                Toast.makeText(this, "гоп гоп гоп чидагоп", Toast.LENGTH_SHORT).show();
             }
             return false;
         });
