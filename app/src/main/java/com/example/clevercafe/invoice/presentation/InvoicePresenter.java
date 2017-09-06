@@ -36,22 +36,31 @@ public class InvoicePresenter extends BasePresenter<InvoiceView> {
         interactor.loadInvoices()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view::showInvoices, Throwable::printStackTrace);
+                .subscribe(returnedInvoices ->
+                {
+                    invoices.clear();
+                    invoices.addAll(returnedInvoices);
+                    getViewState().showInvoices(invoices);
+                }, Throwable::printStackTrace);
     }
 
     public void addInvoice(Invoice invoice) {
-       interactor.addInvoice(invoice)
+        interactor.addInvoice(invoice)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::showInvoices, Throwable::printStackTrace);
     }
 
-    public void deleteInvoice(Invoice invoice) {
-        Disposable disposable = interactor.removeInvoice(invoice)
+    public void invoiceDeleted(int invoicePosition) {
+        Disposable disposable = interactor.removeInvoice(invoices.get(invoicePosition))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::showInvoices, Throwable::printStackTrace);
         setDisposable(disposable);
+    }
+
+    public void editInvoiceButClicked(int invoicePosition) {
+        view.showEditForm(invoices.get(invoicePosition));
     }
 }
 

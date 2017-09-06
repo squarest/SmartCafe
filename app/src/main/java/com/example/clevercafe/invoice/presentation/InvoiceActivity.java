@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.example.clevercafe.databinding.ActivityInvocesBinding;
 import com.example.clevercafe.entities.Invoice;
 import com.example.clevercafe.invoice.presentation.adapters.InvoiceListAdapter;
 import com.example.clevercafe.storage.presentation.invoiceIngredients.InvoiceIngredientActivity;
+import com.example.clevercafe.utils.DialogUtil;
 import com.example.clevercafe.utils.dateTime.DateTimeUtil;
 
 import java.util.ArrayList;
@@ -37,6 +39,24 @@ public class InvoiceActivity extends BaseActivity implements InvoiceView {
         binding.invoiceList.setLayoutManager(new LinearLayoutManager(this));
         presenter.viewInit();
         setClickListeners();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 1: {//edit
+                presenter.editInvoiceButClicked(item.getOrder());
+                break;
+            }
+            case 2: {//remove
+                DialogUtil.getDeleteAlertDialog(this, "Удаление продукта", "Вы действительно хотите удалить продукт?", (dialogInterface, i) -> {
+                    presenter.invoiceDeleted(item.getOrder());
+                }).show();
+                break;
+            }
+
+        }
+        return super.onContextItemSelected(item);
     }
 
     private void setClickListeners() {

@@ -1,6 +1,7 @@
 package com.example.clevercafe.invoice.presentation.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +19,27 @@ import java.util.ArrayList;
 public class InvoiceListAdapter extends RecyclerView.Adapter<InvoiceListAdapter.ViewHolder> {
     private ArrayList<Invoice> invoices = new ArrayList<>();
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+
+
         public TextView invoiceName;
         public TextView supplierName;
         public TextView invoiceSum;
-
 
         public ViewHolder(View v) {
             super(v);
             invoiceName = v.findViewById(R.id.invoice_name);
             supplierName = v.findViewById(R.id.supplier_name);
             invoiceSum = v.findViewById(R.id.invoice_sum);
+            v.setOnCreateContextMenuListener(this);
+        }
+
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.add(1, 1, getAdapterPosition(), "Редактировать");
+            contextMenu.add(2, 2, getAdapterPosition(), "Удалить");
+            contextMenu.setHeaderTitle("Изменение накладной");
         }
     }
 
