@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -102,10 +103,7 @@ public class StorageActivity extends BaseActivity implements StorageView {
             }
             case 3: {//subtract
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                    DialogUtil.getDeleteAlertDialog(this, "Удаление категории", "Вы действительно хотите удалить категорию?", (dialogInterface, i) -> {
-                        presenter.deleteCategoryButClicked(groupId);
-                    }).show();
-
+                    presenter.subtractIngredientButClicked(groupId, childId);
                 }
                 break;
             }
@@ -227,6 +225,38 @@ public class StorageActivity extends BaseActivity implements StorageView {
         });
 
         categoryDialog.show();
+
+    }
+
+    @Override
+    public void showSubtractDialog(Ingredient ingredient) {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.subtract_product_dialog);
+        EditText ingredientQuantity = dialog.findViewById(R.id.ingredient_quantity);
+        TextView ingredientUnits = dialog.findViewById(R.id.ingredient_units);
+
+        dialog.setTitle("Списание " + ingredient.name);
+        ingredientUnits.setText(ingredient.units);
+
+        Button cancelCategoryButton = dialog.findViewById(R.id.cancel_button);
+        cancelCategoryButton.setOnClickListener(v ->
+        {
+            dialog.dismiss();
+        });
+
+        Button submitCategoryButton = dialog.findViewById(R.id.submit_button);
+        submitCategoryButton.setOnClickListener(v ->
+        {
+
+            if (!ingredientQuantity.getText().toString().isEmpty()) {
+                ingredient.quantity = Double.valueOf(ingredientQuantity.getText().toString());
+                presenter.ingredientSubtracted(ingredient);
+                dialog.dismiss();
+            } else
+                Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
+        });
+
+        dialog.show();
 
     }
 

@@ -83,4 +83,15 @@ public class StorageInteractor implements IStrorageInteractor {
             e.onComplete();
         });
     }
+
+    @Override
+    public Completable subtractIngredient(Ingredient ingredient) {
+        return Completable.create(e -> {
+            long id = ingredient.id;
+            double quantity = ingredientRepository.getIngredientsQuantity(id);
+            ingredient.quantity = quantity - (ingredient.quantity);
+            ingredientRepository.addIngredient(ingredient);
+            e.onComplete();
+        });
+    }
 }

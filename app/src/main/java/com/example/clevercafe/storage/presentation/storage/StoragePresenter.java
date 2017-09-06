@@ -60,6 +60,18 @@ public class StoragePresenter extends BasePresenter<StorageView> {
         setDisposable(disposable);
     }
 
+    public void subtractIngredientButClicked(int categoryId, int ingredientId) {
+        getViewState().showSubtractDialog(categories.get(categoryId).ingredients.get(ingredientId));
+    }
+
+    public void ingredientSubtracted(Ingredient ingredient) {
+        Disposable disposable = interactor.subtractIngredient(ingredient)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+        setDisposable(disposable);
+    }
+
     public void addCategoryButClicked() {
         view.createCategoryDialog(-1, null, false);
     }

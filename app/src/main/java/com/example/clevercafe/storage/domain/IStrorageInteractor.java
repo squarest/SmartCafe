@@ -15,17 +15,17 @@ import io.reactivex.Observable;
 public interface IStrorageInteractor {
     Observable<ArrayList<IngredientCategory>> loadCategories();
 
-
     Completable addCategory(IngredientCategory category);
 
     Completable editCategory(IngredientCategory category);
 
     Completable deleteCategory(IngredientCategory category);
 
-
     Completable addIngredient(Ingredient ingredient);
 
     Completable editIngredient(Ingredient ingredient);
 
     Completable deleteIngredient(Ingredient ingredient);
+
+    Completable subtractIngredient(Ingredient ingredient);
 }
