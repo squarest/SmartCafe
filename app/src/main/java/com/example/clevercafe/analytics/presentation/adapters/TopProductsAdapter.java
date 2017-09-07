@@ -1,4 +1,4 @@
-package com.example.clevercafe.analytics.presentation;
+package com.example.clevercafe.analytics.presentation.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

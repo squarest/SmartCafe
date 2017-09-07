@@ -131,7 +131,7 @@ public class AnalyticsPresenter extends BasePresenter<AnalyticsView> {
             entries.add(new Entry(curPeriods.get(i).endDate.getTime(), values.get(i).floatValue()));
             sum += values.get(i);
         }
-        view.setChartTitle(generateChartTitle() + sum);
+        view.setChartTitle(String.format("%s %.2f", generateChartTitle(), sum));
         return entries;
     }
 
@@ -144,5 +144,9 @@ public class AnalyticsPresenter extends BasePresenter<AnalyticsView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(view::setUnpopularProducts, Throwable::printStackTrace);
+        interactor.loadExpiringIngredients()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(view::setExpiringIngredient, Throwable::printStackTrace);
     }
 }

@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
 import com.example.clevercafe.data.entities.CompleteOrderProduct;
+import com.example.clevercafe.entities.Ingredient;
 
 import java.util.Date;
 import java.util.List;
@@ -30,5 +31,8 @@ public interface AnalyticsDao {
 
     @Query("SELECT productId, SUM(quantity) AS quantity FROM completeOrderProducts GROUP BY productId ORDER BY quantity DESC LIMIT 5")
     List<CompleteOrderProduct> getPopularProducts();
+
+    @Query("SELECT * FROM ingredients ORDER BY quantity ASC LIMIT 5")
+    List<Ingredient> getExpiringIngredients();
 
 }

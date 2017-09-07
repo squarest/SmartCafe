@@ -7,9 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
+import com.example.clevercafe.analytics.presentation.adapters.ExpiringIngredientsAdapter;
+import com.example.clevercafe.analytics.presentation.adapters.TopProductsAdapter;
 import com.example.clevercafe.base.BaseActivity;
 import com.example.clevercafe.databinding.ActivityAnalyticsBinding;
 import com.example.clevercafe.entities.Analytics;
+import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.TopProduct;
 import com.example.clevercafe.utils.chart.DayFormatter;
 import com.example.clevercafe.utils.chart.YearFormatter;
@@ -103,6 +106,12 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
     public void setUnpopularProducts(ArrayList<TopProduct> unpopularProducts) {
         binding.unpopularProducts.setLayoutManager(new LinearLayoutManager(this));
         binding.unpopularProducts.setAdapter(new TopProductsAdapter(unpopularProducts));
+    }
+
+    @Override
+    public void setExpiringIngredient(ArrayList<Ingredient> ingredients) {
+        binding.storageProducts.setLayoutManager(new LinearLayoutManager(this));
+        binding.storageProducts.setAdapter(new ExpiringIngredientsAdapter(ingredients));
     }
 
 

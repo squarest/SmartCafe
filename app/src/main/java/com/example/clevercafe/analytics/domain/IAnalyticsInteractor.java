@@ -1,6 +1,7 @@
 package com.example.clevercafe.analytics.domain;
 
 import com.example.clevercafe.entities.Analytics;
+import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.TopProduct;
 import com.example.clevercafe.utils.dateTime.Period;
 
@@ -26,4 +27,6 @@ public interface IAnalyticsInteractor {
     Observable<ArrayList<TopProduct>> loadPopularProducts();
 
     Observable<ArrayList<TopProduct>> loadUnpopularProducts();
+
+    Observable<ArrayList<Ingredient>> loadExpiringIngredients();
 }

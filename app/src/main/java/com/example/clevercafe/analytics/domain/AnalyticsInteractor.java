@@ -2,6 +2,7 @@ package com.example.clevercafe.analytics.domain;
 
 import com.example.clevercafe.data.repositories.AnalyticsRepository;
 import com.example.clevercafe.entities.Analytics;
+import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.TopProduct;
 import com.example.clevercafe.utils.dateTime.DateTimeUtil;
 import com.example.clevercafe.utils.dateTime.Period;
@@ -97,6 +98,15 @@ public class AnalyticsInteractor implements IAnalyticsInteractor {
         return Observable.create(e -> {
             ArrayList<TopProduct> topProducts = repository.getUnpopularProducts();
             if (topProducts != null) e.onNext(topProducts);
+            else e.onError(new NullPointerException());
+        });
+    }
+
+    @Override
+    public Observable<ArrayList<Ingredient>> loadExpiringIngredients() {
+        return Observable.create(e -> {
+            ArrayList list = repository.getExpiringIngredients();
+            if (list != null) e.onNext(list);
             else e.onError(new NullPointerException());
         });
     }

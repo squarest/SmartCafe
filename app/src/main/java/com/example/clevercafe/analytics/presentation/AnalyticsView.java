@@ -2,6 +2,7 @@ package com.example.clevercafe.analytics.presentation;
 
 import com.arellomobile.mvp.MvpView;
 import com.example.clevercafe.entities.Analytics;
+import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.TopProduct;
 import com.github.mikephil.charting.data.Entry;
 
@@ -21,6 +22,8 @@ public interface AnalyticsView extends MvpView {
     void setPopularProducts(ArrayList<TopProduct> popularProducts);
 
     void setUnpopularProducts(ArrayList<TopProduct> unpopularProducts);
+
+    void setExpiringIngredient(ArrayList<Ingredient> ingredients);
 
     void showLoading();
 

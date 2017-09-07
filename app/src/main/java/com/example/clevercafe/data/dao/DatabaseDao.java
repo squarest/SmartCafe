@@ -33,7 +33,7 @@ public interface DatabaseDao {
     @Delete
     void deleteInvoice(Invoice invoice);
 
-    @Query("SELECT * FROM invoices")
+    @Query("SELECT * FROM invoices ORDER BY date ASC")
     List<Invoice> getInvoices();
 
 
@@ -69,7 +69,7 @@ public interface DatabaseDao {
     @Delete
     void deleteIngredientCategory(IngredientCategory category);
 
-    @Query("SELECT * FROM ingredientCategories")
+    @Query("SELECT * FROM ingredientCategories ORDER BY name ASC")
     List<IngredientCategory> getIngredientCategories();
 
 
@@ -83,7 +83,7 @@ public interface DatabaseDao {
     @Query("DELETE FROM ingredients WHERE categoryId = :categoryId")
     void deleteIngredients(long categoryId);
 
-    @Query("SELECT * FROM ingredients WHERE categoryId = :categoryId")
+    @Query("SELECT * FROM ingredients WHERE categoryId = :categoryId ORDER BY name ASC")
     List<Ingredient> getIngredients(long categoryId);
 
     @Query("SELECT * FROM ingredients WHERE id = :id")

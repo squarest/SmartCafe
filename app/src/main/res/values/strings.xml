@@ -8,5 +8,5 @@
         <item>НАСТРОЙКИ</item>
     </string-array>
     <string name="menu_add_category_title">Добавить категорию</string>>
-    <string name="menu_toolbar_title">Редактирование меню </string>>
+    <string name="menu_toolbar_title">Редактирование меню</string>>
 </resources>

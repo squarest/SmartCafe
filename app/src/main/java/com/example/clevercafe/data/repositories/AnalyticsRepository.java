@@ -4,6 +4,7 @@ import com.example.clevercafe.data.dao.AnalyticsDao;
 import com.example.clevercafe.data.dao.DatabaseDao;
 import com.example.clevercafe.data.entities.CompleteOrderProduct;
 import com.example.clevercafe.entities.Analytics;
+import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.TopProduct;
 import com.example.clevercafe.utils.dateTime.Period;
 
@@ -68,6 +69,12 @@ public class AnalyticsRepository {
             topProducts.add(topProduct);
         }
         return topProducts;
+    }
+
+    public ArrayList<Ingredient> getExpiringIngredients() {
+        ArrayList list = new ArrayList();
+        list.addAll(analyticsDao.getExpiringIngredients());
+        return list;
     }
 
 }

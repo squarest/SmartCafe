@@ -49,7 +49,7 @@ public class InvoiceActivity extends BaseActivity implements InvoiceView {
                 break;
             }
             case 2: {//remove
-                DialogUtil.getDeleteAlertDialog(this, "Удаление продукта", "Вы действительно хотите удалить продукт?", (dialogInterface, i) -> {
+                DialogUtil.getDeleteAlertDialog(this, "Удаление накладной", "Вы действительно хотите удалить накладную?", (dialogInterface, i) -> {
                     presenter.invoiceDeleted(item.getOrder());
                 }).show();
                 break;
