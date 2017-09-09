@@ -61,7 +61,7 @@ public class AddProductFragment extends MvpAppCompatFragment implements IAddProd
         binding.productCancelButton.setOnClickListener(v -> hideForm());
         binding.productSubmitButton.setOnClickListener(v -> {
             Product product = getProduct();
-            presenter.submitButtonClicked(product);
+            if (product != null) presenter.submitButtonClicked(product);
         });
         binding.addProductButton.setOnClickListener(v -> showAddForm());
         binding.addIngredientsButton.setOnClickListener(v -> showStorage());
@@ -105,10 +105,12 @@ public class AddProductFragment extends MvpAppCompatFragment implements IAddProd
             curentProduct.categoryId = categoryId;
             curentProduct.name = binding.productName.getText().toString();
             curentProduct.cost = Double.valueOf(binding.productCost.getText().toString());
+            return curentProduct;
         } else {
             Toast.makeText(getContext(), "Заполните все поля", Toast.LENGTH_SHORT).show();
+            return null;
         }
-        return curentProduct;
+
     }
 
     private void setProduct(Product product) {

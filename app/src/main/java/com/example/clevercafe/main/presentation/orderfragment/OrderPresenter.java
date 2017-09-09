@@ -93,4 +93,10 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
         }
         return sum;
     }
+    public void productRemoved(int productPosition)
+    {
+        order.removeProduct(productPosition);
+        order.sum = checkSum(order);
+        getViewState().updateOrder(order);
+    }
 }

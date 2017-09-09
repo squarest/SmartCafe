@@ -63,7 +63,7 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
     }
 
     @Override
-    public void setDataToChart(ArrayList<Entry> entries) {
+    public void setDataToChart(ArrayList<Entry> entries, String label) {
         switch (binding.chartCard.periodSwitch.getPosition()) {
             case DateTimeUtil.WEEK_PERIOD: {
 
@@ -82,7 +82,7 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
                 break;
             }
         }
-        LineDataSet lineDataSet = new LineDataSet(entries, "label");
+        LineDataSet lineDataSet = new LineDataSet(entries, label);
         lineDataSet.setColor(getResources().getColor(R.color.darkBlue));
         lineDataSet.setCircleColor(getResources().getColor(R.color.purple));
         lineDataSet.setValueFormatter(new LargeValueFormatter());
@@ -98,20 +98,20 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
 
     @Override
     public void setPopularProducts(ArrayList<TopProduct> popularProducts) {
-        binding.popularProducts.setLayoutManager(new LinearLayoutManager(this));
-        binding.popularProducts.setAdapter(new TopProductsAdapter(popularProducts));
+        binding.top.popularProducts.setLayoutManager(new LinearLayoutManager(this));
+        binding.top.popularProducts.setAdapter(new TopProductsAdapter(popularProducts));
     }
 
     @Override
     public void setUnpopularProducts(ArrayList<TopProduct> unpopularProducts) {
-        binding.unpopularProducts.setLayoutManager(new LinearLayoutManager(this));
-        binding.unpopularProducts.setAdapter(new TopProductsAdapter(unpopularProducts));
+        binding.top.unpopularProducts.setLayoutManager(new LinearLayoutManager(this));
+        binding.top.unpopularProducts.setAdapter(new TopProductsAdapter(unpopularProducts));
     }
 
     @Override
     public void setExpiringIngredient(ArrayList<Ingredient> ingredients) {
-        binding.storageProducts.setLayoutManager(new LinearLayoutManager(this));
-        binding.storageProducts.setAdapter(new ExpiringIngredientsAdapter(ingredients));
+        binding.expiring.storageProducts.setLayoutManager(new LinearLayoutManager(this));
+        binding.expiring.storageProducts.setAdapter(new ExpiringIngredientsAdapter(ingredients));
     }
 
 

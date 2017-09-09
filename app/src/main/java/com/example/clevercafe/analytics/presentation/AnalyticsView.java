@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public interface AnalyticsView extends MvpView {
     void setTodayAnalytics(Analytics todayAnalytics);
 
-    void setDataToChart(ArrayList<Entry> entries);
+    void setDataToChart(ArrayList<Entry> entries, String label);
 
     void setChartTitle(String title);
 

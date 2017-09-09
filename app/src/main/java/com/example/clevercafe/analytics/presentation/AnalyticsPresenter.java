@@ -84,7 +84,7 @@ public class AnalyticsPresenter extends BasePresenter<AnalyticsView> {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(values -> {
-                            view.setDataToChart(populateChart(values));
+                            view.setDataToChart(populateChart(values), ChartUtil.getModeName(curChartMode));
                         }, Throwable::printStackTrace);
                 break;
             }
@@ -93,7 +93,7 @@ public class AnalyticsPresenter extends BasePresenter<AnalyticsView> {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(values -> {
-                            view.setDataToChart(populateChart(values));
+                            view.setDataToChart(populateChart(values), ChartUtil.getModeName(curChartMode));
                         }, Throwable::printStackTrace);
                 break;
             }
@@ -102,7 +102,7 @@ public class AnalyticsPresenter extends BasePresenter<AnalyticsView> {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(values -> {
-                            view.setDataToChart(populateChart(values));
+                            view.setDataToChart(populateChart(values), ChartUtil.getModeName(curChartMode));
                         }, Throwable::printStackTrace);
                 break;
             }
@@ -111,7 +111,7 @@ public class AnalyticsPresenter extends BasePresenter<AnalyticsView> {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(values -> {
-                            view.setDataToChart(populateChart(values));
+                            view.setDataToChart(populateChart(values), ChartUtil.getModeName(curChartMode));
                         }, Throwable::printStackTrace);
                 break;
             }

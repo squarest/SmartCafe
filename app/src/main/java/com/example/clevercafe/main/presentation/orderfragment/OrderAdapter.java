@@ -76,9 +76,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.deleteButton.setOnClickListener(v ->
         {
             DialogUtil.getDeleteAlertDialog(context, "Удаление продукта", "Вы действительно хотите удалить продукт?", (dialogInterface, i) -> {
-                order.products.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, order.products.size());
+                presenter.productRemoved(position);
             }).show();
 
         });

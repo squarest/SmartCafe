@@ -43,7 +43,7 @@ public class AddCategoryFragment extends MvpAppCompatFragment implements IAddCat
         binding.categoryCancelButton.setOnClickListener(v -> hideForm());
         binding.categorySubmitButton.setOnClickListener(view1 -> {
             ProductCategory category = getCategory();
-            presenter.submitButtonClicked(category);
+            if (category != null) presenter.submitButtonClicked(category);
         });
         binding.addCategoryButton.setOnClickListener(v -> showAddForm());
         binding.addIconButton.setOnClickListener(v ->
@@ -90,10 +90,12 @@ public class AddCategoryFragment extends MvpAppCompatFragment implements IAddCat
     private ProductCategory getCategory() {
         if (!binding.categoryName.getText().toString().isEmpty()) {
             currentCategory.name = binding.categoryName.getText().toString();
+            return currentCategory;
         } else {
             Toast.makeText(getContext(), "Заполните все поля", Toast.LENGTH_SHORT).show();
+            return null;
         }
-        return currentCategory;
+
     }
 
     private void setCategory(ProductCategory category) {

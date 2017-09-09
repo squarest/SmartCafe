@@ -45,6 +45,13 @@ public class Order {
     }
 
     @Ignore
+    public void removeProduct(int productPosition) {
+
+        productsCount.remove(products.get(productPosition).id);
+        products.remove(productPosition);
+    }
+
+    @Ignore
     public void setProductCount(long productId, Double quantity) {
         productsCount.put(productId, quantity);
     }
