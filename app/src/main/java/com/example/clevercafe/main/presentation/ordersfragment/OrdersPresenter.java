@@ -85,6 +85,10 @@ public class OrdersPresenter extends BasePresenter<IOrdersFragment> {
         setDisposable(disposable);
     }
 
+    public void orderLongClicked(int orderPosition) {
+        getViewState().setOrder(orders.get(orderPosition).id);
+    }
+
     private void logOrders(ArrayList<CompleteOrder> orders) {
         for (CompleteOrder order : orders) {
             Log.d("orders", order.id + " datetime" + DateTimeUtil.dateTimeToString(order.dateTime) + " sum " + order.sum + " costSum" + order.costSum);

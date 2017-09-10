@@ -45,7 +45,10 @@ public class OrderRepository {
     public void addOrder(Order order) {
         order.id = databaseDao.insertOrder(order);
         setCurOrderNumber(order);
-        if (order.products != null && order.products.size() > 0) addProducts(order);
+        if (order.products != null && order.products.size() > 0) {
+            deleteProducts(order.id);
+            addProducts(order);
+        }
     }
 
 
@@ -66,6 +69,13 @@ public class OrderRepository {
             order.products = getProducts(order);
         }
         return orders;
+    }
+
+    public Order getOrder(long orderId) {
+        Order order = databaseDao.getOrder(orderId);
+        order.number = orderId;
+        order.products = getProducts(order);
+        return order;
     }
 
     private ArrayList<Product> getProducts(Order order) {
@@ -96,15 +106,6 @@ public class OrderRepository {
         }
         return ingredients;
     }
-
-    public void editOrder(Order order) {
-        databaseDao.updateOrder(order);
-        if (order.products != null && order.products.size() > 0) {
-            deleteProducts(order.id);
-            addProducts(order);
-        }
-    }
-
 
     public void deleteOrder(Order order) {
         databaseDao.deleteOrder(order);

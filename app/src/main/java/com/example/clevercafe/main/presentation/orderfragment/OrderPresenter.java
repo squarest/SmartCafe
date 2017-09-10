@@ -30,11 +30,23 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
         App.getMainComponent().inject(this);
     }
 
-    public void viewInit() {
+    public void viewInit(long orderId) {
         interactor.setOrderActive(true);
-        order = new Order(interactor.getCurOrderNumber(), new ArrayList<>());
-        if (order.sum == null) order.sum = 0.0;
-        getViewState().setOrder(order);
+        if (orderId == -1) {
+            order = new Order(interactor.getCurOrderNumber(), new ArrayList<>());
+            order.sum = 0.0;
+            getViewState().setOrder(order);
+        } else {
+            interactor.loadOrder(orderId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(returnedOrder ->
+                    {
+                        order = returnedOrder;
+                        getViewState().setOrder(order);
+                    }, Throwable::printStackTrace);
+        }
+
     }
 
     @Override
@@ -93,8 +105,8 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
         }
         return sum;
     }
-    public void productRemoved(int productPosition)
-    {
+
+    public void productRemoved(int productPosition) {
         order.removeProduct(productPosition);
         order.sum = checkSum(order);
         getViewState().updateOrder(order);

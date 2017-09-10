@@ -17,6 +17,8 @@ import io.reactivex.Single;
 public interface IMainInteractor {
     Observable<ArrayList<Order>> loadOrders();
 
+    Single<Order> loadOrder(long orderId);
+
     Observable<ArrayList<CompleteOrder>> loadCompleteOrders();
 
     void setOrderActive(boolean orderActive);

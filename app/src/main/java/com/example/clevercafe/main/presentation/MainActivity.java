@@ -1,23 +1,20 @@
 package com.example.clevercafe.main.presentation;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.base.BaseActivity;
-import com.example.clevercafe.databinding.ActivityMainBinding;
 import com.example.clevercafe.main.presentation.orderfragment.OrderFragment;
 import com.example.clevercafe.main.presentation.ordersfragment.OrdersFragment;
 import com.example.clevercafe.menu.presentation.categories.CategoriesFragment;
 import com.example.clevercafe.menu.presentation.products.ProductsFragment;
 
 public class MainActivity extends BaseActivity implements MainView {
-    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         createToolbar("");
         createDrawer();
         setCategories();
@@ -51,9 +48,9 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override
-    public void setOrder() {
+    public void setOrder(long orderId) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.orders_fragment, new OrderFragment())
+                .replace(R.id.orders_fragment, OrderFragment.newInstance(orderId))
                 .commit();
     }
 }

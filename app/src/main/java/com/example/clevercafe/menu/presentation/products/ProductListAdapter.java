@@ -27,12 +27,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
         public TextView nameTextView;
+        public TextView costTextView;
         public ImageView imageView;
 
 
         public ViewHolder(View v) {
             super(v);
             nameTextView = v.findViewById(R.id.card_product_name);
+            costTextView = v.findViewById(R.id.product_cost);
             imageView = v.findViewById(R.id.product_imageview);
             if (editMode)
                 v.setOnCreateContextMenuListener(this);
@@ -75,6 +77,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.nameTextView.setText(product.name);
+        holder.costTextView.setText(String.valueOf(product.cost));
         if (product.imagePath != null && !product.imagePath.isEmpty()) {
             holder.imageView.setImageBitmap(BitmapFactory.decodeFile(product.imagePath));
         }
@@ -102,6 +105,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         }
         holder.nameTextView.setBackgroundColor(context.getResources().getColor(backgroundColor));
+        holder.costTextView.setBackgroundColor(context.getResources().getColor(backgroundColor));
 
 
     }

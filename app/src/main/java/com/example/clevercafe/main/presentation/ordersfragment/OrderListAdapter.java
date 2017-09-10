@@ -1,6 +1,7 @@
 package com.example.clevercafe.main.presentation.ordersfragment;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         public TextView chooseProductTextView;
         public TextView orderSumTextView;
         public Button submitOrderButton;
+        public CardView cardView;
 
         public ViewHolder(View v) {
             super(v);
@@ -36,6 +38,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
             chooseProductTextView = v.findViewById(R.id.choose_product);
             orderSumTextView = v.findViewById(R.id.order_sum);
             submitOrderButton = v.findViewById(R.id.order_submit_button);
+            cardView = v.findViewById(R.id.order_card);
         }
     }
 
@@ -68,6 +71,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         holder.submitOrderButton.setOnClickListener(v ->
         {
             presenter.orderSubmitButtonClicked(orderList.get(position));
+        });
+        holder.cardView.setOnLongClickListener(v ->
+        {
+            presenter.orderLongClicked(position);
+            return true;
         });
 
     }

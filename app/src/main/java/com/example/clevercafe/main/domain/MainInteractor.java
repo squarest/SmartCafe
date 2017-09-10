@@ -57,6 +57,16 @@ public class MainInteractor implements IMainInteractor {
     }
 
     @Override
+    public Single<Order> loadOrder(long orderId) {
+        return Single.create(e ->
+        {
+            Order order = orderRepository.getOrder(orderId);
+            if (order != null) e.onSuccess(order);
+            else e.onError(new NullPointerException());
+        });
+    }
+
+    @Override
     public Observable<ArrayList<CompleteOrder>> loadCompleteOrders() {
         return Observable.create(e ->
         {

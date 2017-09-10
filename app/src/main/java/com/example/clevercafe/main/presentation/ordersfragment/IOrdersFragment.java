@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public interface IOrdersFragment extends MvpView {
     void setOrders(ArrayList<Order> orders);
+    void setOrder(long orderId);
 
 
 }

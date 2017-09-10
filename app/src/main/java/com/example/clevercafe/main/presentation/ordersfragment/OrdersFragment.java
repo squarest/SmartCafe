@@ -49,7 +49,7 @@ public class OrdersFragment extends MvpAppCompatFragment implements IOrdersFragm
     }
 
     private void setClickListeners() {
-        binding.addOrderButton.setOnClickListener(view -> mainView.setOrder());
+        binding.addOrderButton.setOnClickListener(view -> mainView.setOrder(-1));
     }
 
     private void createRecyclerView() {
@@ -68,6 +68,11 @@ public class OrdersFragment extends MvpAppCompatFragment implements IOrdersFragm
         this.orders.addAll(orders);
         binding.orderList.setAdapter(new OrderListAdapter(this.orders, presenter));
 
+    }
+
+    @Override
+    public void setOrder(long orderId) {
+        mainView.setOrder(orderId);
     }
 
     private class SwipeCallback extends ItemTouchHelper.Callback {

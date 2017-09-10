@@ -5,7 +5,6 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
 import com.example.clevercafe.data.entities.CompleteOrderProduct;
 import com.example.clevercafe.data.entities.InvoiceIngredient;
@@ -38,25 +37,22 @@ public interface DatabaseDao {
 
 
     //Orders
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertOrder(Order order);
 
     @Delete
     void deleteOrder(Order order);
 
-    @Update
-    void updateOrder(Order order);
-
     @Query("SELECT * FROM orders")
     List<Order> getOrders();
+
+    @Query("SELECT * FROM orders WHERE id = :orderId")
+    Order getOrder(long orderId);
 
 
     //completeOrders
     @Insert
     long insertCompleteOrder(CompleteOrder order);
-
-    @Delete
-    void deleteCompleteOrder(CompleteOrder order);
 
     @Query("SELECT * FROM completeOrders")
     List<CompleteOrder> getCompleteOrders();

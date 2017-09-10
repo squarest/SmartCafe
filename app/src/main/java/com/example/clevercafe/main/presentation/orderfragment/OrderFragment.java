@@ -17,6 +17,7 @@ import com.example.clevercafe.R;
 import com.example.clevercafe.databinding.OrderFragmentBinding;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.main.presentation.MainView;
+import com.example.clevercafe.menu.presentation.products.ProductsFragment;
 import com.example.clevercafe.utils.DialogUtil;
 
 /**
@@ -30,6 +31,14 @@ public class OrderFragment extends MvpAppCompatFragment implements IOrderFragmen
     @InjectPresenter
     public OrderPresenter presenter;
 
+    public static OrderFragment newInstance(long orderId) {
+        Bundle args = new Bundle();
+        args.putLong("orderId", orderId);
+        OrderFragment fragment = new OrderFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,12 +49,13 @@ public class OrderFragment extends MvpAppCompatFragment implements IOrderFragmen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle args = getArguments();
         mainView = (MainView) getActivity();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.orderList.setLayoutManager(layoutManager);
         binding.orderList.addItemDecoration(new DividerItemDecoration(getContext(), layoutManager.getOrientation()));
         setClickListeners();
-        presenter.viewInit();
+        presenter.viewInit(args.getLong("orderId"));
     }
 
     private void setClickListeners() {
