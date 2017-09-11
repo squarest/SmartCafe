@@ -1,4 +1,4 @@
-package com.example.clevercafe.main.presentation.ordersfragment;
+package com.example.clevercafe.main.presentation.ordersfragment.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.Order;
+import com.example.clevercafe.main.presentation.ordersfragment.OrdersPresenter;
 
 import java.util.ArrayList;
 

@@ -16,6 +16,7 @@ import com.example.clevercafe.R;
 import com.example.clevercafe.databinding.OrdersFragmentBinding;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.main.presentation.MainView;
+import com.example.clevercafe.main.presentation.ordersfragment.adapters.OrderListAdapter;
 import com.example.clevercafe.utils.DialogUtil;
 
 import java.util.ArrayList;

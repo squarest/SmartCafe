@@ -60,4 +60,17 @@ public class Order {
     public Double getProductCount(long productId) {
         return productsCount.get(productId);
     }
+
+    @Ignore
+    private HashMap<Long, String> productsComments = new HashMap<>();
+
+    @Ignore
+    public void setProductComment(long productId, String comment) {
+        productsComments.put(productId, comment);
+    }
+
+    @Ignore
+    public String getProductComment(long productId) {
+        return productsComments.get(productId);
+    }
 }

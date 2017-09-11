@@ -89,7 +89,7 @@
                 android:id="@+id/order_elements"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/order_element" />
+                tools:listitem="@layout/orders_element" />
 
             <View
                 android:layout_width="match_parent"

@@ -24,15 +24,18 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView productName;
+        public TextView comment;
         public EditText productQuantity;
         public TextView productUnits;
         public TextView deleteButton;
 
         public ViewHolder(View v) {
             super(v);
-            productName = v.findViewById(R.id.ingredient_name);
-            productQuantity = v.findViewById(R.id.ingredient_quantity);
-            productUnits = v.findViewById(R.id.ingredient_units);
+
+            productName = v.findViewById(R.id.product_name);
+            comment = v.findViewById(R.id.comment);
+            productQuantity = v.findViewById(R.id.product_quantity);
+            productUnits = v.findViewById(R.id.product_units);
             deleteButton = v.findViewById(R.id.delete_button);
         }
     }
@@ -47,13 +50,25 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                                                       int viewType) {
         this.context = parent.getContext();
         View v = LayoutInflater.from(context)
-                .inflate(R.layout.ingredient_element, parent, false);
+                .inflate(R.layout.order_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.productName.setText(order.products.get(position).name);
+        holder.productName.setOnLongClickListener(v ->
+        {
+            presenter.productLongClicked(position);
+            return true;
+        });
+        String comment = order.getProductComment(order.products.get(position).id);
+        if (comment != null && !comment.isEmpty()) {
+            holder.comment.setText(comment);
+            holder.comment.setVisibility(View.VISIBLE);
+        } else {
+            holder.comment.setVisibility(View.GONE);
+        }
         holder.productQuantity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -74,12 +89,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.productQuantity.setText(String.valueOf(order.getProductCount(order.products.get(position).id)));
         holder.productUnits.setText(order.products.get(position).units);
         holder.deleteButton.setOnClickListener(v ->
-        {
-            DialogUtil.getDeleteAlertDialog(context, "Удаление продукта", "Вы действительно хотите удалить продукт?", (dialogInterface, i) -> {
-                presenter.productRemoved(position);
-            }).show();
-
-        });
+                DialogUtil.getDeleteAlertDialog(context, "Удаление продукта", "Вы действительно хотите удалить продукт?", (dialogInterface, i) -> {
+                    presenter.productRemoved(position);
+                }).show());
     }
 
     @Override

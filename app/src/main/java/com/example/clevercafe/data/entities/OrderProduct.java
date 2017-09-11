@@ -14,9 +14,11 @@ public class OrderProduct {
     public long orderId;
     public long productId;
     public double quantity;
+    public String comment;
 
     public OrderProduct() {
     }
+
     @Ignore
     public OrderProduct(long orderId, long productId, double quantity) {
         this.orderId = orderId;

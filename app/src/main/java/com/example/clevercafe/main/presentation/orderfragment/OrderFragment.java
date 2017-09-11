@@ -1,5 +1,6 @@
 package com.example.clevercafe.main.presentation.orderfragment;
 
+import android.app.Dialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -17,7 +20,6 @@ import com.example.clevercafe.R;
 import com.example.clevercafe.databinding.OrderFragmentBinding;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.main.presentation.MainView;
-import com.example.clevercafe.menu.presentation.products.ProductsFragment;
 import com.example.clevercafe.utils.DialogUtil;
 
 /**
@@ -59,7 +61,6 @@ public class OrderFragment extends MvpAppCompatFragment implements IOrderFragmen
     }
 
     private void setClickListeners() {
-
         binding.submitButton.setOnClickListener(v -> presenter.submitButtonClicked());
         binding.cancelButton.setOnClickListener(v -> showOrders());
     }
@@ -79,7 +80,7 @@ public class OrderFragment extends MvpAppCompatFragment implements IOrderFragmen
         orderAdapter = new OrderAdapter(order, presenter);
         binding.orderList.setAdapter(orderAdapter);
         binding.orderNumber.setText("ЗАКАЗ №" + order.number);
-        binding.orderSum.setText("Итого: " + order.sum);
+        binding.orderSum.setText(String.format("Итого: %.2f", order.sum));
 
     }
 
@@ -91,12 +92,30 @@ public class OrderFragment extends MvpAppCompatFragment implements IOrderFragmen
     @Override
     public void updateOrder(Order order) {
         orderAdapter.notifyDataSetChanged();
-        binding.orderSum.setText("Итого: " + order.sum);
+        binding.orderSum.setText(String.format("Итого: %.2f", order.sum));
     }
 
     @Override
     public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showCommentDialog(long productId, String comment) {
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.comment_dialog);
+        EditText editText = dialog.findViewById(R.id.edit_text);
+        editText.setText(comment);
+        dialog.setTitle("Добавление комментария");
+        Button cancelCategoryButton = dialog.findViewById(R.id.cancel_button);
+        cancelCategoryButton.setOnClickListener(v -> dialog.dismiss());
+        Button submitCategoryButton = dialog.findViewById(R.id.submit_button);
+        submitCategoryButton.setOnClickListener(v ->
+        {
+            presenter.commentAdded(productId, editText.getText().toString());
+            dialog.dismiss();
+        });
+        dialog.show();
     }
 
 }

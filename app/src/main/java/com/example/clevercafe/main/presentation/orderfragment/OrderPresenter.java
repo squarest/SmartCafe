@@ -111,4 +111,14 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
         order.sum = checkSum(order);
         getViewState().updateOrder(order);
     }
+
+    public void productLongClicked(int productPosition) {
+        long productId = order.products.get(productPosition).id;
+        getViewState().showCommentDialog(productId, order.getProductComment(productId));
+    }
+
+    public void commentAdded(long productId, String comment) {
+        order.setProductComment(productId, comment);
+        getViewState().updateOrder(order);
+    }
 }
