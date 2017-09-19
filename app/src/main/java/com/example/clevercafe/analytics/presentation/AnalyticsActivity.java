@@ -60,6 +60,7 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
         chart.getAxisLeft().setValueFormatter(new LargeValueFormatter());
         chart.getAxisRight().setValueFormatter(new LargeValueFormatter());
 
+
     }
 
     @Override
@@ -86,6 +87,7 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
         lineDataSet.setColor(getResources().getColor(R.color.darkBlue));
         lineDataSet.setCircleColor(getResources().getColor(R.color.purple));
         lineDataSet.setValueFormatter(new LargeValueFormatter());
+        chart.setMarker(new CustomMarkerView(this, R.layout.marker));
         chart.setData(new LineData(lineDataSet));
         chart.animateY(500, Easing.EasingOption.Linear);
         chart.invalidate();
@@ -128,4 +130,5 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
     public void hideLoading() {
         progressDialog.dismiss();
     }
+
 }

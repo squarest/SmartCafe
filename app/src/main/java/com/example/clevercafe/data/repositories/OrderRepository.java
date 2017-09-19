@@ -10,6 +10,7 @@ import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -31,15 +32,28 @@ public class OrderRepository {
 
     public long getCurOrderNumber() {
         this.curOrderNumber = preferences.getLong(curOrderNumberString, 1);
+        long lastOrderTime = preferences.getLong("lastOrderTime", 0);
+        Calendar lastCalendar = Calendar.getInstance();
+        lastCalendar.setTimeInMillis(lastOrderTime);
+        lastCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        lastCalendar.set(Calendar.MINUTE, 0);
+        lastCalendar.set(Calendar.SECOND, 0);
+        lastCalendar.set(Calendar.MILLISECOND, 0);
+        Calendar curCalendar = Calendar.getInstance();
+        curCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        curCalendar.set(Calendar.MINUTE, 0);
+        curCalendar.set(Calendar.SECOND, 0);
+        curCalendar.set(Calendar.MILLISECOND, 0);
+        if (curCalendar.getTime().after(lastCalendar.getTime())) this.curOrderNumber = 1;
         return curOrderNumber;
     }
 
     private void setCurOrderNumber(Order order) {
-        this.curOrderNumber = order.id + 1;
+        this.curOrderNumber = order.number + 1;
         preferences.edit()
                 .putLong(curOrderNumberString, curOrderNumber)
+                .putLong("lastOrderTime", System.currentTimeMillis())
                 .apply();
-//                .putLong("lastOrderTime",time)
     }
 
     public void addOrder(Order order) {

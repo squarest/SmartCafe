@@ -59,7 +59,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.orderNumber.setText("Заказ №" + orderList.get(position).id);
+        holder.orderNumber.setText("Заказ №" + orderList.get(position).number);
         if (orderList.get(position).products.size() > 0) {
             holder.chooseProductTextView.setVisibility(View.GONE);
             holder.orderSumTextView.setText("Итого: " + orderList.get(position).sum);

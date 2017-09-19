@@ -1,7 +1,5 @@
 package com.example.clevercafe.utils.dateTime;
 
-import android.util.Log;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -99,7 +97,6 @@ public class DateTimeUtil {
             Date startDate = new Date(calendar.getTimeInMillis() + DateTimeUtil.DAY * i);
             Date endDate = new Date(calendar.getTimeInMillis() + DateTimeUtil.DAY * (i + 1));
             periods.add(new Period(startDate, endDate));
-            Log.d("DEBUG", "start " + dateTimeToString(startDate) + " end " + dateTimeToString(endDate));
         }
         return periods;
     }
@@ -120,7 +117,6 @@ public class DateTimeUtil {
             Date endDate = new Date(calendar.getTimeInMillis());
             calendar.add(Calendar.MONTH, -1);
             periods.add(new Period(startDate, endDate));
-            Log.d("DEBUG", "start " + dateTimeToString(startDate) + " end " + dateTimeToString(endDate));
         }
         return periods;
     }

@@ -14,7 +14,6 @@ import java.util.HashMap;
 public class Order {
     @PrimaryKey(autoGenerate = true)
     public long id;
-    @Ignore
     public long number;
     public Double sum;
     public Double costSum;
