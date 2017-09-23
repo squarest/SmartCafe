@@ -1,5 +1,7 @@
 package com.example.clevercafe.invoice.presentation.adapters;
 
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
  */
 public class InvoiceListAdapter extends RecyclerView.Adapter<InvoiceListAdapter.ViewHolder> {
     private ArrayList<Invoice> invoices = new ArrayList<>();
+    private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
@@ -25,12 +28,16 @@ public class InvoiceListAdapter extends RecyclerView.Adapter<InvoiceListAdapter.
         public TextView invoiceName;
         public TextView supplierName;
         public TextView invoiceSum;
+        public RecyclerView invoiceIngredients;
+        public View view;
 
         public ViewHolder(View v) {
             super(v);
+            this.view = v;
             invoiceName = v.findViewById(R.id.invoice_name);
             supplierName = v.findViewById(R.id.supplier_name);
             invoiceSum = v.findViewById(R.id.invoice_sum);
+            invoiceIngredients = v.findViewById(R.id.invoice_ingredients);
             v.setOnCreateContextMenuListener(this);
         }
 
@@ -52,6 +59,7 @@ public class InvoiceListAdapter extends RecyclerView.Adapter<InvoiceListAdapter.
                                                             int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.invoice_list_item, parent, false);
+        context = parent.getContext();
         return new ViewHolder(v);
     }
 
@@ -61,6 +69,18 @@ public class InvoiceListAdapter extends RecyclerView.Adapter<InvoiceListAdapter.
         holder.invoiceName.setText(invoice.name + " от " + DateTimeUtil.dateToString(invoice.date));
         holder.supplierName.setText("Поставщик: " + invoice.supplierName);
         holder.invoiceSum.setText(String.valueOf("Сумма: " + invoice.sum));
+        holder.invoiceIngredients.setLayoutManager(new LinearLayoutManager(context));
+        InvoiceIngredientsAdapter adapter = new InvoiceIngredientsAdapter(invoice);
+        holder.view.setOnClickListener(v ->
+        {
+
+            if (holder.invoiceIngredients.getAdapter() == null) {
+                holder.invoiceIngredients.setAdapter(adapter);
+            } else {
+                holder.invoiceIngredients.setAdapter(null);
+            }
+            notifyDataSetChanged();
+        });
 
 
     }

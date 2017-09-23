@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    tools:background="@color/lightBlue"
+    tools:layout_width="600dp">
+
+    <TextView
+        android:id="@+id/ingredient_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:singleLine="true"
+        android:text="борщик"
+        android:textColor="@color/grey"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/ingredient_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:maxLines="1"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/grey"
+        android:textSize="18dp"
+        tools:text="50 шт" />
+
+    <TextView
+        android:id="@+id/ingredient_cost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:gravity="right"
+        android:maxLines="1"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/grey"
+        android:textSize="18dp"
+        tools:text="2000 руб" />
+</LinearLayout>

@@ -30,7 +30,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <include layout="@layout/toolbar"/>
+                    <include layout="@layout/toolbar" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/invoice_list"
