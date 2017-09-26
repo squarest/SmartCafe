@@ -144,6 +144,7 @@ public class MainInteractor implements IMainInteractor {
                 long id = ingredient.id;
                 double quantity = ingredientRepository.getIngredientsQuantity(id);
                 ingredient.quantity = quantity - (product.getIngredientCount(id) * order.getProductCount(product.id));
+                if (ingredient.quantity < 0) ingredient.quantity = 0.0;
                 ingredientRepository.addIngredient(ingredient);
             }
         }

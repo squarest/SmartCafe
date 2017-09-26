@@ -90,6 +90,7 @@ public class StorageInteractor implements IStrorageInteractor {
             long id = ingredient.id;
             double quantity = ingredientRepository.getIngredientsQuantity(id);
             ingredient.quantity = quantity - (ingredient.quantity);
+            if (ingredient.quantity < 0) ingredient.quantity = 0.0;
             ingredientRepository.addIngredient(ingredient);
             e.onComplete();
         });

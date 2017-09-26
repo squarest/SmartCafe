@@ -87,6 +87,7 @@ public class AnalyticsActivity extends BaseActivity implements AnalyticsView {
         lineDataSet.setColor(getResources().getColor(R.color.darkBlue));
         lineDataSet.setCircleColor(getResources().getColor(R.color.purple));
         lineDataSet.setValueFormatter(new LargeValueFormatter());
+        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         chart.setMarker(new CustomMarkerView(this, R.layout.marker));
         chart.setData(new LineData(lineDataSet));
         chart.animateY(500, Easing.EasingOption.Linear);

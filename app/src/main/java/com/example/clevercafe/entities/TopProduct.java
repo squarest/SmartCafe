@@ -8,6 +8,10 @@ public class TopProduct {
     public Product product;
     public double quantity;
 
+    public double getQuantity() {
+        return quantity;
+    }
+
     public TopProduct(Product product, double quantity) {
         this.product = product;
         this.quantity = quantity;

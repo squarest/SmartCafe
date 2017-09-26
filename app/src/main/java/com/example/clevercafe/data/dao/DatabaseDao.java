@@ -142,6 +142,9 @@ public interface DatabaseDao {
     @Query("SELECT * FROM products WHERE categoryId = :categoryId")
     List<Product> getProducts(long categoryId);
 
+    @Query("SELECT * FROM products")
+    List<Product> getAllProducts();
+
 
     //orderProduct
     @Insert

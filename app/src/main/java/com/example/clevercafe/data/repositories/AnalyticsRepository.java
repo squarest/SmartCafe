@@ -5,10 +5,12 @@ import com.example.clevercafe.data.dao.DatabaseDao;
 import com.example.clevercafe.data.entities.CompleteOrderProduct;
 import com.example.clevercafe.entities.Analytics;
 import com.example.clevercafe.entities.Ingredient;
+import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.TopProduct;
 import com.example.clevercafe.utils.dateTime.Period;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,18 +57,31 @@ public class AnalyticsRepository {
         ArrayList<TopProduct> topProducts = new ArrayList<>();
         List<CompleteOrderProduct> completeOrderProducts = analyticsDao.getPopularProducts();
         for (CompleteOrderProduct product : completeOrderProducts) {
-            TopProduct topProduct = new TopProduct(databaseDao.getProduct(product.productId), product.quantity);
-            topProducts.add(topProduct);
+            if (databaseDao.getProduct(product.productId) != null) {
+                TopProduct topProduct = new TopProduct(databaseDao.getProduct(product.productId), product.quantity);
+                topProducts.add(topProduct);
+                if (topProducts.size() == 5) return topProducts;
+            }
         }
         return topProducts;
     }
 
     public ArrayList<TopProduct> getUnpopularProducts() {
         ArrayList<TopProduct> topProducts = new ArrayList<>();
-        List<CompleteOrderProduct> completeOrderProducts = analyticsDao.getUnpopularProducts();
-        for (CompleteOrderProduct product : completeOrderProducts) {
-            TopProduct topProduct = new TopProduct(databaseDao.getProduct(product.productId), product.quantity);
+        List<Product> products = databaseDao.getAllProducts();
+        for (Product product : products) {
+            double productQuantity = 0.0;
+            if (analyticsDao.getProductQuantity(product.id) != null) {
+                productQuantity = analyticsDao.getProductQuantity(product.id);
+            }
+            TopProduct topProduct = new TopProduct(product, productQuantity);
             topProducts.add(topProduct);
+        }
+        Collections.sort(topProducts, (topProduct, t1) -> Double.compare(topProduct.quantity, t1.quantity));
+        if (topProducts.size() > 1 & topProducts.size() < 5) {
+            topProducts = new ArrayList<>(topProducts.subList(0, topProducts.size()));
+        } else if (topProducts.size() >= 5) {
+            topProducts = new ArrayList<>(topProducts.subList(0, 5));
         }
         return topProducts;
     }
