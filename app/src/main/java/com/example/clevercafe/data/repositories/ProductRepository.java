@@ -18,6 +18,16 @@ public class ProductRepository {
         this.databaseDao = databaseDao;
     }
 
+    public Product findProduct(String productName) {
+        return databaseDao.findProductByName(productName);
+    }
+
+    public ProductCategory findCategory(String categoryName)
+
+    {
+        return databaseDao.findCategoryByName(categoryName);
+    }
+
     //insert
     public void addCategory(ProductCategory category) {
         databaseDao.insertProductCategory(category);

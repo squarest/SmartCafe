@@ -34,8 +34,10 @@ public class StorageInteractor implements IStrorageInteractor {
     public Completable addCategory(IngredientCategory category) {
         return Completable.create(e ->
         {
-            ingredientRepository.addCategory(category);
-            e.onComplete();
+            if (ingredientRepository.findCategory(category.name) == null) {
+                ingredientRepository.addCategory(category);
+                e.onComplete();
+            } else e.onError(new Exception("Категория уже существует"));
         });
     }
 
@@ -61,8 +63,10 @@ public class StorageInteractor implements IStrorageInteractor {
     public Completable addIngredient(Ingredient ingredient) {
         return Completable.create(e ->
         {
-            ingredientRepository.addIngredient(ingredient);
-            e.onComplete();
+            if (ingredientRepository.findIngredient(ingredient.name) == null) {
+                ingredientRepository.addIngredient(ingredient);
+                e.onComplete();
+            } else e.onError(new Exception("Товар уже существует"));
         });
     }
 

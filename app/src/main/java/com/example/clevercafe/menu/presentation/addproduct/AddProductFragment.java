@@ -94,6 +94,11 @@ public class AddProductFragment extends MvpAppCompatFragment implements IAddProd
 
     }
 
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
     private void clearForm() {
         binding.productName.setText(null);
         binding.productCost.setText(null);

@@ -17,6 +17,16 @@ public class IngredientRepository {
         this.databaseDao = databaseDao;
     }
 
+    public Ingredient findIngredient(String ingredientName) {
+        return databaseDao.findIngredientByName(ingredientName);
+    }
+
+    public IngredientCategory findCategory(String categoryName)
+
+    {
+        return databaseDao.findIngrCategoryByName(categoryName);
+    }
+
     //insert
     public void addCategory(IngredientCategory category) {
         databaseDao.insertIngredientCategory(category);

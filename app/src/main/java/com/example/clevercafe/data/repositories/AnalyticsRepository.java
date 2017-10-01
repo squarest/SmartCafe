@@ -87,7 +87,7 @@ public class AnalyticsRepository {
     }
 
     public ArrayList<Ingredient> getExpiringIngredients() {
-        ArrayList list = new ArrayList();
+        ArrayList<Ingredient> list = new ArrayList<>();
         list.addAll(analyticsDao.getExpiringIngredients());
         return list;
     }

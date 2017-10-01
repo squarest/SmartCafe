@@ -23,4 +23,6 @@ public interface StorageView extends MvpView {
 
     void showSubtractDialog(Ingredient ingredient);
 
+    void showMessage(String message);
+
 }

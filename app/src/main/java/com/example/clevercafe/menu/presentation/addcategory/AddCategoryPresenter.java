@@ -34,7 +34,7 @@ public class AddCategoryPresenter extends BasePresenter<IAddCategoryFragment> {
     }
 
     private void setCategory(long categoryId) {
-       interactor.loadCategory(categoryId)
+        interactor.loadCategory(categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(category -> getViewState().showEditForm(category),
@@ -45,6 +45,10 @@ public class AddCategoryPresenter extends BasePresenter<IAddCategoryFragment> {
         interactor.addCategory(category)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::hideForm, Throwable::fillInStackTrace);
+                .subscribe(getViewState()::hideForm, throwable ->
+                {
+                    getViewState().showMessage("Категория уже существует");
+                    throwable.printStackTrace();
+                });
     }
 }

@@ -68,6 +68,9 @@ public interface DatabaseDao {
     @Query("SELECT * FROM ingredientCategories ORDER BY name ASC")
     List<IngredientCategory> getIngredientCategories();
 
+    @Query("SELECT * FROM ingredientCategories WHERE name = :categoryName")
+    IngredientCategory findIngrCategoryByName(String categoryName);
+
 
     //ingredients
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -87,6 +90,9 @@ public interface DatabaseDao {
 
     @Query("SELECT quantity FROM ingredients WHERE id = :id")
     double getIngredientQuantity(long id);
+
+    @Query("SELECT * FROM ingredients WHERE name = :ingredientName")
+    Ingredient findIngredientByName(String ingredientName);
 
 
     //productIngredients
@@ -125,6 +131,9 @@ public interface DatabaseDao {
     @Query("SELECT * FROM productCategories")
     List<ProductCategory> getProductCategories();
 
+    @Query("SELECT * FROM productCategories WHERE name = :categoryName")
+    ProductCategory findCategoryByName(String categoryName);
+
 
     //products
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -145,6 +154,8 @@ public interface DatabaseDao {
     @Query("SELECT * FROM products")
     List<Product> getAllProducts();
 
+    @Query("SELECT * FROM products WHERE name = :productName")
+    Product findProductByName(String productName);
 
     //orderProduct
     @Insert

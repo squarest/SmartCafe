@@ -28,7 +28,11 @@ public class AddProductPresenter extends BasePresenter<IAddProductFragment> {
         interactor.addProduct(product)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::hideForm, Throwable::fillInStackTrace);
+                .subscribe(getViewState()::hideForm, throwable ->
+                {
+                    getViewState().showMessage("Продукт уже существует");
+                    throwable.printStackTrace();
+                });
     }
 
     @Override

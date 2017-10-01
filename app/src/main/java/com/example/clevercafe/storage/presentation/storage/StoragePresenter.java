@@ -89,7 +89,7 @@ public class StoragePresenter extends BasePresenter<StorageView> {
         setDisposable(disposable);
     }
 
-    public void submitIngredientFormButClicked(int categoryId, int ingredientId, Ingredient ingredient, boolean editForm) {
+    public void submitIngredientFormButClicked(int categoryId, Ingredient ingredient, boolean editForm) {
         Completable completable;
         if (editForm) {
             completable = interactor.editIngredient(ingredient);
@@ -99,7 +99,11 @@ public class StoragePresenter extends BasePresenter<StorageView> {
         }
         Disposable disposable = completable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+                .subscribe(this::updateCategories, throwable ->
+                {
+                    getViewState().showMessage(throwable.getMessage());
+                    throwable.printStackTrace();
+                });
         setDisposable(disposable);
     }
 
@@ -116,7 +120,11 @@ public class StoragePresenter extends BasePresenter<StorageView> {
 
         Disposable disposable = completable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+                .subscribe(this::updateCategories, throwable ->
+                {
+                    getViewState().showMessage(throwable.getMessage());
+                    throwable.printStackTrace();
+                });
         setDisposable(disposable);
     }
 

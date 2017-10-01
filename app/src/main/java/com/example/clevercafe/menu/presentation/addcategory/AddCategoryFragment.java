@@ -77,6 +77,11 @@ public class AddCategoryFragment extends MvpAppCompatFragment implements IAddCat
     }
 
     @Override
+    public void showMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         presenter.detachView(this);

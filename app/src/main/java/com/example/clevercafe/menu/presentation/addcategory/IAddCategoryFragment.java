@@ -14,4 +14,6 @@ public interface IAddCategoryFragment extends MvpView {
 
     void hideForm();
 
+    void showMessage(String message);
+
 }

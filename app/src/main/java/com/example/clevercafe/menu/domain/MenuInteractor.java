@@ -94,9 +94,13 @@ public class MenuInteractor implements IMenuInteractor {
     public Completable addCategory(ProductCategory category) {
         return Completable.create(e ->
         {
-            productRepository.addCategory(category);
-            categoriesUpdates.onNext(true);
-            e.onComplete();
+            if (category.id == 0 & productRepository.findCategory(category.name) == null | category.id != 0) {
+                productRepository.addCategory(category);
+                categoriesUpdates.onNext(true);
+                e.onComplete();
+            } else {
+                e.onError(new Exception("Имя уже существует"));
+            }
         });
     }
 
@@ -124,9 +128,13 @@ public class MenuInteractor implements IMenuInteractor {
     public Completable addProduct(Product product) {
         return Completable.create(e ->
         {
-            productRepository.addProduct(product);
-            productsUpdates.onNext(product.categoryId);
-            e.onComplete();
+            if (product.id == 0 & productRepository.findProduct(product.name) == null | product.id != 0) {
+                productRepository.addProduct(product);
+                productsUpdates.onNext(product.categoryId);
+                e.onComplete();
+            } else {
+                e.onError(new Exception("Имя уже существует"));
+            }
         });
     }
 

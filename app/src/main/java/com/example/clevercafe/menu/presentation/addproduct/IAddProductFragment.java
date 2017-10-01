@@ -14,4 +14,6 @@ public interface IAddProductFragment extends MvpView {
 
     void hideForm();
 
+    void showMessage(String message);
+
 }

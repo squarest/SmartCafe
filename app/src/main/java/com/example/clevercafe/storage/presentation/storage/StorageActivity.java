@@ -153,7 +153,7 @@ public class StorageActivity extends BaseActivity implements StorageView {
                 newIngredient.units = binding.unitsSpinner.getSelectedItem().toString();
                 newIngredient.cost = Double.valueOf(binding.ingredientCost.getText().toString());
                 presenter.submitIngredientFormButClicked(binding.categorySpinner.getSelectedItemPosition(),
-                        productId, newIngredient, editForm);
+                        newIngredient, editForm);
             } else {
                 Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
             }
@@ -260,9 +260,14 @@ public class StorageActivity extends BaseActivity implements StorageView {
 
     }
 
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
     private void createSpinners() {
-        categorySpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categoryNames);
-        unitsSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Units.array);
+        categorySpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categoryNames);
+        unitsSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Units.array);
         binding.categorySpinner.setAdapter(categorySpinnerAdapter);
         binding.unitsSpinner.setAdapter(unitsSpinnerAdapter);
     }
