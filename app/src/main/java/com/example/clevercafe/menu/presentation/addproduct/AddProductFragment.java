@@ -16,7 +16,7 @@ import com.example.clevercafe.R;
 import com.example.clevercafe.databinding.AddproductFragmentBinding;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.storage.presentation.ingredient.IngredientActivity;
-import com.example.clevercafe.utils.ImagePicker;
+import com.mvc.imagepicker.ImagePicker;
 
 import java.util.ArrayList;
 
@@ -55,6 +55,7 @@ public class AddProductFragment extends MvpAppCompatFragment implements IAddProd
         if (categoryId == -1) {
             new NullPointerException().printStackTrace();
         }
+        ImagePicker.setMinQuality(200, 100);
     }
 
     private void setClickListeners() {
@@ -66,9 +67,20 @@ public class AddProductFragment extends MvpAppCompatFragment implements IAddProd
         binding.addProductButton.setOnClickListener(v -> showAddForm());
         binding.addIngredientsButton.setOnClickListener(v -> showStorage());
         binding.addPictureButton.setOnClickListener(v -> {
-            Intent chooseImageIntent = ImagePicker.getPickImageIntent(getContext());
-            getActivity().startActivityForResult(chooseImageIntent, App.IMAGE_REQUEST_CODE);
+            ImagePicker.pickImageGalleryOnly(this, App.IMAGE_REQUEST_CODE);
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (null == data) {
+            return;
+        }
+        if (requestCode == App.IMAGE_REQUEST_CODE) {
+            curentProduct.imagePath = ImagePicker.getImagePathFromResult(getContext(), requestCode, resultCode, data);
+        }
+
     }
 
     @Override
@@ -131,9 +143,6 @@ public class AddProductFragment extends MvpAppCompatFragment implements IAddProd
         getActivity().startActivityForResult(intent, App.INGREDIENT_REQUEST_CODE);
     }
 
-    public void setImagePath(String imagePath) {
-        curentProduct.imagePath = imagePath;
-    }
 
     public void setIngredients(Product product) {
         if (product.ingredients != null) {

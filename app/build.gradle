@@ -89,4 +89,5 @@ dependencies {
     //segmentControl
     compile 'com.github.ceryle:SegmentedButton:v2.0.1'
 
+    compile 'com.github.Mariovc:ImagePicker:1.2.0'
 }

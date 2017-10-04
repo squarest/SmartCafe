@@ -81,6 +81,7 @@ public class MainInteractor implements IMainInteractor {
         return Completable.create(e ->
         {
             orderRepository.addOrder(order);
+            subtractIngredients(order);
             e.onComplete();
         });
     }
@@ -90,6 +91,7 @@ public class MainInteractor implements IMainInteractor {
         return Completable.create(e ->
         {
             orderRepository.deleteOrder(order);
+            plusIngredients(order);
             e.onComplete();
         });
     }
@@ -100,7 +102,6 @@ public class MainInteractor implements IMainInteractor {
         {
             completeOrderRepository.addCompleteOrder(order);
             orderRepository.deleteOrder(order);
-            subtractIngredients(order);
             e.onComplete();
         });
     }
@@ -145,6 +146,17 @@ public class MainInteractor implements IMainInteractor {
                 double quantity = ingredientRepository.getIngredientsQuantity(id);
                 ingredient.quantity = quantity - (product.getIngredientCount(id) * order.getProductCount(product.id));
                 if (ingredient.quantity < 0) ingredient.quantity = 0.0;
+                ingredientRepository.addIngredient(ingredient);
+            }
+        }
+    }
+
+    private void plusIngredients(Order order) {
+        for (Product product : order.products) {
+            for (Ingredient ingredient : product.ingredients) {
+                long id = ingredient.id;
+                double quantity = ingredientRepository.getIngredientsQuantity(id);
+                ingredient.quantity = quantity + (product.getIngredientCount(id) * order.getProductCount(product.id));
                 ingredientRepository.addIngredient(ingredient);
             }
         }

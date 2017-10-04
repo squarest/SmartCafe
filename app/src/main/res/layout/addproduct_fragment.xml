@@ -57,8 +57,9 @@
                     android:layout_marginTop="16dp"
                     android:layout_weight="1"
                     android:background="@drawable/round_done_button"
-                    android:text="Добавить ингредиенты"
+                    android:text="Выбрать ингредиенты"
                     android:textColor="#fff" />
+
                 <Button
                     android:id="@+id/add_picture_button"
                     android:layout_width="match_parent"
@@ -67,7 +68,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_weight="1"
                     android:background="@drawable/round_done_button"
-                    android:text="Добавить изображение"
+                    android:text="Выбрать изображение"
                     android:textColor="#fff" />
 
                 <LinearLayout

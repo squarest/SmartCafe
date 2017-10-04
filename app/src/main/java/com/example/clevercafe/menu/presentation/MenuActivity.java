@@ -12,7 +12,6 @@ import com.example.clevercafe.menu.presentation.addcategory.AddCategoryFragment;
 import com.example.clevercafe.menu.presentation.addproduct.AddProductFragment;
 import com.example.clevercafe.menu.presentation.categories.CategoriesFragment;
 import com.example.clevercafe.menu.presentation.products.ProductsFragment;
-import com.example.clevercafe.utils.ImagePicker;
 
 /**
  * Created by Chudofom on 20.03.17.
@@ -79,10 +78,6 @@ public class MenuActivity extends BaseActivity implements MenuView {
                 }
                 case App.ICON_REQUEST_CODE: {
                     addCategoryFragment.setCategoryIconPath(data.getStringExtra("iconPath"));
-                    break;
-                }
-                case App.IMAGE_REQUEST_CODE: {
-                    addProductFragment.setImagePath(ImagePicker.getImageFromResult(this, resultCode, data));
                     break;
                 }
             }
