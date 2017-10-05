@@ -89,7 +89,7 @@ public class InvoiceActivity extends BaseActivity implements InvoiceView {
                     binding.invoiceDate.setText(DateTimeUtil.dateToString(calendar.getTime()));
                     curInvoice.date = calendar.getTime();
                 }, mYear, mMonth, mDay);
-        mDatePicker.setTitle("Select date");
+        mDatePicker.setTitle("Выберите дату");
         mDatePicker.show();
     }
 

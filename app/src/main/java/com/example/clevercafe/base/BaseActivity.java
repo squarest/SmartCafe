@@ -6,7 +6,6 @@ import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.example.clevercafe.R;
@@ -15,6 +14,7 @@ import com.example.clevercafe.base.adapters.DrawerListAdapter;
 import com.example.clevercafe.invoice.presentation.InvoiceActivity;
 import com.example.clevercafe.main.presentation.MainActivity;
 import com.example.clevercafe.menu.presentation.MenuActivity;
+import com.example.clevercafe.report.presentation.ReportActivity;
 import com.example.clevercafe.storage.presentation.storage.StorageActivity;
 
 import java.util.ArrayList;
@@ -92,7 +92,8 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
                 this.startActivity(intent);
             }
             if (i == 3 && i1 == 1) {
-                Toast.makeText(this, "гоп гоп гоп чидагоп", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, ReportActivity.class);
+                this.startActivity(intent);
             }
             return false;
         });
