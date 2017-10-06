@@ -5,7 +5,6 @@ import com.example.clevercafe.data.entities.CompleteOrderProduct;
 import com.example.clevercafe.entities.CompleteOrder;
 import com.example.clevercafe.entities.Order;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -34,58 +33,4 @@ public class CompleteOrderRepository {
             databaseDao.insertCompleteOrderProduct(orderProduct);
         }
     }
-
-    public ArrayList<CompleteOrder> getCompleteOrders() {
-        ArrayList<CompleteOrder> orders = (ArrayList<CompleteOrder>) databaseDao.getCompleteOrders();
-        for (CompleteOrder order : orders) {
-//            order.products = getProducts(order.id);
-        }
-        return orders;
-    }
-
-//    private ArrayList<Product> getProducts(long orderId) {
-//        ArrayList<CompleteOrderProduct> orderProducts = (ArrayList<CompleteOrderProduct>) databaseDao.getCompleteOrderProducts(orderId);
-//        ArrayList<Product> products = new ArrayList<>();
-//        if (orderProducts != null && orderProducts.size() > 0) {
-//            for (CompleteOrderProduct orderProduct : orderProducts) {
-//                Product product = databaseDao.getProduct(orderProduct.productId);
-//                product.ingredients = getIngredients(product.id);
-//                products.add(product);
-//            }
-//        }
-//        return products;
-//
-//    }
-//
-//    private ArrayList<Ingredient> getIngredients(long productId) {
-//        ArrayList<ProductIngredient> productIngredients = (ArrayList<ProductIngredient>) databaseDao.getProductIngredients(productId);
-//        ArrayList<Ingredient> ingredients = new ArrayList<>();
-//        if (productIngredients != null && productIngredients.size() > 0) {
-//            for (ProductIngredient productIngredient : productIngredients) {
-//                ingredients.add(databaseDao.getIngredient(productIngredient.ingredientId));
-//            }
-//        }
-//        return ingredients;
-//    }
-//
-//    public void editCompleteOrder(CompleteOrder order) {
-//        databaseDao.updateCompleteOrder(order);
-//        if (order.products != null && order.products.size() > 0) {
-//            deleteProducts(order.id);
-//            addProducts(order);
-//        }
-//    }
-//
-//
-//    public void deleteCompleteOrder(CompleteOrder order) {
-//        databaseDao.deleteCompleteOrder(order);
-//        if (order.products != null && order.products.size() > 0) {
-//            deleteProducts(order.id);
-//        }
-//
-//    }
-//
-//    private void deleteProducts(long orderId) {
-//        databaseDao.deleteCompleteOrderProducts(orderId);
-//    }
 }

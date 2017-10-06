@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
@@ -16,9 +17,11 @@ import com.example.clevercafe.report.entity.ProductReportItem;
 import com.example.clevercafe.report.entity.StorageReportItem;
 import com.example.clevercafe.utils.ReportUtil;
 import com.example.clevercafe.utils.dateTime.DateTimeUtil;
+import com.example.clevercafe.utils.dateTime.Period;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ReportActivity extends BaseActivity implements ReportView {
 
@@ -52,6 +55,21 @@ public class ReportActivity extends BaseActivity implements ReportView {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+        binding.submitButton.setOnClickListener(v ->
+        {
+            String startPeroidString = binding.startPeriod.getText().toString();
+            String endPeroidString = binding.endPeriod.getText().toString();
+            if (!startPeroidString.isEmpty() & !endPeroidString.isEmpty()) {
+                int reportType = binding.reportType.getSelectedItemPosition();
+                int periodType = (reportType == ReportUtil.PRODUCT_REPORT_TYPE) ? -1 : binding.periodType.getSelectedItemPosition();
+                Date startDate = DateTimeUtil.stringToDate(startPeroidString, "dd.MM.yyyy");
+                Date endDate = DateTimeUtil.stringToDate(endPeroidString, "dd.MM.yyyy");
+                Period period = new Period(startDate, endDate);
+                presenter.submitButtonClicked(reportType, period, periodType);
+            } else {
+                Toast.makeText(this, "Выберите период", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -1,6 +1,5 @@
 package com.example.clevercafe.main.domain;
 
-import com.example.clevercafe.entities.CompleteOrder;
 import com.example.clevercafe.entities.Order;
 import com.example.clevercafe.entities.Product;
 
@@ -18,8 +17,6 @@ public interface IMainInteractor {
     Observable<ArrayList<Order>> loadOrders();
 
     Single<Order> loadOrder(long orderId);
-
-    Observable<ArrayList<CompleteOrder>> loadCompleteOrders();
 
     void setOrderActive(boolean orderActive);
 

@@ -1,5 +1,6 @@
 package com.example.clevercafe.report.domain;
 
+import com.example.clevercafe.data.repositories.ReportRepository;
 import com.example.clevercafe.report.entity.GeneralReportItem;
 import com.example.clevercafe.report.entity.ProductReportItem;
 import com.example.clevercafe.report.entity.StorageReportItem;
@@ -14,6 +15,12 @@ import io.reactivex.Single;
  */
 
 public class ReportInteractor implements IReportInteractor {
+    public ReportRepository repository;
+
+    public ReportInteractor(ReportRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public Single<ArrayList<GeneralReportItem>> loadGeneralReport(Period period, int periodType) {
         return null;

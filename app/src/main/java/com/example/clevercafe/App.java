@@ -11,6 +11,8 @@ import com.example.clevercafe.invoice.di.InvoiceComponent;
 import com.example.clevercafe.invoice.di.InvoiceModule;
 import com.example.clevercafe.main.di.MainComponent;
 import com.example.clevercafe.main.di.MainModule;
+import com.example.clevercafe.report.di.ReportComponent;
+import com.example.clevercafe.report.di.ReportModule;
 import com.example.clevercafe.storage.di.StorageComponent;
 import com.example.clevercafe.storage.di.StorageModule;
 
@@ -24,6 +26,7 @@ public class App extends Application {
     private static StorageComponent storageComponent;
     private static InvoiceComponent invoiceComponent;
     private static AnalyticsComponent analyticsComponent;
+    private static ReportComponent reportComponent;
 
     public static final int INGREDIENT_REQUEST_CODE = 0;
     public static final int ICON_REQUEST_CODE = 1;
@@ -45,6 +48,10 @@ public class App extends Application {
         return analyticsComponent;
     }
 
+    public static ReportComponent getReportComponent() {
+        return reportComponent;
+    }
+
 
     @Override
     public void onCreate() {
@@ -54,6 +61,7 @@ public class App extends Application {
         storageComponent = plusStorageComponent();
         invoiceComponent = plusInvoiceComponent();
         analyticsComponent = plusAnalyticsComponent();
+        reportComponent = plusReportComponent();
     }
 
     protected AppComponent buildComponent() {
@@ -88,6 +96,13 @@ public class App extends Application {
             analyticsComponent = appComponent.plusAnalyticsComponent(new AnalyticsModule());
         }
         return analyticsComponent;
+    }
+
+    public ReportComponent plusReportComponent() {
+        if (reportComponent == null) {
+            reportComponent = appComponent.plusReportComponent(new ReportModule());
+        }
+        return reportComponent;
     }
 
 }

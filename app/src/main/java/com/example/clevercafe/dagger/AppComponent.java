@@ -8,6 +8,8 @@ import com.example.clevercafe.invoice.di.InvoiceComponent;
 import com.example.clevercafe.invoice.di.InvoiceModule;
 import com.example.clevercafe.main.di.MainComponent;
 import com.example.clevercafe.main.di.MainModule;
+import com.example.clevercafe.report.di.ReportComponent;
+import com.example.clevercafe.report.di.ReportModule;
 import com.example.clevercafe.storage.di.StorageComponent;
 import com.example.clevercafe.storage.di.StorageModule;
 
@@ -28,4 +30,6 @@ public interface AppComponent {
     InvoiceComponent plusInvoiceComponent(InvoiceModule invoiceModule);
 
     AnalyticsComponent plusAnalyticsComponent(AnalyticsModule analyticsModule);
+
+    ReportComponent plusReportComponent(ReportModule reportModule);
 }

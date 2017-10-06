@@ -1,5 +1,6 @@
 package com.example.clevercafe.utils.dateTime;
 
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +54,11 @@ public class DateTimeUtil {
         String myFormat = "dd.MM.yyyy HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         return sdf.format(date);
+    }
+
+    public static Date stringToDate(String date, String format) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+        return dateFormat.parse(date, new ParsePosition(0));
     }
 
     public static Period getTodayPeriod() {
