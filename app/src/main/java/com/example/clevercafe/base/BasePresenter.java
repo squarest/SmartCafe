@@ -18,7 +18,7 @@ public abstract class BasePresenter<T extends MvpView> extends MvpPresenter<T> {
     }
 
     @Override
-    public void detachView(T view) {
+    public void destroyView(T view) {
         super.detachView(view);
         compositeDisposable.dispose();
     }

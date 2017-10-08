@@ -75,6 +75,7 @@ public class DateTimeUtil {
         return String.format(new Locale("ru"), "%1$td %1$tB", Calendar.getInstance().getTime());
     }
 
+
     public static ArrayList<Period> getWeekPeriods() {
         ArrayList<Period> periods = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();

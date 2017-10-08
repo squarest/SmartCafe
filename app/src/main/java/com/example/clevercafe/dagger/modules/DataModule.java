@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.example.clevercafe.data.AppDatabase;
+import com.example.clevercafe.data.dao.AnalyticsDao;
 import com.example.clevercafe.data.dao.DatabaseDao;
+import com.example.clevercafe.data.repositories.AnalyticsRepository;
 import com.example.clevercafe.data.repositories.CompleteOrderRepository;
 import com.example.clevercafe.data.repositories.IngredientRepository;
 import com.example.clevercafe.data.repositories.OrderRepository;
@@ -64,6 +66,19 @@ public class DataModule {
     @Singleton
     public CompleteOrderRepository provideCompleteRepository(DatabaseDao databaseDao) {
         return new CompleteOrderRepository(databaseDao);
+    }
+
+
+    @Provides
+    @Singleton
+    public AnalyticsDao provideAnalyticsDao(AppDatabase database) {
+        return database.analyticsDao();
+    }
+
+    @Provides
+    @Singleton
+    public AnalyticsRepository provideAnalyticsRepository(AnalyticsDao analyticsDao, DatabaseDao databaseDao) {
+        return new AnalyticsRepository(analyticsDao, databaseDao);
     }
 
 

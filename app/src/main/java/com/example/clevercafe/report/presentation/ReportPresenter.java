@@ -9,6 +9,10 @@ import com.example.clevercafe.utils.dateTime.Period;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Chudofom on 04.10.17.
  */
@@ -25,15 +29,48 @@ public class ReportPresenter extends BasePresenter<ReportView> {
     public void submitButtonClicked(int reportType, Period period, int periodType) {
         switch (reportType) {
             case ReportUtil.GENERAL_REPORT_TYPE: {
-
+                Disposable disposable = interactor.loadGeneralReport(period, periodType)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(d -> reportView.showLoading())
+                        .doOnSuccess(d -> reportView.hideLoading())
+                        .subscribe(generalReportItems -> reportView.showGeneralReport(generalReportItems),
+                                throwable -> {
+                                    reportView.hideLoading();
+                                    reportView.showMessage("Ошибка загрузки данных");
+                                    throwable.printStackTrace();
+                                });
+                setDisposable(disposable);
                 break;
             }
             case ReportUtil.PRODUCT_REPORT_TYPE: {
-
+                Disposable disposable = interactor.loadProductReport(period)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(d -> reportView.showLoading())
+                        .doOnSuccess(d -> reportView.hideLoading())
+                        .subscribe(productReportItems -> reportView.showProductReport(productReportItems),
+                                throwable -> {
+                                    reportView.hideLoading();
+                                    reportView.showMessage("Ошибка загрузки данных");
+                                    throwable.printStackTrace();
+                                });
+                setDisposable(disposable);
                 break;
             }
             case ReportUtil.STORAGE_REPORT_TYPE: {
-
+                Disposable disposable = interactor.loadStorageReport(period, periodType)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(d -> reportView.showLoading())
+                        .doOnSuccess(d -> reportView.hideLoading())
+                        .subscribe(storageReportItems -> reportView.showStorageReport(storageReportItems),
+                                throwable -> {
+                                    reportView.hideLoading();
+                                    reportView.showMessage("Ошибка загрузки данных");
+                                    throwable.printStackTrace();
+                                });
+                setDisposable(disposable);
                 break;
             }
         }

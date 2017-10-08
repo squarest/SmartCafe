@@ -2,6 +2,7 @@ package com.example.clevercafe.report.di;
 
 import com.example.clevercafe.dagger.scopes.ReportScope;
 import com.example.clevercafe.data.AppDatabase;
+import com.example.clevercafe.data.dao.AnalyticsDao;
 import com.example.clevercafe.data.dao.ReportDao;
 import com.example.clevercafe.data.repositories.ReportRepository;
 import com.example.clevercafe.report.domain.IReportInteractor;
@@ -23,8 +24,8 @@ public class ReportModule {
 
     @Provides
     @ReportScope
-    public ReportRepository provideReportRepository(ReportDao reportDao) {
-        return new ReportRepository(reportDao);
+    public ReportRepository provideReportRepository(AnalyticsDao analyticsDao, ReportDao reportDao) {
+        return new ReportRepository(analyticsDao, reportDao);
     }
 
     @Provides

@@ -3,6 +3,7 @@ package com.example.clevercafe.report.presentation;
 import android.app.DatePickerDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import com.example.clevercafe.databinding.ActivityReportBinding;
 import com.example.clevercafe.report.entity.GeneralReportItem;
 import com.example.clevercafe.report.entity.ProductReportItem;
 import com.example.clevercafe.report.entity.StorageReportItem;
+import com.example.clevercafe.report.presentation.adapters.GeneralAdapter;
 import com.example.clevercafe.utils.ReportUtil;
 import com.example.clevercafe.utils.dateTime.DateTimeUtil;
 import com.example.clevercafe.utils.dateTime.Period;
@@ -37,6 +39,7 @@ public class ReportActivity extends BaseActivity implements ReportView {
         createDrawer();
         setListeners();
         createSpinners();
+        binding.reportTable.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void setListeners() {
@@ -117,7 +120,7 @@ public class ReportActivity extends BaseActivity implements ReportView {
 
     @Override
     public void showMessage(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -131,8 +134,9 @@ public class ReportActivity extends BaseActivity implements ReportView {
     }
 
     @Override
-    public void showGeneralReport(ArrayList<GeneralReportItem> rows) {
-
+    public void showGeneralReport(ArrayList<GeneralReportItem> items) {
+        binding.reportTable.setAdapter(new GeneralAdapter(items));
+        binding.tableTitle.setVisibility(View.GONE);
     }
 
     @Override
