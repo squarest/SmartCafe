@@ -5,4 +5,9 @@ package com.example.clevercafe.report.entity;
  */
 
 public class ProductReportItem {
+    public String name;
+    public double count;
+    public double proceed;
+    public double profit;
+    public double expense;
 }

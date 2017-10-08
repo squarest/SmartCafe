@@ -18,9 +18,9 @@ public interface ReportView extends MvpView {
 
     void hideLoading();
 
-    void showGeneralReport(ArrayList<GeneralReportItem> rows);
+    void showGeneralReport(ArrayList<GeneralReportItem> items);
 
-    void showProductReport(ArrayList<ProductReportItem> rows);
+    void showProductReport(ArrayList<ProductReportItem> items);
 
-    void showStorageReport(ArrayList<StorageReportItem> rows);
+    void showStorageReport(ArrayList<StorageReportItem> items);
 }

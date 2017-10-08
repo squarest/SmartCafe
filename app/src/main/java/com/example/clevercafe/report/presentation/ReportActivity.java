@@ -17,6 +17,7 @@ import com.example.clevercafe.report.entity.GeneralReportItem;
 import com.example.clevercafe.report.entity.ProductReportItem;
 import com.example.clevercafe.report.entity.StorageReportItem;
 import com.example.clevercafe.report.presentation.adapters.GeneralAdapter;
+import com.example.clevercafe.report.presentation.adapters.ProductAdapter;
 import com.example.clevercafe.utils.ReportUtil;
 import com.example.clevercafe.utils.dateTime.DateTimeUtil;
 import com.example.clevercafe.utils.dateTime.Period;
@@ -140,12 +141,16 @@ public class ReportActivity extends BaseActivity implements ReportView {
     }
 
     @Override
-    public void showProductReport(ArrayList<ProductReportItem> rows) {
+    public void showProductReport(ArrayList<ProductReportItem> items) {
+        binding.reportTable.setAdapter(new ProductAdapter(items));
+        binding.tableTitle.setVisibility(View.GONE);
 
     }
 
     @Override
-    public void showStorageReport(ArrayList<StorageReportItem> rows) {
+    public void showStorageReport(ArrayList<StorageReportItem> items) {
+//        binding.reportTable.setAdapter(new StorageAdapter(items));
+        binding.tableTitle.setVisibility(View.GONE);
 
     }
 

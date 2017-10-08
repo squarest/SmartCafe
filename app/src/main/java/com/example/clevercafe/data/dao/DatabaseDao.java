@@ -54,8 +54,7 @@ public interface DatabaseDao {
     @Insert
     long insertCompleteOrder(CompleteOrder order);
 
-    @Query("SELECT * FROM completeOrders")
-    List<CompleteOrder> getCompleteOrders();
+
 
 
     //ingredientCategory
@@ -84,6 +83,7 @@ public interface DatabaseDao {
 
     @Query("SELECT * FROM ingredients WHERE categoryId = :categoryId ORDER BY name ASC")
     List<Ingredient> getIngredients(long categoryId);
+
 
     @Query("SELECT * FROM ingredients WHERE id = :id")
     Ingredient getIngredient(long id);

@@ -56,7 +56,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.ViewHold
             holder.binding.profit.setText(String.valueOf(item.profit));
             holder.binding.expense.setText(String.valueOf(item.expense));
             holder.binding.orders.setText(String.valueOf(item.orders));
-            holder.binding.average.setText(String.valueOf(item.averageCheck));
+            holder.binding.average.setText(String.format("%.2f", item.averageCheck));
         }
     }
 
