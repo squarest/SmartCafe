@@ -8,6 +8,7 @@ import com.example.clevercafe.entities.CompleteOrder;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.TopProduct;
+import com.example.clevercafe.report.entity.StorageReportItem;
 import com.example.clevercafe.utils.dateTime.Period;
 
 import java.util.ArrayList;
@@ -77,4 +78,25 @@ public class ReportRepository {
         return ingredients;
     }
 
+    public ArrayList<StorageReportItem> getStorageIngredients(Period period) {
+        List<Ingredient> ingredients = databaseDao.getAllIngredients();
+        ArrayList<StorageReportItem> items = new ArrayList<>();
+        for (Ingredient ingredient : ingredients) {
+            StorageReportItem item = new StorageReportItem();
+            item.ingredient = ingredient;
+            ArrayList<TopProduct> products = getTopOfProducts(period);
+            for (TopProduct topProduct : products) {
+                if (topProduct.quantity > 0) {
+                    for (Ingredient usedIngredient : topProduct.product.ingredients) {
+                        if (ingredient.id == usedIngredient.id) {
+                            item.expensed += topProduct.product.getIngredientCount(ingredient.id)
+                                    * topProduct.quantity;
+                        }
+                    }
+                }
+            }
+            items.add(item);
+        }
+        return items;
+    }
 }

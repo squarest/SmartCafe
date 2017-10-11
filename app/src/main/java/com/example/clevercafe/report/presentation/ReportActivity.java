@@ -18,6 +18,7 @@ import com.example.clevercafe.report.entity.ProductReportItem;
 import com.example.clevercafe.report.entity.StorageReportItem;
 import com.example.clevercafe.report.presentation.adapters.GeneralAdapter;
 import com.example.clevercafe.report.presentation.adapters.ProductAdapter;
+import com.example.clevercafe.report.presentation.adapters.StorageAdapter;
 import com.example.clevercafe.utils.ReportUtil;
 import com.example.clevercafe.utils.dateTime.DateTimeUtil;
 import com.example.clevercafe.utils.dateTime.Period;
@@ -49,10 +50,10 @@ public class ReportActivity extends BaseActivity implements ReportView {
         binding.reportType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == ReportUtil.PRODUCT_REPORT_TYPE) {
-                    binding.periodType.setEnabled(false);
-                } else {
+                if (i == ReportUtil.GENERAL_REPORT_TYPE) {
                     binding.periodType.setEnabled(true);
+                } else {
+                    binding.periodType.setEnabled(false);
                 }
             }
 
@@ -149,7 +150,7 @@ public class ReportActivity extends BaseActivity implements ReportView {
 
     @Override
     public void showStorageReport(ArrayList<StorageReportItem> items) {
-//        binding.reportTable.setAdapter(new StorageAdapter(items));
+        binding.reportTable.setAdapter(new StorageAdapter(items));
         binding.tableTitle.setVisibility(View.GONE);
 
     }

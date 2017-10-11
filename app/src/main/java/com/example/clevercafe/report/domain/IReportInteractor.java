@@ -18,5 +18,5 @@ public interface IReportInteractor {
 
     Single<ArrayList<ProductReportItem>> loadProductReport(Period period);
 
-    Single<ArrayList<StorageReportItem>> loadStorageReport(Period period, int periodType);
+    Single<ArrayList<StorageReportItem>> loadStorageReport(Period period);
 }

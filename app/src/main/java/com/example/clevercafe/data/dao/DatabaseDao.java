@@ -55,8 +55,6 @@ public interface DatabaseDao {
     long insertCompleteOrder(CompleteOrder order);
 
 
-
-
     //ingredientCategory
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertIngredientCategory(IngredientCategory category);
@@ -83,6 +81,9 @@ public interface DatabaseDao {
 
     @Query("SELECT * FROM ingredients WHERE categoryId = :categoryId ORDER BY name ASC")
     List<Ingredient> getIngredients(long categoryId);
+
+    @Query("SELECT * FROM ingredients ORDER BY name ASC")
+    List<Ingredient> getAllIngredients();
 
 
     @Query("SELECT * FROM ingredients WHERE id = :id")

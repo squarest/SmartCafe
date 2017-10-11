@@ -59,7 +59,7 @@ public class ReportPresenter extends BasePresenter<ReportView> {
                 break;
             }
             case ReportUtil.STORAGE_REPORT_TYPE: {
-                Disposable disposable = interactor.loadStorageReport(period, periodType)
+                Disposable disposable = interactor.loadStorageReport(period)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(d -> reportView.showLoading())

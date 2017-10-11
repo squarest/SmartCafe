@@ -68,9 +68,11 @@ public class ReportInteractor implements IReportInteractor {
     }
 
     @Override
-    public Single<ArrayList<StorageReportItem>> loadStorageReport(Period period, int periodType) {
+    public Single<ArrayList<StorageReportItem>> loadStorageReport(Period period) {
         return Single.create(e -> {
-
+            ArrayList<StorageReportItem> items = repository.getStorageIngredients(period);
+            if(items.size()>0) e.onSuccess(items);
+            else  e.onError(new NullPointerException());
         });
     }
 }
