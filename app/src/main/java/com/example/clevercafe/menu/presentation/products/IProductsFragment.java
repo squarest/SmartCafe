@@ -14,4 +14,5 @@ import java.util.ArrayList;
 public interface IProductsFragment extends MvpView {
     @StateStrategyType(SingleStateStrategy.class)
     void showProducts(ArrayList<Product> products);
+    void showWarningDialog(String title, String message);
 }

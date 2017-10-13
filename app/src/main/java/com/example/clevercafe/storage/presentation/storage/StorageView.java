@@ -25,4 +25,6 @@ public interface StorageView extends MvpView {
 
     void showMessage(String message);
 
+    void showWarningDialog(String title, String message);
+
 }

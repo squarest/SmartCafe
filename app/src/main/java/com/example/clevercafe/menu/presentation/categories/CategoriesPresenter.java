@@ -52,7 +52,11 @@ public class CategoriesPresenter extends BasePresenter<ICategoriesFragment> {
         Disposable disposable = interactor.deleteCategory(categories.get(categoryPosition))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe(() -> {
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    getViewState().showWarningDialog("Удаление невозможно", throwable.getMessage());
+                });
         setDisposable(disposable);
     }
 

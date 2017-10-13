@@ -103,6 +103,9 @@ public interface DatabaseDao {
     @Query("SELECT * FROM productIngredients WHERE productId = :productId")
     List<ProductIngredient> getProductIngredients(long productId);
 
+    @Query("SELECT * FROM productIngredients WHERE ingredientId = :ingredientId")
+    List<ProductIngredient> getProductForIngredient(long ingredientId);
+
     @Query("DELETE FROM productIngredients WHERE productId = :productId")
     void deleteProductIngredients(long productId);
 
@@ -167,6 +170,9 @@ public interface DatabaseDao {
 
     @Query("SELECT * FROM orderProducts WHERE orderId = :orderId")
     List<OrderProduct> getOrderProducts(long orderId);
+
+    @Query("SELECT * FROM orderProducts WHERE productId = :productId")
+    List<OrderProduct> getOrdersForProduct(long productId);
 
     @Query("DELETE FROM orderProducts WHERE orderId = :orderId")
     void deleteOrderProducts(long orderId);

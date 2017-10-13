@@ -43,11 +43,13 @@ public class ProductsPresenter extends BasePresenter<IProductsFragment> {
 
 
     public void productClicked(int productPosition) {
-        if (mainInteractor.isOrderActive()){
+        if (mainInteractor.isOrderActive()) {
             menuInteractor.loadProduct(products.get(productPosition).id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(product -> {mainInteractor.productSelected(product);},Throwable::printStackTrace);
+                    .subscribe(product -> {
+                        mainInteractor.productSelected(product);
+                    }, Throwable::printStackTrace);
 
 
         }
@@ -77,7 +79,11 @@ public class ProductsPresenter extends BasePresenter<IProductsFragment> {
         menuInteractor.deleteProduct(products.get(productPosition))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe(() -> {
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    getViewState().showWarningDialog("Удаление невозможно", throwable.getMessage());
+                });
     }
 
 }

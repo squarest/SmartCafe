@@ -34,6 +34,8 @@ public class InvoiceRepository {
             InvoiceIngredient invoiceIngredient = new InvoiceIngredient();
             invoiceIngredient.ingredientId = ingredient.id;
             invoiceIngredient.invoiceId = invoice.id;
+            invoiceIngredient.ingredientName = ingredient.name;
+            invoiceIngredient.units = ingredient.units;
             invoiceIngredient.cost = ingredient.cost;
             invoiceIngredient.quantity = invoice.getIngredientCount(ingredient.id);
             databaseDao.insertInvoiceIngredient(invoiceIngredient);
@@ -65,7 +67,16 @@ public class InvoiceRepository {
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         if (invoiceIngredients != null && invoiceIngredients.size() > 0) {
             for (InvoiceIngredient invoiceIngredient : invoiceIngredients) {
-                ingredients.add(databaseDao.getIngredient(invoiceIngredient.ingredientId));
+                if (databaseDao.getIngredient(invoiceIngredient.ingredientId) != null) {
+                    ingredients.add(databaseDao.getIngredient(invoiceIngredient.ingredientId));
+                } else {
+                    Ingredient ingredient = new Ingredient();
+                    ingredient.id = invoiceIngredient.ingredientId;
+                    ingredient.name = invoiceIngredient.ingredientName;
+                    ingredient.units = invoiceIngredient.units;
+                    ingredient.cost = invoiceIngredient.cost;
+                    ingredients.add(ingredient);
+                }
                 invoice.setIngredientCount(invoiceIngredient.ingredientId, invoiceIngredient.quantity);
             }
         }

@@ -1,10 +1,12 @@
 package com.example.clevercafe.data.repositories;
 
 import com.example.clevercafe.data.dao.DatabaseDao;
+import com.example.clevercafe.data.entities.ProductIngredient;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.IngredientCategory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Chudofom on 15.07.16.
@@ -71,5 +73,10 @@ public class IngredientRepository {
 
     public void deleteIngredient(Ingredient ingredient) {
         databaseDao.deleteIngredient(ingredient);
+    }
+
+    public List<ProductIngredient> getProductsForIngredient(long ingredientId) {
+        return databaseDao.getProductForIngredient(ingredientId);
+
     }
 }

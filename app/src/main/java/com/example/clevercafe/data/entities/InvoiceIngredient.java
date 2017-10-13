@@ -12,6 +12,8 @@ public class InvoiceIngredient {
     public long id;
     public long invoiceId;
     public long ingredientId;
+    public String ingredientName;
+    public String units;
     public double quantity;
     public double cost;
 

@@ -73,7 +73,6 @@ public class InvoiceListAdapter extends RecyclerView.Adapter<InvoiceListAdapter.
         InvoiceIngredientsAdapter adapter = new InvoiceIngredientsAdapter(invoice);
         holder.view.setOnClickListener(v ->
         {
-
             if (holder.invoiceIngredients.getAdapter() == null) {
                 holder.invoiceIngredients.setAdapter(adapter);
             } else {

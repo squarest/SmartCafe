@@ -118,9 +118,19 @@ public class MenuInteractor implements IMenuInteractor {
     public Completable deleteCategory(ProductCategory category) {
         return Completable.create(e ->
         {
-            productRepository.deleteCategory(category);
-            categoriesUpdates.onNext(true);
-            e.onComplete();
+            boolean isDeletable = true;
+            for (Product product : category.products) {
+                if (productRepository.getOrdersForProduct(product.id).size() > 0) {
+                    isDeletable = false;
+                }
+            }
+            if (isDeletable) {
+                productRepository.deleteCategory(category);
+                categoriesUpdates.onNext(true);
+                e.onComplete();
+            } else {
+                e.onError(new Exception("Продукт внутри категории входит в состав заказа"));
+            }
         });
     }
 
@@ -143,9 +153,13 @@ public class MenuInteractor implements IMenuInteractor {
     public Completable deleteProduct(Product product) {
         return Completable.create(e ->
         {
-            productRepository.deleteProduct(product);
-            productsUpdates.onNext(product.categoryId);
-            e.onComplete();
+            if (productRepository.getOrdersForProduct(product.id).size() == 0) {
+                productRepository.deleteProduct(product);
+                productsUpdates.onNext(product.categoryId);
+                e.onComplete();
+            } else {
+                e.onError(new Exception("Продукт входит в состав заказа"));
+            }
         });
     }
 }

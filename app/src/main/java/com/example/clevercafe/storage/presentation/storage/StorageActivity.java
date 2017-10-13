@@ -265,6 +265,11 @@ public class StorageActivity extends BaseActivity implements StorageView {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void showWarningDialog(String title, String message) {
+        DialogUtil.getWarningAlertDialog(this, title, message, (dialogInterface, i) -> dialogInterface.dismiss()).show();
+    }
+
     private void createSpinners() {
         categorySpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categoryNames);
         unitsSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Units.array);

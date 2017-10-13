@@ -92,5 +92,10 @@ public class CategoriesFragment extends MvpAppCompatFragment implements ICategor
         binding.categoryTable.setAdapter(categoryListAdapter);
     }
 
+    @Override
+    public void showWarningDialog(String title, String message) {
+        DialogUtil.getWarningAlertDialog(getContext(), title, message, (dialogInterface, i) -> dialogInterface.dismiss()).show();
+    }
+
 
 }

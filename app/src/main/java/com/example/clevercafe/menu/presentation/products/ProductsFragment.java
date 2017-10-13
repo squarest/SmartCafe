@@ -81,7 +81,6 @@ public class ProductsFragment extends MvpAppCompatFragment implements IProductsF
                 }).show();
                 break;
             }
-
         }
         return super.onContextItemSelected(item);
     }
@@ -92,4 +91,8 @@ public class ProductsFragment extends MvpAppCompatFragment implements IProductsF
         binding.productTable.setAdapter(productListAdapter);
     }
 
+    @Override
+    public void showWarningDialog(String title, String message) {
+        DialogUtil.getWarningAlertDialog(getContext(), title, message, (dialogInterface, i) -> dialogInterface.dismiss()).show();
+    }
 }

@@ -1,12 +1,14 @@
 package com.example.clevercafe.data.repositories;
 
 import com.example.clevercafe.data.dao.DatabaseDao;
+import com.example.clevercafe.data.entities.OrderProduct;
 import com.example.clevercafe.data.entities.ProductIngredient;
 import com.example.clevercafe.entities.Ingredient;
 import com.example.clevercafe.entities.Product;
 import com.example.clevercafe.entities.ProductCategory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Chudofom on 15.07.16.
@@ -129,5 +131,9 @@ public class ProductRepository {
     public void deleteIngredients(long productId) {
         databaseDao.deleteProductIngredients(productId);
 
+    }
+
+    public List<OrderProduct> getOrdersForProduct(long productId) {
+        return databaseDao.getOrdersForProduct(productId);
     }
 }

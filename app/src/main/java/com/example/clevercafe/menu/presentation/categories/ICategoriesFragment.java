@@ -9,6 +9,8 @@ import java.util.ArrayList;
  * Created by Chudofom on 01.08.17.
  */
 
-public interface ICategoriesFragment extends MvpView{
+public interface ICategoriesFragment extends MvpView {
     void showCategories(ArrayList<ProductCategory> categories);
+
+    void showWarningDialog(String title, String message);
 }

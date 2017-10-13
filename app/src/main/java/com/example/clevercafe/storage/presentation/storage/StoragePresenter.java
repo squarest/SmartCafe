@@ -56,7 +56,10 @@ public class StoragePresenter extends BasePresenter<StorageView> {
         Disposable disposable = interactor.deleteIngredient(categories.get(categoryId).ingredients.get(ingredientId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+                .subscribe(this::updateCategories, throwable -> {
+                    throwable.printStackTrace();
+                    view.showWarningDialog("Удаление невозможно", throwable.getMessage());
+                });
         setDisposable(disposable);
     }
 
@@ -85,7 +88,10 @@ public class StoragePresenter extends BasePresenter<StorageView> {
         Disposable disposable = interactor.deleteCategory(categories.get(categoryId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateCategories, Throwable::fillInStackTrace);
+                .subscribe(this::updateCategories, throwable -> {
+                    throwable.printStackTrace();
+                    view.showWarningDialog("Удаление невозможно", throwable.getMessage());
+                });
         setDisposable(disposable);
     }
 

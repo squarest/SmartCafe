@@ -62,8 +62,12 @@ public class InvoiceActivity extends BaseActivity implements InvoiceView {
     private void setClickListeners() {
         binding.addInvoiceButton.setOnClickListener(v -> showAddForm());
         binding.submitButton.setOnClickListener(v -> {
-            presenter.addInvoice(getInvoice());
-            hideForm();
+            if (getInvoice() != null) {
+                presenter.addInvoice(getInvoice());
+                hideForm();
+            } else {
+                Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
+            }
         });
         binding.cancelButton.setOnClickListener(v -> hideForm());
         binding.addIngredientsButton.setOnClickListener(v ->
@@ -140,13 +144,14 @@ public class InvoiceActivity extends BaseActivity implements InvoiceView {
     private void setInvoice(Invoice invoice) {
         binding.invoiceName.setText(invoice.name);
         binding.supplierName.setText(invoice.supplierName);
-        binding.invoiceDate.setText("");
+        binding.invoiceDate.setText(DateTimeUtil.dateToString(invoice.date));
     }
 
     private Invoice getInvoice() {
-        // TODO: 21.08.17 check empty fields
-        curInvoice.name = binding.invoiceName.getText().toString();
-        curInvoice.supplierName = binding.supplierName.getText().toString();
-        return curInvoice;
+        if (!binding.invoiceName.getText().toString().isEmpty() & !binding.supplierName.getText().toString().isEmpty()) {
+            curInvoice.name = binding.invoiceName.getText().toString();
+            curInvoice.supplierName = binding.supplierName.getText().toString();
+            return curInvoice;
+        } else return null;
     }
 }

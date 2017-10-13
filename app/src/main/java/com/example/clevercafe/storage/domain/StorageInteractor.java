@@ -54,8 +54,16 @@ public class StorageInteractor implements IStrorageInteractor {
     public Completable deleteCategory(IngredientCategory category) {
         return Completable.create(e ->
         {
-            ingredientRepository.deleteCategory(category);
-            e.onComplete();
+            boolean isCategoryDeletable = true;
+            for (Ingredient ingredient : category.ingredients) {
+                if (isIngredientConsistOf(ingredient)) isCategoryDeletable = false;
+            }
+            if (isCategoryDeletable) {
+                ingredientRepository.deleteCategory(category);
+                e.onComplete();
+            } else {
+                e.onError(new Exception("Ингредиент из этой категории состоит в составе продукта"));
+            }
         });
     }
 
@@ -83,8 +91,10 @@ public class StorageInteractor implements IStrorageInteractor {
     public Completable deleteIngredient(Ingredient ingredient) {
         return Completable.create(e ->
         {
-            ingredientRepository.deleteIngredient(ingredient);
-            e.onComplete();
+            if (!isIngredientConsistOf(ingredient)) {
+                ingredientRepository.deleteIngredient(ingredient);
+                e.onComplete();
+            } else e.onError(new Exception("Ингредиент состоит в составе продукта"));
         });
     }
 
@@ -98,5 +108,9 @@ public class StorageInteractor implements IStrorageInteractor {
             ingredientRepository.addIngredient(ingredient);
             e.onComplete();
         });
+    }
+
+    private boolean isIngredientConsistOf(Ingredient ingredient) {
+        return ingredientRepository.getProductsForIngredient(ingredient.id).size() > 0;
     }
 }
