@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -126,7 +127,7 @@ public class StorageActivity extends BaseActivity implements StorageView {
         } else { //иначе очищаем ее
             clearAddIngredientForm();
         }
-
+        binding.ingredientCost.setHint(String.format("Цена за %s", Units.units[binding.unitsSpinner.getSelectedItemPosition()]));
         binding.addProductForm.setVisibility(View.VISIBLE);
         binding.addProductForm.setClickable(true);
 
@@ -272,8 +273,19 @@ public class StorageActivity extends BaseActivity implements StorageView {
 
     private void createSpinners() {
         categorySpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categoryNames);
-        unitsSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Units.array);
+        unitsSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Units.units);
         binding.categorySpinner.setAdapter(categorySpinnerAdapter);
         binding.unitsSpinner.setAdapter(unitsSpinnerAdapter);
+        binding.unitsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                binding.ingredientCost.setHint(String.format("Цена за %s", Units.units[i]));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 }

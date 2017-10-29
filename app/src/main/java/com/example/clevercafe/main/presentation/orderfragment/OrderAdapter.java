@@ -82,8 +82,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
             @Override
             public void afterTextChanged(Editable s) {
-                order.setProductCount(order.products.get(position).id, Double.valueOf(s.toString()));
-                presenter.ingredientsCountChanged(order.products.get(position));
+                if (!s.toString().equals("") & !s.toString().equals(".")) {
+                    order.setProductCount(order.products.get(position).id, Double.valueOf(s.toString()));
+                    presenter.ingredientsCountChanged(order.products.get(position));
+                }
             }
         });
         holder.productQuantity.setText(String.valueOf(order.getProductCount(order.products.get(position).id)));

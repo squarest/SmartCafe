@@ -10,13 +10,13 @@ public class Units {
     public static String kilogram = "кг";
     public static String gram = "г";
     public static String count = "шт";
-    public static String[] array = {milliliter, liter, kilogram, gram, count};
+    public static String[] units = {milliliter, liter, kilogram, gram, count};
 
     public static int idOfUnit(String nameOfUnit)
     {
-        for (int i = 0; i< array.length; i++)
+        for (int i = 0; i< units.length; i++)
         {
-            if (nameOfUnit.equals(array[i]))
+            if (nameOfUnit.equals(units[i]))
             {
                 return i;
             }

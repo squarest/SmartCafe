@@ -66,7 +66,9 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
 
             @Override
             public void afterTextChanged(Editable s) {
-                product.setIngredientCount(product.ingredients.get(position).id, Double.valueOf(s.toString()));
+                if (!s.toString().equals("") & !s.toString().equals(".")) {
+                    product.setIngredientCount(product.ingredients.get(position).id, Double.valueOf(s.toString()));
+                }
             }
         });
         holder.ingredientUnits.setText(product.ingredients.get(position).units);
