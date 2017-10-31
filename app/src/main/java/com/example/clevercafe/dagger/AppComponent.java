@@ -12,6 +12,8 @@ import com.example.clevercafe.report.di.ReportComponent;
 import com.example.clevercafe.report.di.ReportModule;
 import com.example.clevercafe.sign.di.LoginComponent;
 import com.example.clevercafe.sign.di.LoginModule;
+import com.example.clevercafe.splash.di.SplashComponent;
+import com.example.clevercafe.splash.di.SplashModule;
 import com.example.clevercafe.storage.di.StorageComponent;
 import com.example.clevercafe.storage.di.StorageModule;
 
@@ -36,4 +38,6 @@ public interface AppComponent {
     ReportComponent plusReportComponent(ReportModule reportModule);
 
     LoginComponent plusLoginComponent(LoginModule loginModule);
+
+    SplashComponent plusSplashComponent(SplashModule splashModule);
 }

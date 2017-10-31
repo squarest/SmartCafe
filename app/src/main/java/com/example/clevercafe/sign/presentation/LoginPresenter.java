@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.example.clevercafe.App;
 import com.example.clevercafe.base.BasePresenter;
 import com.example.clevercafe.sign.domain.ILoginInteractor;
+import com.google.firebase.FirebaseNetworkException;
 
 import javax.inject.Inject;
 
@@ -30,7 +31,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 .subscribe(() -> loginView.startApp(), throwable -> {
                     throwable.printStackTrace();
                     loginView.showProgress(false);
-                    loginView.showMessage("Ошибка входа");
+                    if (throwable instanceof FirebaseNetworkException) {
+                        loginView.showMessage("Нет соединения с интернетом");
+                    } else {
+                        loginView.showMessage("Ошибка входа");
+                    }
                 });
     }
 }

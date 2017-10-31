@@ -15,6 +15,8 @@ import com.example.clevercafe.report.di.ReportComponent;
 import com.example.clevercafe.report.di.ReportModule;
 import com.example.clevercafe.sign.di.LoginComponent;
 import com.example.clevercafe.sign.di.LoginModule;
+import com.example.clevercafe.splash.di.SplashComponent;
+import com.example.clevercafe.splash.di.SplashModule;
 import com.example.clevercafe.storage.di.StorageComponent;
 import com.example.clevercafe.storage.di.StorageModule;
 
@@ -30,6 +32,7 @@ public class App extends Application {
     private static AnalyticsComponent analyticsComponent;
     private static ReportComponent reportComponent;
     private static LoginComponent loginComponent;
+    private static SplashComponent splashComponent;
 
     public static final int INGREDIENT_REQUEST_CODE = 0;
     public static final int ICON_REQUEST_CODE = 1;
@@ -59,6 +62,9 @@ public class App extends Application {
         return loginComponent;
     }
 
+    public static SplashComponent getSplashComponent() {
+        return splashComponent;
+    }
 
     @Override
     public void onCreate() {
@@ -70,6 +76,7 @@ public class App extends Application {
         analyticsComponent = plusAnalyticsComponent();
         reportComponent = plusReportComponent();
         loginComponent = plusLoginComponent();
+        splashComponent = plusSplashComponent();
     }
 
     protected AppComponent buildComponent() {
@@ -118,6 +125,13 @@ public class App extends Application {
             loginComponent = appComponent.plusLoginComponent(new LoginModule());
         }
         return loginComponent;
+    }
+
+    public SplashComponent plusSplashComponent() {
+        if (splashComponent == null) {
+            splashComponent = appComponent.plusSplashComponent(new SplashModule());
+        }
+        return splashComponent;
     }
 
 }

@@ -41,7 +41,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
     //Support library
     compile "com.android.support:appcompat-v7:$supportVer"
     compile "com.android.support:recyclerview-v7:$supportVer"
@@ -52,7 +51,6 @@ dependencies {
 
     //Image loading
     compile 'com.squareup.picasso:picasso:2.5.2'
-
 
     //Network
     compile 'com.squareup.retrofit2:retrofit:2.3.0'

@@ -11,5 +11,5 @@ import dagger.Subcomponent;
 @LoginScope
 @Subcomponent(modules = {LoginModule.class})
 public interface LoginComponent {
-    public void inject(LoginPresenter loginPresenter);
+    void inject(LoginPresenter loginPresenter);
 }
