@@ -5,11 +5,12 @@
         <item>МЕНЮ</item>
         <item>СКЛАД</item>
         <item>РУКОВОДИТЕЛЮ</item>
-        <item>НАСТРОЙКИ</item>
+        <!--<item>НАСТРОЙКИ</item>-->
     </string-array>
     <string name="menu_add_category_title">Добавить категорию</string>>
     <string name="menu_toolbar_title">Редактирование меню</string>
     <string name="title_activity_login">" Вход"</string>
+    <string name="format_round_string">%.2f</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

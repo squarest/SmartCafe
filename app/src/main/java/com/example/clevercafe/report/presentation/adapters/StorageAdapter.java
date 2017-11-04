@@ -52,8 +52,8 @@ public class StorageAdapter extends RecyclerView.Adapter<StorageAdapter.ViewHold
         } else {
             StorageReportItem item = items.get(position - 1);
             holder.binding.name.setText(item.ingredient.name);
-            holder.binding.count.setText(String.valueOf(item.ingredient.quantity));
-            holder.binding.expense.setText(String.valueOf(item.expensed));
+            holder.binding.count.setText(String.format("%.2f", item.ingredient.quantity));
+            holder.binding.expense.setText(String.format("%.2f", item.expensed));
 
         }
     }

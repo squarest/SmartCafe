@@ -50,10 +50,10 @@ public class StorageListAdapter extends BaseExpandableListAdapter {
         ingredientName.setText(child.name);
 
         TextView ingredientQuantity = convertView.findViewById(R.id.storage_product_quantity);
-        ingredientQuantity.setText(String.valueOf(child.quantity)+" "+child.units);
+        ingredientQuantity.setText(String.format("%.2f %s", child.quantity, child.units));
 
         TextView ingredientCost = convertView.findViewById(R.id.storage_product_cost);
-        ingredientCost.setText(String.valueOf(child.cost) + "руб");
+        ingredientCost.setText(String.format("%.2f руб", child.cost));
         return convertView;
     }
 

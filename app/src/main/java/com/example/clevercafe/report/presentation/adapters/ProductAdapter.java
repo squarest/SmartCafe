@@ -52,10 +52,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         } else {
             ProductReportItem item = items.get(position - 1);
             holder.binding.name.setText(item.name);
-            holder.binding.count.setText(String.valueOf(item.count));
-            holder.binding.proceed.setText(String.valueOf(item.proceed));
-            holder.binding.profit.setText(String.valueOf(item.profit));
-            holder.binding.expense.setText(String.valueOf(item.expense));
+            holder.binding.count.setText(String.format("%.2f", item.count));
+            holder.binding.proceed.setText(String.format("%.2f", item.proceed));
+            holder.binding.profit.setText(String.format("%.2f", item.profit));
+            holder.binding.expense.setText(String.format("%.2f", item.expense));
 
         }
     }

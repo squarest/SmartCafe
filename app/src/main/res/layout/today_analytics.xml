@@ -96,7 +96,7 @@
                 <TextView
                     android:id="@+id/average_check"
                     style="@style/analytics_today_title"
-                    android:text="@{String.valueOf(analytics.averageCheck)}"
+                    android:text="@{String.format(@string/format_round_string, analytics.averageCheck)}"
                     tools:text="1 000 р" />
 
                 <TextView

@@ -60,14 +60,14 @@ public class ProductsPresenter extends BasePresenter<IProductsFragment> {
     }
 
     private void setProducts(long categoryId) {
-        menuInteractor.loadProducts(categoryId)
+        menuInteractor.loadCategory(categoryId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(returnedProducts ->
+                .subscribe(returnedCategory ->
                 {
                     products.clear();
-                    products.addAll(returnedProducts);
-                    getViewState().showProducts(products);
+                    products.addAll(returnedCategory.products);
+                    getViewState().showProducts(returnedCategory);
                 }, Throwable::fillInStackTrace);
     }
 

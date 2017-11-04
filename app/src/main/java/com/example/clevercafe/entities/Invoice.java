@@ -22,6 +22,7 @@ public class Invoice implements Serializable {
     public Date date;
 
     public Invoice() {
+        sum = 0.0;
     }
 
     @Ignore
@@ -32,6 +33,7 @@ public class Invoice implements Serializable {
     @Ignore
     public Invoice(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
+        this.sum = 0.0;
     }
 
     @Ignore

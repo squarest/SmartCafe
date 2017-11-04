@@ -2,6 +2,7 @@ package com.example.clevercafe.menu.presentation.products;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.clevercafe.R;
 import com.example.clevercafe.entities.Product;
+import com.example.clevercafe.entities.ProductCategory;
 import com.example.clevercafe.utils.Utility;
 
 import java.util.ArrayList;
@@ -20,7 +22,8 @@ import java.util.ArrayList;
  * Created by Chudofom on 21.09.16.
  */
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
-    private ArrayList<Product> productList = new ArrayList<>();
+    private ProductCategory category;
+    private ArrayList<Product> productList;
     private static boolean editMode;
     private Context context;
 
@@ -29,6 +32,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public TextView nameTextView;
         public TextView costTextView;
         public ImageView imageView;
+        public CardView cardView;
 
 
         public ViewHolder(View v) {
@@ -36,6 +40,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             nameTextView = v.findViewById(R.id.card_product_name);
             costTextView = v.findViewById(R.id.product_cost);
             imageView = v.findViewById(R.id.product_imageview);
+            cardView = v.findViewById(R.id.product_card);
             if (editMode)
                 v.setOnCreateContextMenuListener(this);
         }
@@ -58,8 +63,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.position = position;
     }
 
-    public ProductListAdapter(ArrayList<Product> arrayList, boolean editMode) {
-        productList = arrayList;
+    public ProductListAdapter(ProductCategory category, boolean editMode) {
+        this.category = category;
+        productList = category.products;
         ProductListAdapter.editMode = editMode;
     }
 
@@ -80,6 +86,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.costTextView.setText(String.valueOf(product.cost));
         if (product.imagePath != null && !product.imagePath.isEmpty()) {
             holder.imageView.setImageBitmap(BitmapFactory.decodeFile(product.imagePath));
+        } else {
+            holder.imageView.setImageBitmap(Utility.loadIconFromAssets(context, category.iconPath));
         }
         holder.itemView.setOnLongClickListener(v -> {
             setPosition(holder.getAdapterPosition());
@@ -104,8 +112,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 backgroundColor = R.color.darkBlue;
 
         }
-        holder.nameTextView.setBackgroundColor(context.getResources().getColor(backgroundColor));
-        holder.costTextView.setBackgroundColor(context.getResources().getColor(backgroundColor));
+        holder.cardView.setCardBackgroundColor(context.getResources().getColor(backgroundColor));
 
 
     }

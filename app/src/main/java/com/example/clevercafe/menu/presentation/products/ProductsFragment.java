@@ -13,12 +13,10 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.clevercafe.R;
 import com.example.clevercafe.databinding.ProductsFragmentBinding;
-import com.example.clevercafe.entities.Product;
+import com.example.clevercafe.entities.ProductCategory;
 import com.example.clevercafe.utils.DialogUtil;
 import com.example.clevercafe.utils.RecyclerItemClickListener;
 import com.example.clevercafe.utils.Utility;
-
-import java.util.ArrayList;
 
 /**
  * Created by Chudofom on 31.07.17.
@@ -86,8 +84,8 @@ public class ProductsFragment extends MvpAppCompatFragment implements IProductsF
     }
 
     @Override
-    public void showProducts(ArrayList<Product> products) {
-        productListAdapter = new ProductListAdapter(products, isEditMode);
+    public void showProducts(ProductCategory category) {
+        productListAdapter = new ProductListAdapter(category, isEditMode);
         binding.productTable.setAdapter(productListAdapter);
     }
 

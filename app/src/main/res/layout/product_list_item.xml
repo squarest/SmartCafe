@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/product_card"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_gravity="center"
@@ -14,6 +15,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/darkBlue"
         tools:layout_width="150dp">
 
         <LinearLayout
@@ -26,16 +28,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#fff"
-                android:scaleType="fitXY"
-                android:src="@drawable/product_image" />
+                android:layout_marginTop="8dp"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/product_image" />
 
             <TextView
                 android:id="@+id/card_product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="#ff0000"
                 android:maxLines="1"
                 android:textAlignment="center"
                 android:textColor="#fff"
@@ -46,7 +47,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="#ff0000"
                 android:maxLines="1"
                 android:paddingBottom="4dp"
                 android:textAlignment="center"
