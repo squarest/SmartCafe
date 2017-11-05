@@ -95,6 +95,10 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
         return sum;
     }
 
+    private void calculateSumWithDiscount(int discount) {
+        order.sum -= order.sum * discount / 100;
+    }
+
     private double checkCostSum(Order order) {
         double sum = 0;
         for (Product product : order.products) {
@@ -119,6 +123,11 @@ public class OrderPresenter extends BasePresenter<IOrderFragment> {
 
     public void commentAdded(long productId, String comment) {
         order.setProductComment(productId, comment);
+        getViewState().updateOrder(order);
+    }
+
+    public void discountAdded(int discount) {
+        calculateSumWithDiscount(discount);
         getViewState().updateOrder(order);
     }
 }

@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +65,7 @@ public class OrderFragment extends MvpAppCompatFragment implements IOrderFragmen
     private void setClickListeners() {
         binding.submitButton.setOnClickListener(v -> presenter.submitButtonClicked());
         binding.cancelButton.setOnClickListener(v -> showOrders());
+        binding.discountButton.setOnClickListener(v -> showDiscountDialog());
     }
 
     @Override
@@ -98,6 +101,42 @@ public class OrderFragment extends MvpAppCompatFragment implements IOrderFragmen
     @Override
     public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showDiscountDialog() {
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.discount_dialog);
+        EditText editText = dialog.findViewById(R.id.edit_text);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().isEmpty()) {
+                    int discount = Integer.valueOf(editable.toString());
+                    if (discount > 100) editText.setText("100");
+                }
+            }
+        });
+        dialog.setTitle("Скидка");
+        Button cancelCategoryButton = dialog.findViewById(R.id.cancel_button);
+        cancelCategoryButton.setOnClickListener(v -> dialog.dismiss());
+        Button submitCategoryButton = dialog.findViewById(R.id.submit_button);
+        submitCategoryButton.setOnClickListener(v ->
+        {
+            int discount = Integer.valueOf(editText.getText().toString());
+            presenter.discountAdded(discount);
+            dialog.dismiss();
+        });
+        dialog.show();
     }
 
     @Override
