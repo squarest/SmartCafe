@@ -86,7 +86,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.costTextView.setText(String.valueOf(product.cost));
         if (product.imagePath != null && !product.imagePath.isEmpty()) {
             holder.imageView.setImageBitmap(BitmapFactory.decodeFile(product.imagePath));
-        } else {
+        } else if (category.iconPath != null && !category.iconPath.isEmpty()) {
             holder.imageView.setImageBitmap(Utility.loadIconFromAssets(context, category.iconPath));
         }
         holder.itemView.setOnLongClickListener(v -> {

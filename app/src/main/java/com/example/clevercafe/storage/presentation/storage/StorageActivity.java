@@ -139,9 +139,11 @@ public class StorageActivity extends BaseActivity implements StorageView {
         });
         binding.productSubmitButton.setOnClickListener(v ->
         {
-            if (!binding.ingredientName.getText().toString().isEmpty() &
-                    !binding.ingredientQuantity.getText().toString().isEmpty() &
-                    !binding.ingredientCost.getText().toString().isEmpty()) {
+            String ingredientName = binding.ingredientName.getText().toString();
+            String ingredientQuantity = binding.ingredientQuantity.getText().toString();
+            String ingredientCost = binding.ingredientCost.getText().toString();
+            if (!ingredientName.isEmpty() & !ingredientQuantity.isEmpty() & !ingredientCost.isEmpty()
+                    & !ingredientCost.equals(".") & !ingredientQuantity.equals(".")) {
                 binding.addProductForm.setVisibility(View.INVISIBLE);
                 binding.addProductForm.setClickable(false);
                 Ingredient newIngredient = new Ingredient();
@@ -149,10 +151,10 @@ public class StorageActivity extends BaseActivity implements StorageView {
                     newIngredient.id = ingredient.id;
                     newIngredient.categoryId = ingredient.categoryId;
                 }
-                newIngredient.name = binding.ingredientName.getText().toString();
-                newIngredient.quantity = Double.valueOf(binding.ingredientQuantity.getText().toString());
+                newIngredient.name = ingredientName;
+                newIngredient.quantity = Double.valueOf(ingredientQuantity);
                 newIngredient.units = binding.unitsSpinner.getSelectedItem().toString();
-                newIngredient.cost = Double.valueOf(binding.ingredientCost.getText().toString());
+                newIngredient.cost = Double.valueOf(ingredientCost);
                 presenter.submitIngredientFormButClicked(binding.categorySpinner.getSelectedItemPosition(),
                         newIngredient, editForm);
             } else {

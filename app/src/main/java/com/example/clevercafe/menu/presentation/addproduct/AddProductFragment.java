@@ -117,11 +117,12 @@ public class AddProductFragment extends MvpAppCompatFragment implements IAddProd
     }
 
     private Product getProduct() {
-        if (!binding.productName.getText().toString().isEmpty() &
-                !binding.productCost.getText().toString().isEmpty()) {
+        String productName = binding.productName.getText().toString();
+        String productCost = binding.productCost.getText().toString();
+        if (!productName.isEmpty() & !productCost.isEmpty() & !productCost.equals(".")) {
             curentProduct.categoryId = categoryId;
-            curentProduct.name = binding.productName.getText().toString();
-            curentProduct.cost = Double.valueOf(binding.productCost.getText().toString());
+            curentProduct.name = productName;
+            curentProduct.cost = Double.valueOf(productCost);
             return curentProduct;
         } else {
             Toast.makeText(getContext(), "Заполните все поля", Toast.LENGTH_SHORT).show();

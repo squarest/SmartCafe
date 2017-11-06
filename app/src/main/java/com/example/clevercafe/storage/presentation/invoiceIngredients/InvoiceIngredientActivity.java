@@ -102,11 +102,11 @@ public class InvoiceIngredientActivity extends MvpActivity implements InvoiceIng
         Button submitCategoryButton = dialog.findViewById(R.id.submit_button);
         submitCategoryButton.setOnClickListener(v ->
         {
-
-            if (!ingredientQuantity.getText().toString().isEmpty() &
-                    !ingredientCost.getText().toString().isEmpty()) {
-                ingredient.cost = Double.valueOf(ingredientCost.getText().toString());
-                presenter.ingredientAdded(ingredient, Double.valueOf(ingredientQuantity.getText().toString()));
+            String quantity = ingredientQuantity.getText().toString();
+            String cost = ingredientCost.getText().toString();
+            if (!quantity.isEmpty() & !cost.isEmpty() & !cost.equals(".") & !quantity.equals(".")) {
+                ingredient.cost = Double.valueOf(cost);
+                presenter.ingredientAdded(ingredient, Double.valueOf(quantity));
                 dialog.dismiss();
             } else
                 Toast.makeText(this, "Заполните все поля", Toast.LENGTH_SHORT).show();
