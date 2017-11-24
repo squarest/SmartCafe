@@ -7,7 +7,7 @@
 
         <variable
             name="analytics"
-            type="com.example.clevercafe.entities.Analytics" />
+            type="com.paper.smartcafe.entities.Analytics" />
     </data>
 
     <android.support.v7.widget.CardView

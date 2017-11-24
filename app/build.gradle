@@ -5,8 +5,8 @@ android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.example.clevercafe"
-        minSdkVersion 19
+        applicationId "com.paper.smartcafe"
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
